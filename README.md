@@ -17,7 +17,11 @@ This project is a whatsapp bot that uses OpenAI's ChatGPT to respond to user inp
 
 ## Usage
 
-To use the bot, simply send a message to the whatsapp number with the `!gpt` command followed by your prompt. For example:
+To use the bot, simply send a message with `!gpt` command followed by your prompt. For example:
+
+`!gpt What is the meaning of life?`
+
+The bot only responds to messages that are received by you, not sent.
 
 ## Used libraries
 - https://github.com/pedroslopez/whatsapp-web.js
