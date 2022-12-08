@@ -1,0 +1,17 @@
+{
+  "name": "whatsapp-chatgpt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx vite-node src/index.ts"
+  },
+  "author": "navopw",
+  "license": "MIT",
+  "dependencies": {
+    "chatgpt": "^2.0.5",
+    "dotenv": "^16.0.3",
+    "qrcode-terminal": "^0.12.0",
+    "whatsapp-web.js": "^1.18.4"
+  }
+}
