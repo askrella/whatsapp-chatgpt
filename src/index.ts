@@ -1,9 +1,10 @@
-const qrcode = require('qrcode-terminal');
-const { Client } = require('whatsapp-web.js');
-import { ChatGPTAPI } from "chatgpt"
+const process = require("process")
+const qrcode = require("qrcode-terminal");
+const { Client } = require("whatsapp-web.js");
+import { ChatGPTAPI } from "chatgpt" // ESM import
 
 // Environment variables
-require('dotenv').config()
+require("dotenv").config()
 
 // Whatsapp Client
 const client = new Client()
@@ -13,23 +14,35 @@ const api = new ChatGPTAPI({
     sessionToken: process.env.SESSION_TOKEN!!
 })
 
+// Entrypoint
 const start = async () => {
+    // Validate env
+    if (process.env.SESSION_TOKEN == null) {
+        console.error("[Whatsapp ChatGPT] Please set the SESSION_TOKEN environment variable in .env file.")
+        process.exit(1)
+    }
+
     // Ensure the API is properly authenticated
-    await api.ensureAuth()
+    try {
+        await api.ensureAuth()
+    } catch (error: any) {
+        console.error("[Whatsapp ChatGPT] Failed to authenticate with the ChatGPT API: " + error.message)
+        process.exit(1)
+    }
 
     // Whatsapp auth
-    client.on('qr', (qr: string) => {
-        console.log("Scan this QR code with your phone to log in:")
+    client.on("qr", (qr: string) => {
+        console.log("[Whatsapp ChatGPT] Scan this QR code in whatsapp to log in:")
         qrcode.generate(qr, { small: true });
     })
 
     // Whatsapp ready
-    client.on('ready', () => {
-        console.log('Client is ready!');
+    client.on("ready", () => {
+        console.log("[Whatsapp ChatGPT] Client is ready!");
     })
 
     // Whatsapp message
-    client.on('message', async (message: any) => {
+    client.on("message", async (message: any) => {
         // !gpt command
         if (message.body.startsWith("!gpt")) {
             // Get the rest of the message
@@ -42,13 +55,8 @@ const start = async () => {
                 // Send the response to the chat
                 message.reply(response)
             } catch (error: any) {
-                message.reply("Es ist ein Fehler aufgetreten, versuche es später noch einmal. (" + error.message + ")")
+                message.reply("An error occured, please try again. (" + error.message + ")")
             }
-        }
-
-        // Only for test
-        if (message.body == '!ping') {
-            message.reply('pong');
         }
     })
 
