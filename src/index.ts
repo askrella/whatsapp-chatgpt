@@ -49,8 +49,10 @@ const start = async () => {
             const prompt = message.body.substring(5);
 
             try {
+                const conversation = api.getConversation()
+
                 // Send the prompt to the API
-                const response = await api.sendMessage(prompt)
+                const response = await conversation.sendMessage(prompt)
 
                 // Send the response to the chat
                 message.reply(response)
