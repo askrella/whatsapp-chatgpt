@@ -14,6 +14,9 @@ const api = new ChatGPTAPI({
     sessionToken: process.env.SESSION_TOKEN!!
 })
 
+// User to conversation mapping
+const conversations: any = {}
+
 // Entrypoint
 const start = async () => {
     // Validate env
@@ -49,7 +52,11 @@ const start = async () => {
             const prompt = message.body.substring(5);
 
             try {
-                const conversation = api.getConversation()
+                if (conversations[message.from] == null) {
+                    conversations[message.from] = api.getConversation()
+                }
+
+                const conversation = conversations[message.from]
 
                 // Send the prompt to the API
                 const response = await conversation.sendMessage(prompt)
