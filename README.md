@@ -8,6 +8,13 @@ This project is a whatsapp bot that uses OpenAI's ChatGPT to respond to user inp
 - A recent version of npm
 - A valid OpenAI API key (See: https://github.com/transitive-bullshit/chatgpt-api#session-tokens)
 
+## .env File example
+
+```
+SESSION_TOKEN=your_session_token
+PREFIX_ENABLED=false
+```
+
 ## Installation
 
 1. Clone this repository

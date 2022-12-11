@@ -6,6 +6,10 @@ import { ChatGPTAPI } from "chatgpt" // ESM import
 // Environment variables
 require("dotenv").config()
 
+// Prefix check
+const prefixEnabled = process.env.PREFIX_ENABLED == "true"
+const prefix = '!gpt'
+
 // Whatsapp Client
 const client = new Client()
 
@@ -46,30 +50,36 @@ const start = async () => {
 
     // Whatsapp message
     client.on("message", async (message: any) => {
-        // !gpt command
-        if (message.body.startsWith("!gpt")) {
-            // Get the rest of the message
-            const prompt = message.body.substring(5);
-
-            try {
-                if (conversations[message.from] == null) {
-                    conversations[message.from] = api.getConversation()
-                }
-
-                const conversation = conversations[message.from]
-
-                // Send the prompt to the API
-                const response = await conversation.sendMessage(prompt)
-
-                // Send the response to the chat
-                message.reply(response)
-            } catch (error: any) {
-                message.reply("An error occured, please try again. (" + error.message + ")")
+        if (prefixEnabled) {
+            if (message.body.startsWith(prefix)) {
+                // Get the rest of the message
+                const prompt = message.body.substring(prefix.length + 1);
+                handleMessage(message, prompt)
             }
+        } else {
+            handleMessage(message, message.body)
         }
     })
 
     client.initialize()
+}
+
+const handleMessage = async (message: any, prompt: any) => {
+    try {
+        if (conversations[message.from] == null) {
+            conversations[message.from] = api.getConversation()
+        }
+
+        const conversation = conversations[message.from]
+
+        // Send the prompt to the API
+        const response = await conversation.sendMessage(prompt)
+
+        // Send the response to the chat
+        message.reply(response)
+    } catch (error: any) {
+        message.reply("An error occured, please try again. (" + error.message + ")")
+    }  
 }
 
 start()
