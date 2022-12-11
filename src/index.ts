@@ -50,6 +50,9 @@ const start = async () => {
 
     // Whatsapp message
     client.on("message", async (message: any) => {
+        if (message.body.length == 0) return
+        if (message.from == "status@broadcast") return
+
         if (prefixEnabled) {
             if (message.body.startsWith(prefix)) {
                 // Get the rest of the message
@@ -68,11 +71,13 @@ const handleMessage = async (message: any, prompt: any) => {
     try {
         if (conversations[message.from] == null) {
             conversations[message.from] = api.getConversation()
+            console.log("[Whatsapp ChatGPT] Created new conversation for " + message.from)
         }
 
         const conversation = conversations[message.from]
 
         // Send the prompt to the API
+        console.log("[Whatsapp ChatGPT] Received prompt from " + message.from + ": " + prompt)
         const response = await conversation.sendMessage(prompt)
 
         // Send the response to the chat
