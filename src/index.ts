@@ -54,10 +54,10 @@ const start = async () => {
             if (message.body.startsWith(prefix)) {
                 // Get the rest of the message
                 const prompt = message.body.substring(prefix.length + 1);
-                handleMessage(message, prompt)
+                await handleMessage(message, prompt)
             }
         } else {
-            handleMessage(message, message.body)
+            await handleMessage(message, message.body)
         }
     })
 
