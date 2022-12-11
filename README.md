@@ -12,7 +12,7 @@ This project is a whatsapp bot that uses OpenAI's ChatGPT to respond to user inp
 
 ```
 SESSION_TOKEN=your_session_token
-PREFIX_ENABLED=false
+PREFIX_ENABLED=true
 ```
 
 ## Installation
