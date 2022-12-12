@@ -7,13 +7,16 @@ This project is a whatsapp bot that uses OpenAI's ChatGPT to respond to user inp
 - Node.js
 - A recent version of npm
 - A valid OpenAI session token
-- A valid OpenAI clearance token
+- A valid OpenAI (Cloudflare) clearance token
+- The user agent you used to obtain the session token
 
 ## .env File example
 
 ```
 SESSION_TOKEN=your_session_token
 CLEARANCE_TOKEN=your_clearance_token
+USER_AGENT=your_user_agent
+
 PREFIX_ENABLED=true
 ```
 
@@ -23,12 +26,14 @@ PREFIX_ENABLED=true
 2. Install the required packages by running `npm install`
 3. Obtain a valid OpenAI session token and add it to the `.env` file (SESSION_TOKEN)
 4. Obtain a valid clearance token and add it to the `.env` file (CLEARANCE_TOKEN)
-5. Run the bot using `npm run start`
+5. Find out your user agent and add it to the `.env` file (USER_AGENT)
+6. Run the bot using `npm run start`
 
-## How to obtain session token & clearance token
+## How to obtain session & clearance token and user agent
 
 - Session token: https://github.com/transitive-bullshit/chatgpt-api#session-tokens
 - Clearance token: https://github.com/transitive-bullshit/chatgpt-api/issues/96#issuecomment-1345694700
+- User agent: https://www.whatismybrowser.com/detect/what-is-my-user-agent/
 
 ## Usage
 

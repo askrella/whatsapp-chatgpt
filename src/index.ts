@@ -17,6 +17,7 @@ const client = new Client()
 const api = new ChatGPTAPI({
     sessionToken: process.env.SESSION_TOKEN!!,
     clearanceToken: process.env.CLEARANCE_TOKEN,
+    userAgent: process.env.USER_AGENT,
 })
 
 // User to conversation mapping
