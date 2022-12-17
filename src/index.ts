@@ -1,7 +1,7 @@
 const process = require("process")
 const qrcode = require("qrcode-terminal");
 const { Client } = require("whatsapp-web.js");
-import { ChatGPTAPI } from "chatgpt" // ESM import
+import { ChatGPTAPI, getOpenAIAuth } from 'chatgpt'
 
 // Environment variables
 require("dotenv").config()
@@ -14,26 +14,18 @@ const prefix = '!gpt'
 const client = new Client()
 
 // ChatGPT Client
-const api = new ChatGPTAPI({
-    sessionToken: process.env.SESSION_TOKEN!!,
-    clearanceToken: process.env.CLEARANCE_TOKEN,
-    userAgent: process.env.USER_AGENT,
-})
+const openAIAuth = await getOpenAIAuth({
+    email: process.env.EMAIL,
+    password: process.env.PASSWORD
+  })
 
-// User to conversation mapping
-const conversations: any = {}
+const api = new ChatGPTAPI({ ...openAIAuth })
 
 // Entrypoint
 const start = async () => {
-    // Validate env
-    if (process.env.SESSION_TOKEN == null) {
-        console.error("[Whatsapp ChatGPT] Please set the SESSION_TOKEN environment variable in .env file.")
-        process.exit(1)
-    }
-
     // Ensure the API is properly authenticated
     try {
-        await api.ensureAuth()
+        await api.initSession()
     } catch (error: any) {
         console.error("[Whatsapp ChatGPT] Failed to authenticate with the ChatGPT API: " + error.message)
         process.exit(1)
@@ -71,19 +63,20 @@ const start = async () => {
 
 const handleMessage = async (message: any, prompt: any) => {
     try {
-        if (conversations[message.from] == null) {
-            conversations[message.from] = api.getConversation()
-            console.log("[Whatsapp ChatGPT] Created new conversation for " + message.from)
-        }
-
-        const conversation = conversations[message.from]
+        const start = Date.now()
 
         // Send the prompt to the API
         console.log("[Whatsapp ChatGPT] Received prompt from " + message.from + ": " + prompt)
-        const response = await conversation.sendMessage(prompt)
+        const response = await api.sendMessage(prompt)
+
+        console.log(`[Whatsapp ChatGPT] Answer to ${message.from}: ${response}`)
+
+        const end = Date.now() - start
+
+        console.log("[Whatsapp ChatGPT] ChatGPT took " + end + "ms")
 
         // Send the response to the chat
-        message.reply(response)
+        message.reply(response.response)
     } catch (error: any) {
         message.reply("An error occured, please try again. (" + error.message + ")")
     }  
