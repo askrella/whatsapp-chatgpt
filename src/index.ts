@@ -69,7 +69,7 @@ const handleMessage = async (message: any, prompt: any) => {
         console.log("[Whatsapp ChatGPT] Received prompt from " + message.from + ": " + prompt)
         const response = await api.sendMessage(prompt)
 
-        console.log(`[Whatsapp ChatGPT] Answer to ${message.from}: ${response}`)
+        console.log(`[Whatsapp ChatGPT] Answer to ${message.from}: ${response.response}`)
 
         const end = Date.now() - start
 
@@ -78,7 +78,7 @@ const handleMessage = async (message: any, prompt: any) => {
         // Send the response to the chat
         message.reply(response.response)
     } catch (error: any) {
-        message.reply("An error occured, please try again. (" + error.message + ")")
+        message.reply("An error occured, please contact the administrator. (" + error.message + ")")
     }  
 }
 
