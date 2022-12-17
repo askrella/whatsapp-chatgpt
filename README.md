@@ -4,6 +4,8 @@ This project is a whatsapp bot that uses OpenAI's ChatGPT to respond to user inp
 
 You can also disable the `!gpt` Prefix and send all messages to ChatGPT instantly.
 
+![Example](https://i.imgur.com/Za4s6aR.png)
+
 ## Requirements
 
 - Node.js
