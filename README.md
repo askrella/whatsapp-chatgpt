@@ -28,6 +28,8 @@ PREFIX_ENABLED=true
 3. Put your Email and Password into the .env File (`EMAIL`, `PASSWORD`)
 4. Run the bot using `npm run start`
 5. A browser opens, complete the captcha and click login
+6. Scan the QR Code with Whatsapp (Link a device)
+7. Now you're ready to go :)
 
 ## Usage
 
