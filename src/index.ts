@@ -1,7 +1,7 @@
 const process = require("process")
 const qrcode = require("qrcode-terminal");
 const { Client } = require("whatsapp-web.js");
-import { ChatGPTAPI, getOpenAIAuth } from 'chatgpt'
+import { ChatGPTAPIBrowser } from 'chatgpt'
 
 // Environment variables
 require("dotenv").config()
@@ -14,12 +14,10 @@ const prefix = '!gpt'
 const client = new Client()
 
 // ChatGPT Client
-const openAIAuth = await getOpenAIAuth({
+const api = new ChatGPTAPIBrowser({
     email: process.env.EMAIL,
     password: process.env.PASSWORD
-  })
-
-const api = new ChatGPTAPI({ ...openAIAuth })
+})
 
 // Entrypoint
 const start = async () => {
@@ -78,8 +76,9 @@ const handleMessage = async (message: any, prompt: any) => {
         // Send the response to the chat
         message.reply(response.response)
     } catch (error: any) {
+        console.error("An error occured", error)
         message.reply("An error occured, please contact the administrator. (" + error.message + ")")
-    }  
+    }
 }
 
 start()
