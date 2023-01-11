@@ -9,7 +9,7 @@
   "author": "navopw",
   "license": "MIT",
   "dependencies": {
-    "chatgpt": "^3.3.11",
+    "chatgpt": "^3.3.13",
     "dotenv": "^16.0.3",
     "puppeteer": "^19.4.1",
     "qrcode-terminal": "^0.12.0",
