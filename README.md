@@ -1,8 +1,7 @@
 # Whatsapp Chatbot
 
-This project is a whatsapp bot that uses OpenAI's ChatGPT to respond to user inputs. To use ChatGPT, simply type `!gpt` followed by your prompt, and the bot will generate a response.
-
-You can also disable the `!gpt` Prefix and send all messages to ChatGPT instantly.
+This project is a whatsapp bot that uses OpenAI's ChatGPT to respond to user inputs.
+To use ChatGPT, simply type `!gpt` followed by your prompt, and the bot will generate a response.
 
 ![Example](https://i.imgur.com/Za4s6aR.png)
 
@@ -15,8 +14,7 @@ You can also disable the `!gpt` Prefix and send all messages to ChatGPT instantl
 ## .env File example
 
 ```
-EMAIL=your_email
-PASSWORD=your_password
+OPENAI_API_KEY=put_your_key_here
 
 PREFIX_ENABLED=true
 ```
@@ -25,11 +23,10 @@ PREFIX_ENABLED=true
 
 1. Clone this repository
 2. Install the required packages by running `npm install`
-3. Put your Email and Password into the .env File (`EMAIL`, `PASSWORD`)
+3. Put your OpenAI API Key into the .env File (`OPENAI_API_KEY`)
 4. Run the bot using `npm run start`
-5. A browser opens, complete the captcha and click login
-6. Scan the QR Code with Whatsapp (Link a device)
-7. Now you're ready to go :)
+5. Scan the QR Code with Whatsapp (Link a device)
+6. Now you're ready to go, people can send you messages and the bot will respond to them.
 
 ## Usage
 
@@ -38,6 +35,8 @@ To use the bot, simply send a message with `!gpt` command followed by your promp
 `!gpt What is the meaning of life?`
 
 The bot only responds to messages that are received by you, not sent.
+
+You can disable the `!gpt` prefix by setting `PREFIX_ENABLED` to `false` in the .env file.
 
 ## Used libraries
 - https://github.com/pedroslopez/whatsapp-web.js

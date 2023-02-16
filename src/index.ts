@@ -1,7 +1,7 @@
 const process = require("process")
 const qrcode = require("qrcode-terminal");
 const { Client } = require("whatsapp-web.js");
-import { ChatGPTAPIBrowser } from 'chatgpt'
+import { ChatGPTAPI } from 'chatgpt'
 
 // Environment variables
 require("dotenv").config()
@@ -14,21 +14,12 @@ const prefix = '!gpt'
 const client = new Client()
 
 // ChatGPT Client
-const api = new ChatGPTAPIBrowser({
-    email: process.env.EMAIL,
-    password: process.env.PASSWORD
+const api = new ChatGPTAPI({
+    apiKey: process.env.OPENAI_API_KEY
 })
 
 // Entrypoint
 const start = async () => {
-    // Ensure the API is properly authenticated
-    try {
-        await api.initSession()
-    } catch (error: any) {
-        console.error("[Whatsapp ChatGPT] Failed to authenticate with the ChatGPT API: " + error.message)
-        process.exit(1)
-    }
-
     // Whatsapp auth
     client.on("qr", (qr: string) => {
         console.log("[Whatsapp ChatGPT] Scan this QR code in whatsapp to log in:")
@@ -67,14 +58,14 @@ const handleMessage = async (message: any, prompt: any) => {
         console.log("[Whatsapp ChatGPT] Received prompt from " + message.from + ": " + prompt)
         const response = await api.sendMessage(prompt)
 
-        console.log(`[Whatsapp ChatGPT] Answer to ${message.from}: ${response.response}`)
+        console.log(`[Whatsapp ChatGPT] Answer to ${message.from}: ${response.text}`)
 
         const end = Date.now() - start
 
         console.log("[Whatsapp ChatGPT] ChatGPT took " + end + "ms")
 
         // Send the response to the chat
-        message.reply(response.response)
+        message.reply(response.text)
     } catch (error: any) {
         console.error("An error occured", error)
         message.reply("An error occured, please contact the administrator. (" + error.message + ")")
