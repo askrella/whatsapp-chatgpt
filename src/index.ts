@@ -1,7 +1,7 @@
 const process = require("process")
 const qrcode = require("qrcode-terminal");
 const { Client } = require("whatsapp-web.js");
-import { ChatGPTAPI } from 'chatgpt'
+import { ChatGPTAPI, ChatMessage } from 'chatgpt'
 
 // Environment variables
 require("dotenv").config()
@@ -17,6 +17,9 @@ const client = new Client()
 const api = new ChatGPTAPI({
     apiKey: process.env.OPENAI_API_KEY
 })
+
+// Mapping from number to last conversation id
+const conversations = {}
 
 // Entrypoint
 const start = async () => {
@@ -52,15 +55,27 @@ const start = async () => {
 
 const handleMessage = async (message: any, prompt: any) => {
     try {
-        const start = Date.now()
+        const lastConversation = conversations[message.from]
 
-        // Send the prompt to the API
+        // Add the message to the conversation
         console.log("[Whatsapp ChatGPT] Received prompt from " + message.from + ": " + prompt)
-        const response = await api.sendMessage(prompt)
+        let response: ChatMessage;
+
+        const start = Date.now()
+        if (lastConversation) {
+            response = await api.sendMessage(prompt, lastConversation)
+        } else {
+            response = await api.sendMessage(prompt)
+        }
+        const end = Date.now() - start
 
         console.log(`[Whatsapp ChatGPT] Answer to ${message.from}: ${response.text}`)
 
-        const end = Date.now() - start
+        // Set the conversation
+        conversations[message.from] = {
+            conversationId: response.conversationId,
+            parentMessageId: response.id
+        }
 
         console.log("[Whatsapp ChatGPT] ChatGPT took " + end + "ms")
 
