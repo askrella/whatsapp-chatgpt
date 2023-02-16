@@ -24,7 +24,7 @@ PREFIX_ENABLED=true
 1. Clone this repository
 2. Install the required packages by running `npm install`
 3. Put your OpenAI API Key into the .env File (`OPENAI_API_KEY`)
-    - You can obtain an API Key at [**OpenAI API Keys**](https://platform.openai.com/account/api-keys)
+    - You can obtain an API Key here: [**OpenAI API Keys**](https://platform.openai.com/account/api-keys)
 4. Run the bot using `npm run start`
 5. Scan the QR Code with Whatsapp (Link a device)
 6. Now you're ready to go, people can send you messages and the bot will respond to them.
