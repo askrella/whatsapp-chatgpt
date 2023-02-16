@@ -1,4 +1,4 @@
-# Whatsapp Chatbot
+# ChatGPT + Whatsapp = AI Assistant 🚀
 
 This project is a whatsapp bot that uses OpenAI's ChatGPT to respond to user inputs.
 To use ChatGPT, simply type `!gpt` followed by your prompt, and the bot will generate a response.
