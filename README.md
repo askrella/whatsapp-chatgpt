@@ -16,7 +16,7 @@ To use ChatGPT, simply type `!gpt` followed by your prompt, and the bot will gen
 ```
 OPENAI_API_KEY=put_your_key_here
 
-PREFIX_ENABLED=true
+PREFIX_ENABLED=false
 ```
 
 ## Installation
