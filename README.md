@@ -29,6 +29,10 @@ PREFIX_ENABLED=false
 5. Scan the QR Code with Whatsapp (Link a device)
 6. Now you're ready to go, people can send you messages and the bot will respond to them.
 
+## Docker
+
+``` docker build . -t [image-name] ```
+
 ## Usage
 
 To use the bot, simply send a message with `!gpt` command followed by your prompt. For example:
