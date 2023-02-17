@@ -1,9 +1,10 @@
-# ChatGPT + Whatsapp = AI Assistant 🚀
+# OpenAI + Whatsapp = AI Assistant 🚀
 
-This project is a whatsapp bot that uses OpenAI's ChatGPT to respond to user inputs.
-To use ChatGPT, simply type `!gpt` followed by your prompt, and the bot will generate a response.
+This project is a whatsapp bot that uses OpenAI's APIs to respond to user inputs.
+This is a fork from https://github.com/navopw/whatsapp-chatgpt
 
-![Example](https://i.imgur.com/Za4s6aR.png)
+To use ChatGPT, simply type `gpt` followed by your prompt, and the bot will generate a response.
+To use DALL-E, simply type `dalle` followed by your prompt, and the bot will generate an image response.
 
 ## Requirements
 
@@ -15,8 +16,9 @@ To use ChatGPT, simply type `!gpt` followed by your prompt, and the bot will gen
 
 ```
 OPENAI_API_KEY=put_your_key_here
-
 PREFIX_ENABLED=false
+PREFIX_GPT=gpt
+PREFIX_DALLE=dalle
 ```
 
 ## Installation
@@ -31,13 +33,13 @@ PREFIX_ENABLED=false
 
 ## Usage
 
-To use the bot, simply send a message with `!gpt` command followed by your prompt. For example:
+To use the bot, simply send a message with `gpt` command followed by your prompt. For example:
 
-`!gpt What is the meaning of life?`
+`gpt What is the meaning of life?`
 
 The bot only responds to messages that are received by you, not sent.
 
-You can disable the `!gpt` prefix by setting `PREFIX_ENABLED` to `false` in the .env file.
+You can disable the `gpt` prefix by setting `PREFIX_ENABLED` to `false` in the .env file.
 
 ## Used libraries
 - https://github.com/pedroslopez/whatsapp-web.js
