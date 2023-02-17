@@ -11,7 +11,11 @@ const prefixEnabled = process.env.PREFIX_ENABLED == "true"
 const prefix = '!gpt'
 
 // Whatsapp Client
-const client = new Client()
+const client = new Client({
+    puppeteer: {
+        args: ['--no-sandbox']
+    }
+})
 
 // ChatGPT Client
 const api = new ChatGPTAPI({
