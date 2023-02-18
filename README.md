@@ -59,6 +59,7 @@ The operations performed by this bot are not free. You will be charged by OpenAI
 
 ## Contributors
 - [andrewssobral](https://github.com/andrewssobral) - DALLE integration
+- [RG7279805](https://github.com/RG7279805) - Docker support
 
 ## Used libraries
 - https://github.com/pedroslopez/whatsapp-web.js
