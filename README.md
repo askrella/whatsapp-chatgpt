@@ -1,4 +1,4 @@
-# ChatGPT + Whatsapp = AI Assistant 🚀
+# ChatGPT + DALL-E + Whatsapp = AI Assistant 🚀
 
 Whatsapp bot that uses OpenAI's GPT & DALLE to respond to user inputs.
 
