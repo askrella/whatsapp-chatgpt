@@ -1,90 +1,93 @@
-const process = require("process")
-const qrcode = require("qrcode-terminal");
-const { Client } = require("whatsapp-web.js");
-import { ChatGPTAPI, ChatMessage } from 'chatgpt'
+"use strict";
 
-// Environment variables
-require("dotenv").config()
+// Modules
+require = require('esm')(module /*, options*/);
+import fetch from "node-fetch";
+(global as any).fetch = fetch;
+const process = require("process")
+import qrcode from "qrcode-terminal";
+import dotenv from "dotenv";
+import { Client } from "whatsapp-web.js";
+import { ChatGPTAPI, ChatMessage } from 'chatgpt'
+dotenv.config();
+
+// Set global fetch for compatibility with qrcode-terminal
+(global as any).fetch = fetch;
+
+// Load environment variables
+dotenv.config();
 
 // Prefix check
-const prefixEnabled = process.env.PREFIX_ENABLED == "true"
-const prefix = '!gpt'
+const prefixEnabled = process.env.PREFIX_ENABLED === "true";
+const prefix = "!gpt";
 
-// Whatsapp Client
-const client = new Client()
+// Whatsapp client
+const client = new Client();
 
-// ChatGPT Client
+// ChatGPT client
 const api = new ChatGPTAPI({
     apiKey: process.env.OPENAI_API_KEY
-})
+});
 
 // Mapping from number to last conversation id
-const conversations = {}
+const conversations: Record<string, any> = {};
 
-// Entrypoint
+// Start the app
 const start = async () => {
-    // Whatsapp auth
+    // Listen for QR code
     client.on("qr", (qr: string) => {
-        console.log("[Whatsapp ChatGPT] Scan this QR code in whatsapp to log in:")
+        console.log("[Whatsapp ChatGPT] Scan this QR code in whatsapp to log in:");
         qrcode.generate(qr, { small: true });
-    })
+    });
 
-    // Whatsapp ready
+    // Listen for ready event
     client.on("ready", () => {
         console.log("[Whatsapp ChatGPT] Client is ready!");
-    })
+    });
 
-    // Whatsapp message
+    // Listen for incoming messages
     client.on("message", async (message: any) => {
-        if (message.body.length == 0) return
-        if (message.from == "status@broadcast") return
+        if (message.body.length === 0) return;
+        if (message.from === "status@broadcast") return;
 
-        if (prefixEnabled) {
-            if (message.body.startsWith(prefix)) {
-                // Get the rest of the message
-                const prompt = message.body.substring(prefix.length + 1);
-                await handleMessage(message, prompt)
-            }
-        } else {
-            await handleMessage(message, message.body)
-        }
-    })
+        // Handle messages with prefix
+        const prompt = prefixEnabled ? message.body.substring(prefix.length + 1) : message.body;
+        await handleMessage(message, prompt);
+    });
 
-    client.initialize()
-}
+    // Initialize the client
+    client.initialize();
+};
 
+// Handle incoming message
 const handleMessage = async (message: any, prompt: any) => {
     try {
-        const lastConversation = conversations[message.from]
+        const conversation = conversations[message.from];
+        const lastConversation = conversation ? conversation.lastConversation : null;
 
         // Add the message to the conversation
-        console.log("[Whatsapp ChatGPT] Received prompt from " + message.from + ": " + prompt)
-        let response: ChatMessage;
+        console.log(`[Whatsapp ChatGPT] Received prompt from ${message.from}: ${prompt}`);
+        const start = Date.now();
+        const response = lastConversation ? await api.sendMessage(prompt, lastConversation) : await api.sendMessage(prompt);
+        const end = Date.now() - start;
 
-        const start = Date.now()
-        if (lastConversation) {
-            response = await api.sendMessage(prompt, lastConversation)
-        } else {
-            response = await api.sendMessage(prompt)
-        }
-        const end = Date.now() - start
+        console.log(`[Whatsapp ChatGPT] Answer to ${message.from}: ${response.text}`);
 
-        console.log(`[Whatsapp ChatGPT] Answer to ${message.from}: ${response.text}`)
-
-        // Set the conversation
+        // Update conversation history
         conversations[message.from] = {
-            conversationId: response.conversationId,
+            lastConversation: response.conversationId,
             parentMessageId: response.id
-        }
+        };
 
-        console.log("[Whatsapp ChatGPT] ChatGPT took " + end + "ms")
+        console.log(`[Whatsapp ChatGPT] ChatGPT took ${end}ms`);
 
         // Send the response to the chat
-        message.reply(response.text)
+        message.reply(response.text);
     } catch (error: any) {
-        console.error("An error occured", error)
-        message.reply("An error occured, please contact the administrator. (" + error.message + ")")
+        console.error("An error occurred", error);
+        message.reply(`An error occurred, please contact the administrator. (${error.message})`);
     }
-}
+};
 
-start()
+
+start();
