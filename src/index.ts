@@ -15,7 +15,11 @@ const gptPrefix = '!gpt'
 const dallePrefix = '!dalle'
 
 // Whatsapp Client
-const client = new Client()
+const client = new Client({
+    puppeteer: {
+        args: ['--no-sandbox']
+    }
+})
 
 // Entrypoint
 const start = async () => {
