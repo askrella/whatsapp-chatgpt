@@ -1,9 +1,12 @@
 # ChatGPT + Whatsapp = AI Assistant 🚀
 
-This project is a whatsapp bot that uses OpenAI's ChatGPT to respond to user inputs.
-To use ChatGPT, simply type `!gpt` followed by your prompt, and the bot will generate a response.
+Whatsapp bot that uses OpenAI's GPT & DALLE to respond to user inputs.
 
+### GPT Example
 ![Example](https://i.imgur.com/Za4s6aR.png)
+
+### Dalle Example
+![Example](https://i.imgur.com/nqDT4E4.png)
 
 ## Requirements
 
@@ -31,13 +34,27 @@ PREFIX_ENABLED=false
 
 ## Usage
 
-To use the bot, simply send a message with `!gpt` command followed by your prompt. For example:
+To use the bot, simply send a message with the `!gpt`/`!dalle` command followed by your prompt. For example:
 
-`!gpt What is the meaning of life?`
+GPT:
+- `!gpt What is the meaning of life?`
 
-The bot only responds to messages that are received by you, not sent.
+DALLE:
+- `!dalle A frog with a red hat is walking on a bridge.`
+
+The bot only responds to messages that are received by you, not sent by you.
+
+## Disable prefix
 
 You can disable the `!gpt` prefix by setting `PREFIX_ENABLED` to `false` in the .env file.
+
+If you disable the prefix, the bot will not support DALLE and only GPT will be used.
+
+## Disclaimer
+The operations performed by this bot are not free. You will be charged by OpenAI for each request you make.
+
+## Contributors
+- [andrewssobral](https://github.com/andrewssobral) - DALLE integration
 
 ## Used libraries
 - https://github.com/pedroslopez/whatsapp-web.js

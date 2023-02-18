@@ -1,25 +1,21 @@
 const process = require("process")
 const qrcode = require("qrcode-terminal");
 const { Client } = require("whatsapp-web.js");
-import { ChatGPTAPI, ChatMessage } from 'chatgpt'
+
+// ChatGPT & DALLE
+import { handleMessageGPT } from './gpt'
+import { handleMessageDALLE } from './dalle'
 
 // Environment variables
 require("dotenv").config()
 
-// Prefix check
+// Prefixes
 const prefixEnabled = process.env.PREFIX_ENABLED == "true"
-const prefix = '!gpt'
+const gptPrefix = '!gpt'
+const dallePrefix = '!dalle'
 
 // Whatsapp Client
 const client = new Client()
-
-// ChatGPT Client
-const api = new ChatGPTAPI({
-    apiKey: process.env.OPENAI_API_KEY
-})
-
-// Mapping from number to last conversation id
-const conversations = {}
 
 // Entrypoint
 const start = async () => {
@@ -36,55 +32,32 @@ const start = async () => {
 
     // Whatsapp message
     client.on("message", async (message: any) => {
-        if (message.body.length == 0) return
+        const messageString = message.body
+        if (messageString.length == 0) return
         if (message.from == "status@broadcast") return
 
         if (prefixEnabled) {
-            if (message.body.startsWith(prefix)) {
-                // Get the rest of the message
-                const prompt = message.body.substring(prefix.length + 1);
-                await handleMessage(message, prompt)
+            // GPT (!gpt <prompt>)
+            if (messageString.startsWith(gptPrefix)) {
+                const prompt = messageString.substring(gptPrefix.length + 1);
+                await handleMessageGPT(message, prompt)
+                return
+            }
+            
+            // DALLE (!dalle <prompt>)
+            if (messageString.startsWith(dallePrefix)) {
+                const prompt = messageString.substring(dallePrefix.length + 1);
+                await handleMessageDALLE(message, prompt)
+                return
             }
         } else {
-            await handleMessage(message, message.body)
+            // GPT (only <prompt>)
+            await handleMessageGPT(message, messageString)
         }
     })
 
+    // Whatsapp initialization
     client.initialize()
-}
-
-const handleMessage = async (message: any, prompt: any) => {
-    try {
-        const lastConversation = conversations[message.from]
-
-        // Add the message to the conversation
-        console.log("[Whatsapp ChatGPT] Received prompt from " + message.from + ": " + prompt)
-        let response: ChatMessage;
-
-        const start = Date.now()
-        if (lastConversation) {
-            response = await api.sendMessage(prompt, lastConversation)
-        } else {
-            response = await api.sendMessage(prompt)
-        }
-        const end = Date.now() - start
-
-        console.log(`[Whatsapp ChatGPT] Answer to ${message.from}: ${response.text}`)
-
-        // Set the conversation
-        conversations[message.from] = {
-            conversationId: response.conversationId,
-            parentMessageId: response.id
-        }
-
-        console.log("[Whatsapp ChatGPT] ChatGPT took " + end + "ms")
-
-        // Send the response to the chat
-        message.reply(response.text)
-    } catch (error: any) {
-        console.error("An error occured", error)
-        message.reply("An error occured, please contact the administrator. (" + error.message + ")")
-    }
 }
 
 start()

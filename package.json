@@ -1,17 +1,18 @@
 {
   "name": "whatsapp-chatgpt",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Whatsapp bot that uses OpenAI's GPT & DALLE to respond to user inputs",
+  "main": "src/index.ts",
+  "author": "Askrella Software Agency UG (haftungsbeschränkt)",
   "scripts": {
     "start": "npx vite-node src/index.ts"
   },
-  "author": "navopw",
+  
   "license": "MIT",
   "dependencies": {
     "chatgpt": "^4.4.1",
     "dotenv": "^16.0.3",
-    "puppeteer": "^19.4.1",
+    "openai": "^3.1.0",
     "qrcode-terminal": "^0.12.0",
     "whatsapp-web.js": "^1.19.4"
   }
