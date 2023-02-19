@@ -34,7 +34,7 @@ esac
 
 # Clone Git repo and run Docker Compose
 echo "Cloning Git repo..."
-git clone https://github.com/example/repo.git
+git clone https://github.com/askrella/whatsapp-chatgpt.git
 cd repo
 
 # Prompt user for API key
