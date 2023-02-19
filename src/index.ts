@@ -1,6 +1,6 @@
-const process = require("process")
-const qrcode = require("qrcode-terminal");
-const { Client } = require("whatsapp-web.js");
+import process from 'process'
+import qrcode from 'qrcode-terminal'
+import { Client } from "whatsapp-web.js";
 
 // ChatGPT & DALLE
 import { handleMessageGPT } from './gpt'

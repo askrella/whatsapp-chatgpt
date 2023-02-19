@@ -1,5 +1,5 @@
-const process = require("process")
-import { ChatGPTAPI, ChatMessage } from 'chatgpt'
+import process from 'process'
+import { ChatGPTAPI } from 'chatgpt'
 
 // Environment variables
 require("dotenv").config()
@@ -22,7 +22,7 @@ const handleMessageGPT = async (message: any, prompt: any) => {
         const start = Date.now()
 
         // Check if we have a conversation with the user
-        let response: ChatMessage;
+        let response;
         if (lastConversation) {
             // Handle message with previous conversation
             response = await api.sendMessage(prompt, lastConversation)
