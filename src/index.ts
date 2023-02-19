@@ -1,5 +1,5 @@
 import qrcode from "qrcode-terminal";
-import { Client, Message } from "whatsapp-web.js";
+import { Client, Message, Events } from "whatsapp-web.js";
 
 // Environment variables
 import dotenv from "dotenv";
@@ -8,6 +8,8 @@ dotenv.config();
 // ChatGPT & DALLE
 import { handleMessageGPT } from "./gpt";
 import { handleMessageDALLE } from "./dalle";
+
+import * as cli from '../cli/ui'
 
 // Whatsapp status (status@broadcast)
 const statusBroadcast = "status@broadcast";
@@ -53,19 +55,29 @@ async function sendMessage(message: Message) {
 
 // Entrypoint
 const start = async () => {
+	cli.printIntro();
+
 	// Whatsapp auth
-	client.on("qr", (qr: string) => {
-		console.log("[Whatsapp ChatGPT] Scan this QR code in whatsapp to log in:");
-		qrcode.generate(qr, { small: true });
+	client.on(Events.QR_RECEIVED, (qr: string) => {
+		qrcode.generate(qr, { small: true }, (qrcode: string) => {
+			cli.printQRCode(qrcode);
+		});
+	});
+
+	// Whatsapp loading
+	client.on(Events.LOADING_SCREEN, (percent) => {
+		if (percent == '0') {
+			cli.printLoading()
+		}
 	});
 
 	// Whatsapp ready
-	client.on("ready", () => {
-		console.log("[Whatsapp ChatGPT] Client is ready!");
+	client.on(Events.READY, () => {
+		cli.printOutro()
 	});
 
 	// Whatsapp message
-	client.on("message", async (message: any) => {
+	client.on(Events.MESSAGE_RECEIVED, async (message: any) => {
 		// Ignore if message is from status broadcast
 		if (message.from == statusBroadcast) return;
 
@@ -80,7 +92,7 @@ const start = async () => {
 	});
 
 	// Reply to own message
-	client.on("message_create", async (message: Message) => {
+	client.on(Events.MESSAGE_CREATE, async (message: Message) => {
 		// Ignore if message is from status broadcast
 		if (message.from == statusBroadcast) return;
 
