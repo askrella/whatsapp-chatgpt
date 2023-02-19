@@ -4,8 +4,8 @@ const qrcode = require("qrcode-terminal");
 const { Client } = require("whatsapp-web.js");
 
 // ChatGPT & DALLE
-import { handleMessageGPT } from './gpt'
-import { handleMessageDALLE } from './dalle'
+import { handleMessageGPT } from './src/gpt'
+import { handleMessageDALLE } from './src/dalle'
 
 // Environment variables
 import dotenv from 'dotenv';
@@ -22,7 +22,8 @@ const dallePrefix = '!dalle'
 const client = new Client({
     puppeteer: {
         args: ['--no-sandbox']
-    }
+    },
+    authStrategy: new LocalAuth()
 })
 
 // Entrypoint
@@ -39,7 +40,7 @@ const start = async () => {
     })
 
     // Whatsapp message
-    client.on("message", async (message: any) => {
+    client.on("message_create", async (message: any) => {
         const messageString = message.body
         if (messageString.length == 0) return
         if (message.from == "status@broadcast") return
