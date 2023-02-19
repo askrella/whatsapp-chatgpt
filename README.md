@@ -9,27 +9,23 @@ Whatsapp bot that uses OpenAI's GPT & DALLE to respond to user inputs.
 ![Example](https://i.imgur.com/Za4s6aR.png)
 
 ### Dalle Example
+
 ![Example](https://i.imgur.com/nqDT4E4.png)
 
 ## Requirements
 
-- Node.js
-- A recent version of npm
-- An OpenAI Account
+-   Node.js
+-   A recent version of npm
+-   An OpenAI Account
 
 ## .env File example
 
 ```
 OPENAI_API_KEY=put_your_key_here
 PREFIX_ENABLED=false
-
-
 GPT_PREFIX=!gpt
-
 DALLE_PREFIX=!dalle
-
 REPLY_SELF_ENABLED=false
-
 ```
 
 ## Installation
@@ -44,6 +40,7 @@ REPLY_SELF_ENABLED=false
 
 ## Docker
 
+
 ### Using Docker-Compose
 
 Make sure to install the  `docker-compose` using your package manager on linux. It's installed by default on Windows and on Mac.
@@ -54,20 +51,20 @@ Make sure to edit the `docker-compose.yml` file and set your own variables there
     sudo docker-compose up
 ```
 ### Docker build it yourself
+=======
+`docker build . -t [image-name]`
 
-```sh
-    docker build . -t [image-name] 
-    docker run -e OPENAI_API_KEY=<your key> [image-name]
-```
 ## Usage
 
 To use the bot, simply send a message with the `!gpt`/`!dalle` command followed by your prompt. For example:
 
 GPT:
-- `!gpt What is the meaning of life?`
+
+-   `!gpt What is the meaning of life?`
 
 DALLE:
-- `!dalle A frog with a red hat is walking on a bridge.`
+
+-   `!dalle A frog with a red hat is walking on a bridge.`
 
 The bot only responds to messages that are received by you, not sent by you.
 
@@ -78,12 +75,15 @@ You can disable the `!gpt` prefix by setting `PREFIX_ENABLED` to `false` in the 
 If you disable the prefix, the bot will not support DALLE and only GPT will be used.
 
 ## Disclaimer
+
 The operations performed by this bot are not free. You will be charged by OpenAI for each request you make.
 
 ## Contributors
-- [andrewssobral](https://github.com/andrewssobral) - DALLE integration
-- [RG7279805](https://github.com/RG7279805) - Docker support
+
+-   [andrewssobral](https://github.com/andrewssobral) - DALLE integration
+-   [RG7279805](https://github.com/RG7279805) - Docker support
 
 ## Used libraries
-- https://github.com/pedroslopez/whatsapp-web.js
-- https://github.com/transitive-bullshit/chatgpt-api
+
+-   https://github.com/pedroslopez/whatsapp-web.js
+-   https://github.com/transitive-bullshit/chatgpt-api
