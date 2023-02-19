@@ -1,7 +1,7 @@
 import { Message } from "whatsapp-web.js";
-import { configTarget } from "./types";
+import { aiConfigTarget, aiConfigTypes, aiConfigValues } from "../types/ai-config";
 
-const config = {
+const aiConfig = {
     dalle: {
         size: "512x512",
     },
@@ -23,22 +23,22 @@ const handleMessageCONFIG = async (message: any, prompt: any): void => {
         const type: string = args[1]
         const value: string = args[2]
 
-        if (!(target in configTarget)) {
-            message.reply("Invalid target, please use one of the following: " + Object.keys(configTarget).join(", "))
+        if (!(target in aiConfigTarget)) {
+            message.reply("Invalid target, please use one of the following: " + Object.keys(aiConfigTarget).join(", "))
             return
         }
 
-        if (!(type in config[target])) {
-            message.reply("Invalid type, please use one of the following: " + Object.keys(config[target]).join(", "))
+        if (!(type in aiConfigTypes[target])) {
+            message.reply("Invalid type, please use one of the following: " + Object.keys(aiConfigTypes[target]).join(", "))
             return
         }
 
-        if (!(value in config[target][type])) {
-            message.reply("Invalid value, please use one of the following: " + Object.keys(config[target][type]).join(", "))
+        if (!(value in aiConfigValues[target][type])) {
+            message.reply("Invalid value, please use one of the following: " + Object.keys(aiConfigValues[target][type]).join(", "))
             return
         }
 
-        config[target][type] = value
+        aiConfig[target][type] = value
 
         message.reply("Successfully set " + target + " " + type + " to " + value)
     } catch (error: any) {
@@ -48,6 +48,6 @@ const handleMessageCONFIG = async (message: any, prompt: any): void => {
 }
 
 export {
-    config,
+    aiConfig,
     handleMessageCONFIG
 }
