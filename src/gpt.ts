@@ -1,9 +1,11 @@
+import { ChatMessage } from "chatgpt";
+import { Message } from "whatsapp-web.js";
 import { chatgpt } from "./openai";
 
 // Mapping from number to last conversation id
 const conversations = {}
 
-const handleMessageGPT = async (message: any, prompt: any) => {
+const handleMessageGPT = async (message: Message, prompt: string) => {
     try {
         // Get last conversation
         const lastConversation = conversations[message.from]
@@ -13,7 +15,7 @@ const handleMessageGPT = async (message: any, prompt: any) => {
         const start = Date.now()
 
         // Check if we have a conversation with the user
-        let response;
+        let response: ChatMessage;
         if (lastConversation) {
             // Handle message with previous conversation
             response = await chatgpt.sendMessage(prompt, lastConversation)
