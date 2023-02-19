@@ -1,23 +1,23 @@
 {
-  "name": "whatsapp-chatgpt",
-  "version": "1.0.0",
-  "description": "Whatsapp bot that uses OpenAI's GPT & DALLE to respond to user inputs",
-  "main": "src/index.ts",
-  "author": "Askrella Software Agency UG (haftungsbeschränkt)",
-  "scripts": {
-    "start": "npx vite-node src/index.ts",
-    "prettier": "prettier --write ."
-  },
-  "license": "MIT",
-  "dependencies": {
-    "chatgpt": "^4.4.1",
-    "dotenv": "^16.0.3",
-    "openai": "^3.1.0",
-    "qrcode-terminal": "^0.12.0",
-    "whatsapp-web.js": "^1.19.4"
-  },
-  "devDependencies": {
-    "prettier": "^2.8.4",
-    "@types/qrcode-terminal": "^0.12.0"
-  }
+	"name": "whatsapp-chatgpt",
+	"version": "1.0.0",
+	"description": "Whatsapp bot that uses OpenAI's GPT & DALLE to respond to user inputs",
+	"main": "src/index.ts",
+	"author": "Askrella Software Agency UG (haftungsbeschränkt)",
+	"scripts": {
+		"start": "npx vite-node src/index.ts",
+		"prettier": "prettier --write ."
+	},
+	"license": "MIT",
+	"dependencies": {
+		"chatgpt": "^4.4.1",
+		"dotenv": "^16.0.3",
+		"openai": "^3.1.0",
+		"qrcode-terminal": "^0.12.0",
+		"whatsapp-web.js": "^1.19.4"
+	},
+	"devDependencies": {
+		"prettier": "^2.8.4",
+		"@types/qrcode-terminal": "^0.12.0"
+	}
 }

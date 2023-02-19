@@ -18,9 +18,9 @@ This WhatsApp bot uses OpenAI's GPT and DALL-E to respond to user inputs.
 
 ## Requirements
 
-- Node.js
-- A recent version of npm
-- An OpenAI Account
+-   Node.js
+-   A recent version of npm
+-   An OpenAI Account
 
 ## Installation
 
@@ -35,7 +35,7 @@ This WhatsApp bot uses OpenAI's GPT and DALL-E to respond to user inputs.
 
 ## Docker
 
-``` docker build . -t [image-name] ```
+`docker build . -t [image-name]`
 
 ## Usage
 
