@@ -5,7 +5,7 @@
   "main": "src/index.ts",
   "author": "Askrella Software Agency UG (haftungsbeschränkt)",
   "scripts": {
-    "start": "vite-node src/index.ts"
+    "start": "vite-node --watch src/index.ts"
   },
   "license": "MIT",
   "dependencies": {

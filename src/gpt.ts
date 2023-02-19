@@ -1,4 +1,4 @@
-const process = require("process")
+import process from "process"
 import { ChatGPTAPI, ChatMessage } from 'chatgpt'
 
 // Environment variables
