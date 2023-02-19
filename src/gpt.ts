@@ -1,10 +1,5 @@
-import process from "process";
-import { ChatGPTAPI, ChatMessage } from "chatgpt";
 import { type Message } from "whatsapp-web.js";
-
-const api = new ChatGPTAPI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+import { chatgpt } from "./openai-client";
 
 const conversations = {};
 
@@ -17,12 +12,12 @@ export const handleMessageGPT = async (message: Message, prompt: string) => {
     );
 
     const start = Date.now();
-    let response: ChatMessage;
+    let response;
 
     if (lastConversation) {
-      response = await api.sendMessage(prompt, lastConversation);
+      response = await chatgpt.sendMessage(prompt, lastConversation);
     } else {
-      response = await api.sendMessage(prompt);
+      response = await chatgpt.sendMessage(prompt);
     }
 
     const end = Date.now() - start;
