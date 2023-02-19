@@ -1,4 +1,3 @@
-import { ChatMessage } from 'chatgpt'
 import { chatgpt } from "./openai";
 
 // Mapping from number to last conversation id
@@ -14,7 +13,7 @@ const handleMessageGPT = async (message: any, prompt: any) => {
         const start = Date.now()
 
         // Check if we have a conversation with the user
-        let response: ChatMessage;
+        let response;
         if (lastConversation) {
             // Handle message with previous conversation
             response = await chatgpt.sendMessage(prompt, lastConversation)
