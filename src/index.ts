@@ -1,5 +1,6 @@
 import qrcode from "qrcode-terminal";
 import { Client, Message, Events } from "whatsapp-web.js";
+import { startsWithIgnoreCase } from "./utils"
 
 // Environment variables
 import dotenv from "dotenv";
@@ -39,14 +40,14 @@ async function sendMessage(message: Message) {
 	}
 
 	// GPT (!gpt <prompt>)
-	if (messageString.startsWith(gptPrefix)) {
+	if (startsWithIgnoreCase(messageString, gptPrefix)) {
 		const prompt = messageString.substring(gptPrefix.length + 1);
 		await handleMessageGPT(message, prompt);
 		return;
 	}
 
 	// DALLE (!dalle <prompt>)
-	if (messageString.startsWith(dallePrefix)) {
+	if (startsWithIgnoreCase(messageString, dallePrefix)) {
 		const prompt = messageString.substring(dallePrefix.length + 1);
 		await handleMessageDALLE(message, prompt);
 		return;
