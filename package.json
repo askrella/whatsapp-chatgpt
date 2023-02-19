@@ -5,15 +5,17 @@
   "main": "src/index.ts",
   "author": "Askrella Software Agency UG (haftungsbeschränkt)",
   "scripts": {
-    "start": "npx vite-node src/index.ts"
+    "start": "npx vite-node src/index.ts",
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
   },
-  
   "license": "MIT",
   "dependencies": {
     "chatgpt": "^4.4.1",
     "dotenv": "^16.0.3",
     "openai": "^3.1.0",
     "qrcode-terminal": "^0.12.0",
+    "vitest": "^0.28.5",
     "whatsapp-web.js": "^1.19.4"
   }
 }
