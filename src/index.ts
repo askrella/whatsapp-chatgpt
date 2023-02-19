@@ -1,82 +1,78 @@
-import qrcode from 'qrcode-terminal'
+import qrcode from "qrcode-terminal";
 import { Client, Message } from "whatsapp-web.js";
+import { sendMessage } from "./lib/message";
+import type ConfigType from "./types/config";
 
 // Environment variables
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
 
-// ChatGPT & DALLE
-import { handleMessageGPT } from './gpt'
-import { handleMessageDALLE } from './dalle'
+// Whatsapp status (status@broadcast)
+const statusBroadcast = "status@broadcast";
 
-// Prefixes
-const prefixEnabled = process.env.PREFIX_ENABLED == "true"
-const shouldReplySelf = process.env.REPLY_SELF_ENABLED == "true"
-const gptPrefix = '!gpt'
-const dallePrefix = '!dalle'
+// config
+const config:ConfigType = {
+	prefixEnabled: process.env.PREFIX_ENABLED == "true",
+	gptPrefix: "!gpt",
+	dallePrefix: "!dalle"
+}
 
 // Whatsapp Client
 const client = new Client({
-    puppeteer: {
-        args: ['--no-sandbox']
-    }
+	puppeteer: {
+		args: ["--no-sandbox"]
+	}
 });
-
-// sends message
-async function sendMessage(message: Message) {
-    const messageString = message.body
-
-    if (messageString.length == 0) return;
-
-    if (!prefixEnabled) {
-        // GPT (only <prompt>)
-        await handleMessageGPT(message, messageString);
-        return
-    }
-
-    // GPT (!gpt <prompt>)
-    if (messageString.startsWith(gptPrefix)) {
-        const prompt = messageString.substring(gptPrefix.length + 1);
-        await handleMessageGPT(message, prompt)
-        return
-    }
-    
-    // DALLE (!dalle <prompt>)
-    if (messageString.startsWith(dallePrefix)) {
-        const prompt = messageString.substring(dallePrefix.length + 1);
-        await handleMessageDALLE(message, prompt)
-        return
-    }
-}
 
 // Entrypoint
 const start = async () => {
-    // Whatsapp auth
-    client.on("qr", (qr: string) => {
-        console.log("[Whatsapp ChatGPT] Scan this QR code in whatsapp to log in:")
-        qrcode.generate(qr, { small: true });
-    })
 
-    // Whatsapp ready
-    client.on("ready", () => {
-        console.log("[Whatsapp ChatGPT] Client is ready!");
-    })
+	// Whatsapp auth
+	client.on("qr", (qr: string) => {
+		console.log("[Whatsapp ChatGPT] Scan this QR code in whatsapp to log in:");
+		qrcode.generate(qr, { small: true });
+	});
 
-    // Whatsapp message
-    client.on("message", async (message: Message) => {
-        if (message.from == "status@broadcast") return
-        await sendMessage(message);
-    })
-    
-    // reply to own message
-    client.on("message_create", async (message: Message) => {
-        if (message.fromMe && shouldReplySelf) {
-            await sendMessage(message);
-        }
-    });
+	// Whatsapp ready
+	client.on("ready", () => {
+		console.log("[Whatsapp ChatGPT] Client is ready!");
+	});
 
-    // Whatsapp initialization
-    client.initialize()
-}
+	// Whatsapp message
+	client.on("message", async (message: any) => {
+		// Ignore if message is from status broadcast
+		if (message.from == statusBroadcast) return;
 
-start()
+		// Ignore if message is empty or media
+		if (message.body.length == 0) return;
+		if (message.hasMedia) return;
+
+		// Ignore if it's a quoted message, (e.g. GPT reply)
+		if (message.hasQuotedMsg) return;
+
+		await sendMessage(config, message);
+	});
+	
+	// Reply to own message
+	client.on("message_create", async (message: Message) => {
+		// Ignore if message is from status broadcast
+		if (message.from == statusBroadcast) return;
+
+		// Ignore if message is empty or media
+		if (message.body.length == 0) return;
+		if (message.hasMedia) return;
+
+		// Ignore if it's a quoted message, (e.g. GPT reply)
+		if (message.hasQuotedMsg) return;
+
+		// Ignore if it's not from me
+		if (!message.fromMe) return;
+
+		await sendMessage(config, message);
+	});
+
+	// Whatsapp initialization
+	client.initialize();
+};
+
+start();
