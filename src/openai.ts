@@ -5,10 +5,6 @@ import dotenv from 'dotenv';
 // Load environment variables
 dotenv.config();
 
-// Environment variables
-import dotenv from 'dotenv';
-dotenv.config();
-
 // Open AI API Key
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY || "";
 

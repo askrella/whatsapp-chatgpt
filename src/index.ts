@@ -11,7 +11,7 @@ dotenv.config();
 
 // Prefixes
 const prefixEnabled = process.env.PREFIX_ENABLED == "true"
-const shouldReplySelf = process.env.REPLY_SELF_ENABLED == "true"
+// const shouldReplySelf = process.env.REPLY_SELF_ENABLED == "true"
 const gptPrefix = '!gpt'
 const dallePrefix = '!dalle'
 const selfGptPrefix = '!megpt'
@@ -70,14 +70,14 @@ const start = async () => {
         await sendMessage(message);
     })
     
-    // reply to own message
+/*     // reply to own message
     client.on("message_create", async(message) => {
         if (message.fromMe && shouldReplySelf) {
             await sendMessage(message);
         }
-    });
+    }); */
 
-    // Whatsapp message to onself
+  // Whatsapp message to onself
   client.on("message_create", async (message: any) => {
     const messageString = message.body;
     if (messageString.length == 0) return;
