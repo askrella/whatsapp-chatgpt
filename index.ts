@@ -8,7 +8,7 @@ import { handleMessageGPT } from './src/gpt'
 import { handleMessageDALLE } from './src/dalle'
 
 // Environment variables
-import dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
 
 // Load environment variables
 dotenv.config();
