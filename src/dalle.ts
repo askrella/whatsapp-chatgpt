@@ -1,6 +1,7 @@
 
 import process from 'process'
 import { Configuration, OpenAIApi } from "openai";
+
 const { MessageMedia } = require("whatsapp-web.js");
 
 // Environment variables
