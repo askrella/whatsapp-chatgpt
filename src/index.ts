@@ -67,10 +67,6 @@ const start = async () => {
 		cli.printOutro();
 	});
 
-	client.on(Events.AUTHENTICATED, (session) => {
-		console.log(session)
-	});
-
 	// WhatsApp message
 	client.on(Events.MESSAGE_RECEIVED, async (message: any) => {
 		// Ignore if message is from status broadcast
