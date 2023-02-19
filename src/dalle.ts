@@ -1,6 +1,6 @@
 import { MessageMedia } from "whatsapp-web.js";
 import { openai } from "./openai";
-import { aiConfig } from "./config/dalle-config";
+import { aiConfig } from "./ai-config";
 import { CreateImageRequestSizeEnum } from "openai";
 
 const handleMessageDALLE = async (message: any, prompt: any) => {

@@ -1,5 +1,5 @@
 import { Message } from "whatsapp-web.js";
-import { aiConfigTarget, aiConfigTypes, aiConfigValues } from "../types/ai-config";
+import { aiConfigTarget, aiConfigTypes, aiConfigValues } from "./types/ai-config";
 
 const aiConfig = {
     dalle: {
@@ -8,7 +8,7 @@ const aiConfig = {
     // chatgpt: {}
 }
 
-const handleMessageCONFIG = async (message: any, prompt: any): void => {
+const handleMessageAICONFIG = async (message: any, prompt: any) => {
     try {
         console.log("[Whatsapp Config] Received prompt from " + message.from + ": " + prompt)
 
@@ -49,5 +49,5 @@ const handleMessageCONFIG = async (message: any, prompt: any): void => {
 
 export {
     aiConfig,
-    handleMessageCONFIG
+    handleMessageAICONFIG
 }

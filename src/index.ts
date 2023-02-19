@@ -8,14 +8,14 @@ dotenv.config();
 // ChatGPT & DALLE
 import { handleMessageGPT } from './gpt'
 import { handleMessageDALLE } from './dalle'
-import { handleMessageCONFIG } from "./config/dalle-config";
+import { handleMessageAICONFIG } from "./ai-config";
 
 // Prefixes
 const prefixEnabled = process.env.PREFIX_ENABLED == "true"
 const shouldReplySelf = process.env.REPLY_SELF_ENABLED == "true"
 const gptPrefix = '!gpt'
 const dallePrefix = '!dalle'
-const configPrefix = '!dalle'
+const aiConfigPrefix = '!aiconfig'
 
 // Whatsapp Client
 const client = new Client({
@@ -51,9 +51,9 @@ async function sendMessage(message: Message) {
     }
 
     // Config (!dalle <prompt>)
-    if (messageString.startsWith(configPrefix)) {
+    if (messageString.startsWith(aiConfigPrefix)) {
         const prompt = messageString.substring(configPrefix.length + 1);
-        await handleMessageCONFIG(message, prompt)
+        await handleMessageAICONFIG(message, prompt)
         return
     }
 }
