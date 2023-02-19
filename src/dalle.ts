@@ -1,10 +1,5 @@
-
-import process from 'process'
 import { Configuration, OpenAIApi } from "openai";
 const { MessageMedia } = require("whatsapp-web.js");
-
-// Environment variables
-require("dotenv").config()
 
 // OpenAI Client
 const configuration = new Configuration({

@@ -1,8 +1,4 @@
-const process = require("process")
 import { ChatGPTAPI, ChatMessage } from 'chatgpt'
-
-// Environment variables
-require("dotenv").config()
 
 // ChatGPT Client
 const api = new ChatGPTAPI({
