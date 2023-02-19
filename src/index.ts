@@ -63,7 +63,13 @@ const start = async () => {
     })
 
     // Whatsapp initialization
-    client.initialize()
+    client.initialize().catch((error: any) => {
+        throw error
+    })
 }
 
-start()
+start().then(() => {
+    console.log("[Whatsapp ChatGPT] Started")
+}).catch((error: any) => {
+    console.error("An error happened:", error)
+})
