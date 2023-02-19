@@ -8,8 +8,6 @@ This WhatsApp bot uses OpenAI's GPT and DALL-E to respond to user inputs.
 
 </center>
 
-
-
 ## Examples
 
 ### GPT
@@ -46,27 +44,32 @@ To use the bot, simply send a message with the `!gpt` or `!dalle` command follow
 - GPT: `!gpt What is the meaning of life?`
 - DALL-E: `!dalle A frog with a red hat is walking on a bridge.`
 
-The bot only responds to messages that are received by you, not sent by you.
+The bot only responds to messages that are received by you, not sent by you, unless `REPLY_SELF_ENABLED` is set to `true` in the `.env` file.
 
+## Enabling replies to self
+
+To enable replies to self, set `REPLY_SELF_ENABLED` to `true` in the `.env` file.
 
 ## Disabling the Prefix
 
-You can disable the `!gpt` prefix by setting `PREFIX_ENABLED` to `false` in the `.env` file. If you disable the prefix, the bot will not support DALL-E, and only GPT will be used.
+You can disable the `!gpt`/`!dalle` prefix by setting `PREFIX_ENABLED` to `false` in the `.env` file. If you disable the prefix, the bot will not support DALL-E, and only GPT will be used.
 
 ## Expanding Functionalities
 
-This bot uses the [whatsapp-web.js](https://github.com/pedroslopez/whatsapp-web.js) library, which allows you to extend its functionalities. To do so, you can modify the index.js file, or create a new one, and include any additional features you want.
+This bot uses the [whatsapp-web.js](https://github.com/pedroslopez/whatsapp-web.js) library, which allows you to extend its functionalities. To do so, you can modify the `src/index.ts` file, or create a new one, and include any additional features you want.
 
 ## Disclaimer
 
 The operations performed by this bot are not free. You will be charged by OpenAI for each request you make.
 
-## Used Libraries
+## Credits
 
 - https://github.com/pedroslopez/whatsapp-web.js
 - https://github.com/transitive-bullshit/chatgpt-api
 
 <center>
+
+<br/>
 
 ## Contributors
 
