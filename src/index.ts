@@ -1,9 +1,6 @@
 import qrcode from "qrcode-terminal";
 import { Client, Message, Events } from "whatsapp-web.js";
 
-import { intro, spinner, note, outro } from "@clack/prompts";
-import color from 'picocolors'
-
 // Environment variables
 import dotenv from "dotenv";
 dotenv.config();
@@ -11,6 +8,8 @@ dotenv.config();
 // ChatGPT & DALLE
 import { handleMessageGPT } from "./gpt";
 import { handleMessageDALLE } from "./dalle";
+
+import * as cli from '../cli/ui'
 
 // Whatsapp status (status@broadcast)
 const statusBroadcast = "status@broadcast";
@@ -56,34 +55,25 @@ async function sendMessage(message: Message) {
 
 // Entrypoint
 const start = async () => {
-	intro(color.bgCyan(color.white(" Whatsapp ChatGPT & DALLE ")));
-	note('A Whatsapp bot that uses OpenAI\'s ChatGPT and DALLE to generate text and images from a prompt.')
-
-	let s = spinner();
-	s.start("Starting");
+	cli.printIntro();
 
 	// Whatsapp auth
 	client.on(Events.QR_RECEIVED, (qr: string) => {
 		qrcode.generate(qr, { small: true }, (qrcode: string) => {
-			s.stop('Client is ready!');
-
-			note(qrcode, "Scan the QR code above to login to Whatsapp Web.");
-			s.start('Waiting for QR code to be scanned');
+			cli.printQRCode(qrcode);
 		});
 	});
 
 	// Whatsapp loading
 	client.on(Events.LOADING_SCREEN, (percent) => {
 		if (percent == '0') {
-			s.stop('Authenticated!');
-			s.start('Logging in');
+			cli.printLoading()
 		}
 	});
 
 	// Whatsapp ready
 	client.on(Events.READY, () => {
-		s.stop('Loaded!');
-		outro("Whatsapp ChatGPT & DALLE is ready to use.");
+		cli.printOutro()
 	});
 
 	// Whatsapp message
