@@ -13,6 +13,8 @@ require("dotenv").config()
 const prefixEnabled = process.env.PREFIX_ENABLED == "true"
 const gptPrefix = '!gpt'
 const dallePrefix = '!dalle'
+const selfGptPrefix = '!megpt'
+const selfDallePrefix = '!medalle'
 
 // Whatsapp Client
 const client = new Client()
@@ -55,6 +57,30 @@ const start = async () => {
             await handleMessageGPT(message, messageString)
         }
     })
+
+    // Whatsapp message to onself
+  client.on("message_create", async (message: any) => {
+    const messageString = message.body;
+    if (messageString.length == 0) return;
+    if (message.from == "status@broadcast") return;
+
+    if (message.fromMe === true && message.id.self === "out") {
+      // This can only work if prefix is used
+      // GPT (!gpt <prompt>)
+      if (messageString.startsWith(selfGptPrefix)) {
+        const prompt = messageString.substring(selfGptPrefix.length + 1);
+        await handleMessageGPT(message, prompt);
+        return;
+      }
+
+      // DALLE (!dalle <prompt>)
+      if (messageString.startsWith(selfDallePrefix)) {
+        const prompt = messageString.substring(selfDallePrefix.length + 1);
+        await handleMessageDALLE(message, prompt);
+        return;
+      }
+    }
+  });
 
     // Whatsapp initialization
     client.initialize()
