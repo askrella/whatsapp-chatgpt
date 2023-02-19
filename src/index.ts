@@ -22,8 +22,7 @@ const dallePrefix = '!dalle'
 const client = new Client({
     puppeteer: {
         args: ['--no-sandbox']
-    },
-    authStrategy: new LocalAuth()
+    }
 })
 
 // Entrypoint
