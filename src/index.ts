@@ -1,4 +1,5 @@
-const process = require("process")
+import {LocalAuth} from "whatsapp-web.js";
+
 const qrcode = require("qrcode-terminal");
 const { Client } = require("whatsapp-web.js");
 
@@ -7,7 +8,10 @@ import { handleMessageGPT } from './gpt'
 import { handleMessageDALLE } from './dalle'
 
 // Environment variables
-require("dotenv").config()
+import dotenv from 'dotenv';
+
+// Load environment variables
+dotenv.config();
 
 // Prefixes
 const prefixEnabled = process.env.PREFIX_ENABLED == "true"
