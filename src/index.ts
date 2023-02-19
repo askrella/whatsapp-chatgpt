@@ -11,7 +11,7 @@ require("dotenv").config()
 
 // Prefixes
 const prefixEnabled = process.env.PREFIX_ENABLED == "true"
-const shouldReplySelf = process.env.REPLY_SELF == "true"
+const shouldReplySelf = process.env.REPLY_SELF_ENABLED == "true"
 const gptPrefix = '!gpt'
 const dallePrefix = '!dalle'
 
