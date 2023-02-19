@@ -48,6 +48,15 @@ DALLE:
 You can disable the `!gpt`/`!dalle` prefix by setting `PREFIX_ENABLED` to `false` in the `.env` file.<br/>
 If you disable the prefix, the bot will not support DALL-E, and only GPT will be used.
 
+## Sending messages to yourself
+
+This bot also supports sending messages to yourself.
+
+To use this feature, simply send a message to your own phone number using the WhatsApp link `https://wa.me/<your_phone_number>`.
+This will take you to your own chat window.
+
+After gaining access to your own chat, you can send a message to yourself and the bot will respond.
+
 ## Disclaimer
 
 The operations performed by this bot are not free. You will be charged by OpenAI for each request you make.
