@@ -14,8 +14,8 @@ interface IConfig {
 
 // Config
 const config: IConfig = {
-	openAIAPIKey: process.env.OPENAI_API_KEY || "",
-	prefixEnabled: process.env.PREFIX_ENABLED == "true",
+	openAIAPIKey: process.env.OPENAI_API_KEY || "", // Default: ""
+	prefixEnabled: process.env.PREFIX_ENABLED == "true" || true, // Default: true
 	gptPrefix: "!gpt",
 	dallePrefix: "!dalle"
 };
