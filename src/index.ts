@@ -1,5 +1,6 @@
 import qrcode from "qrcode-terminal";
 import { Client, Message } from "whatsapp-web.js";
+import startsWithIgnoreCase from "./utils"
 
 // Environment variables
 import dotenv from "dotenv";
@@ -23,10 +24,6 @@ const client = new Client({
 		args: ["--no-sandbox"]
 	}
 });
-
-function startsWithIgnoreCase(str, prefix) {
-	return str.toLowerCase().startsWith(prefix.toLowerCase());
-}
 
 // Handles message
 async function sendMessage(message: Message) {
