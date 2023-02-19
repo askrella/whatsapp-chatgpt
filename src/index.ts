@@ -33,10 +33,9 @@ const start = async () => {
   return client.initialize();
 };
 
-start()
-  .then(() => {
-    console.log("[Whatsapp ChatGPT] Running");
-  })
-  .catch((error: any) => {
-    console.error("An error happened:", error);
-  });
+try {
+  await start();
+  console.log("[Whatsapp ChatGPT] Running");
+} catch (error: any) {
+  console.error("An error happened:", error);
+}
