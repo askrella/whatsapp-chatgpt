@@ -1,8 +1,11 @@
-# ChatGPT + Whatsapp = AI Assistant 🚀
+# ChatGPT + DALL-E + Whatsapp = AI Assistant 🚀
 
 Whatsapp bot that uses OpenAI's GPT & DALLE to respond to user inputs.
 
+[![Join Discord](https://user-images.githubusercontent.com/6507938/219944620-8a1f86f3-2aa8-4f73-8958-28337e1d53bd.png)](https://discord.gg/9VJaRXKwd3)
+
 ### GPT Example
+
 ![Example](https://i.imgur.com/Za4s6aR.png)
 
 ### Dalle Example
@@ -31,6 +34,10 @@ PREFIX_ENABLED=false
 4. Run the bot using `npm run start`
 5. Scan the QR Code with Whatsapp (Link a device)
 6. Now you're ready to go, people can send you messages and the bot will respond to them.
+
+## Docker
+
+``` docker build . -t [image-name] ```
 
 ## Usage
 
@@ -70,6 +77,7 @@ The operations performed by this bot are not free. You will be charged by OpenAI
 
 ## Contributors
 - [andrewssobral](https://github.com/andrewssobral) - DALLE integration
+- [RG7279805](https://github.com/RG7279805) - Docker support
 
 ## Used libraries
 - https://github.com/pedroslopez/whatsapp-web.js
