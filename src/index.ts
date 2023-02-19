@@ -1,67 +1,37 @@
-const process = require("process");
-const qrcode = require("qrcode-terminal");
-const { Client } = require("whatsapp-web.js");
+import { Client, LocalAuth } from "whatsapp-web.js";
+import dotenv from "dotenv";
 
-// ChatGPT & DALLE
-import { handleMessageGPT } from "./gpt";
-import { handleMessageDALLE } from "./dalle";
+import {
+  onMessage,
+  onReady,
+  onQRCode,
+  onAuthenticated,
+  onMessageCreate,
+} from "./listeners";
 
-// Environment variables
-require("dotenv").config();
+dotenv.config();
 
-// Prefixes
-const prefixEnabled = process.env.PREFIX_ENABLED == "true";
-const gptPrefix = "!gpt";
-const dallePrefix = "!dalle";
-
-// Whatsapp Client
 const client = new Client({
   puppeteer: {
     args: ["--no-sandbox"],
   },
+  authStrategy: new LocalAuth(),
 });
 
-// Entrypoint
 const start = async () => {
-  // Whatsapp auth
-  client.on("qr", (qr: string) => {
-    console.log("[Whatsapp ChatGPT] Scan this QR code in whatsapp to log in:");
-    qrcode.generate(qr, { small: true });
-  });
+  client.on("qr", onQRCode);
+  client.on("authenticated", onAuthenticated);
+  client.on("ready", onReady);
 
-  // Whatsapp ready
-  client.on("ready", () => {
-    console.log("[Whatsapp ChatGPT] Client is ready!");
-  });
+  client.on("message", onMessage);
+  client.on("message_create", onMessageCreate);
 
-  // Whatsapp message
-  client.on("message", async (message: any) => {
-    const messageString = message.body;
-    if (messageString.length == 0) return;
-    if (message.from == "status@broadcast") return;
-
-    if (prefixEnabled) {
-      // GPT (!gpt <prompt>)
-      if (messageString.startsWith(gptPrefix)) {
-        const prompt = messageString.substring(gptPrefix.length + 1);
-        await handleMessageGPT(message, prompt);
-        return;
-      }
-
-      // DALLE (!dalle <prompt>)
-      if (messageString.startsWith(dallePrefix)) {
-        const prompt = messageString.substring(dallePrefix.length + 1);
-        await handleMessageDALLE(message, prompt);
-        return;
-      }
-    } else {
-      // GPT (only <prompt>)
-      await handleMessageGPT(message, messageString);
-    }
-  });
-
-  // Whatsapp initialization
-  client.initialize();
+  return client.initialize();
 };
 
-start();
+try {
+  await start();
+  console.log("[Whatsapp ChatGPT] Running");
+} catch (error: any) {
+  console.error("An error happened:", error);
+}
