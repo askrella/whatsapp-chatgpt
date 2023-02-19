@@ -13,11 +13,9 @@ import { handleMessageDALLE } from "./dalle";
 const statusBroadcast = "status@broadcast";
 
 // Prefixes
-
 const prefixEnabled = process.env.PREFIX_ENABLED == "true";
 const gptPrefix = "!gpt";
 const dallePrefix = "!dalle";
-
 
 // Whatsapp Client
 const client = new Client({

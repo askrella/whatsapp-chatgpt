@@ -5,6 +5,3 @@ services:
     environment:
       OPENAI_API_KEY: ""
       PREFIX_ENABLED: ""
-      GPT_PREFIX: ""
-      DALLE_PREFIX: ""
-      REPLY_SELF_ENABLED: ""
