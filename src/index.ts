@@ -28,7 +28,7 @@ const start = async () => {
     // Whatsapp auth
     client.on("qr", (qr: string) => {
         console.log("[Whatsapp ChatGPT] Scan this QR code in whatsapp to log in:")
-        qrcode.generate(qr, { small: true });
+        qrcode.generate(qr, { small: true }, null);
     })
 
     // Whatsapp ready
