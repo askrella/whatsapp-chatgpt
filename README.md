@@ -18,8 +18,8 @@ Whatsapp bot that uses OpenAI's GPT & DALLE to respond to user inputs.
 
 ```
 OPENAI_API_KEY=put_your_key_here
-
 PREFIX_ENABLED=false
+REPLY_SELF=false
 ```
 
 ## Installation
