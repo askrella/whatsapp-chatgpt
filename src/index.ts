@@ -1,5 +1,5 @@
-import { Client, LocalAuth } from "whatsapp-web.js";
 import dotenv from "dotenv";
+import { Client, LocalAuth } from "whatsapp-web.js";
 
 import {
   onMessage,
