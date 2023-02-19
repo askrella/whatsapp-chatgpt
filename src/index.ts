@@ -1,5 +1,5 @@
 import qrcode from "qrcode-terminal";
-import { Client, Message, Events, LocalAuth } from "whatsapp-web.js";
+import { Client, Message, Events } from "whatsapp-web.js";
 
 import { intro, spinner, note, outro } from "@clack/prompts";
 import color from 'picocolors'
@@ -25,7 +25,6 @@ const client = new Client({
 	puppeteer: {
 		args: ["--no-sandbox"]
 	}
-	// authStrategy: new LocalAuth()
 });
 
 // Handles message
