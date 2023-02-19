@@ -1,6 +1,5 @@
-const { MessageMedia } = require("whatsapp-web.js");
+import { MessageMedia } from "whatsapp-web.js";
 import { openai } from "./openai";
-
 
 const handleMessageDALLE = async (message: any, prompt: any) => {
     try {

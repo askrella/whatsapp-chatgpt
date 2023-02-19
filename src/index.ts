@@ -1,5 +1,5 @@
-const qrcode = require("qrcode-terminal");
-const { Client } = require("whatsapp-web.js");
+import qrcode from 'qrcode-terminal'
+import { Client } from "whatsapp-web.js";
 
 // Environment variables
 import dotenv from 'dotenv';
