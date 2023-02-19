@@ -38,9 +38,12 @@ const start = async () => {
 
     // Whatsapp message
     client.on("message", async (message) => {
-        const messageString = message.body
+        if (message.from.match(/status\@broadcast/ig)) return
+
+        const messageString = message.body;
         if (messageString.length == 0) return
-        if (message.from == "status@broadcast") return
+
+        console.log("[Whatsapp ChatGPT] Received message from " + message.from + ": " + messageString)
 
         if (prefixEnabled) {
             // GPT (!gpt <prompt>)
