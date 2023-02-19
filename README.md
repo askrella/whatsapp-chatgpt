@@ -2,7 +2,10 @@
 
 Whatsapp bot that uses OpenAI's GPT & DALLE to respond to user inputs.
 
+[![Join Discord](https://user-images.githubusercontent.com/6507938/219944620-8a1f86f3-2aa8-4f73-8958-28337e1d53bd.png)](https://discord.gg/pJTFuVkD)
+
 ### GPT Example
+
 ![Example](https://i.imgur.com/Za4s6aR.png)
 
 ### Dalle Example
