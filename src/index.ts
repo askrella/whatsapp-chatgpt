@@ -37,7 +37,7 @@ const start = async () => {
     })
 
     // Whatsapp message
-    client.on("message", async (message: any) => {
+    client.on("message", async (message) => {
         const messageString = message.body
         if (messageString.length == 0) return
         if (message.from == "status@broadcast") return
