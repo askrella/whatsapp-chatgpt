@@ -24,6 +24,10 @@ const client = new Client({
 	}
 });
 
+function startsWithIgnoreCase(str, prefix) {
+	return str.toLowerCase().startsWith(prefix.toLowerCase());
+}
+
 // Handles message
 async function sendMessage(message: Message) {
 	const messageString = message.body;
@@ -37,14 +41,14 @@ async function sendMessage(message: Message) {
 	}
 
 	// GPT (!gpt <prompt>)
-	if (messageString.startsWith(gptPrefix)) {
+	if (startsWithIgnoreCase(messageString, gptPrefix)) {
 		const prompt = messageString.substring(gptPrefix.length + 1);
 		await handleMessageGPT(message, prompt);
 		return;
 	}
 
 	// DALLE (!dalle <prompt>)
-	if (messageString.startsWith(dallePrefix)) {
+	if (startsWithIgnoreCase(messageString, dallePrefix)) {
 		const prompt = messageString.substring(dallePrefix.length + 1);
 		await handleMessageDALLE(message, prompt);
 		return;
