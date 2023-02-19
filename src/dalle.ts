@@ -1,16 +1,5 @@
-
-import process from 'process'
-import { Configuration, OpenAIApi } from "openai";
 import { MessageMedia } from "whatsapp-web.js";
-
-// Environment variables
-require("dotenv").config()
-
-// OpenAI Client
-const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
-});
-const openai = new OpenAIApi(configuration);
+import { openai } from "./openai";
 
 const handleMessageDALLE = async (message: any, prompt: any) => {
     try {

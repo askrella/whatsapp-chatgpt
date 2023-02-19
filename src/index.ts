@@ -1,4 +1,3 @@
-import process from 'process'
 import qrcode from 'qrcode-terminal'
 import { Client } from "whatsapp-web.js";
 
@@ -7,7 +6,10 @@ import { handleMessageGPT } from './gpt'
 import { handleMessageDALLE } from './dalle'
 
 // Environment variables
-require("dotenv").config()
+import dotenv from 'dotenv';
+
+// Load environment variables
+dotenv.config();
 
 // Prefixes
 const prefixEnabled = process.env.PREFIX_ENABLED == "true"
