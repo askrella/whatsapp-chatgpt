@@ -1,5 +1,7 @@
 import { MessageMedia } from "whatsapp-web.js";
 import { openai } from "./openai";
+import { config } from "./config";
+import { CreateImageRequestSizeEnum } from "openai";
 
 const handleMessageDALLE = async (message: any, prompt: any) => {
     try {
@@ -11,7 +13,7 @@ const handleMessageDALLE = async (message: any, prompt: any) => {
         const response = await openai.createImage({
             prompt: prompt,
             n: 1,
-            size: "512x512",
+            size: config.dalle.size as CreateImageRequestSizeEnum,
             response_format: "b64_json"
         });
 
