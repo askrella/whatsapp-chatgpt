@@ -1,13 +1,13 @@
 const qrcode = require("qrcode-terminal");
 const { Client } = require("whatsapp-web.js");
 
-// ChatGPT & DALLE
-import { handleMessageGPT } from './gpt'
-import { handleMessageDALLE } from './dalle'
-
 // Environment variables
 import dotenv from 'dotenv';
 dotenv.config();
+
+// ChatGPT & DALLE
+import { handleMessageGPT } from './gpt'
+import { handleMessageDALLE } from './dalle'
 
 // Prefixes
 const prefixEnabled = process.env.PREFIX_ENABLED == "true"
@@ -69,7 +69,7 @@ const start = async () => {
     })
     
     // reply to own message
-    client.on("message_create", async(message) => {
+    client.on("message_create", async (message: any) => {
         if (message.fromMe && shouldReplySelf) {
             await sendMessage(message);
         }
