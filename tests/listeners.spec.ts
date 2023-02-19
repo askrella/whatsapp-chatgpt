@@ -1,10 +1,10 @@
 import { describe, it, expect, vi } from "vitest";
 import { Message } from "whatsapp-web.js";
 
-import * as gpt from "./gpt";
-import * as dalle from "./dalle";
+import * as gpt from "../src/gpt";
+import * as dalle from "../src/dalle";
 
-import { onMessage } from "./listeners";
+import { onMessage } from "../src/events-callbacks";
 
 // Mocked message object
 const mockMessage = {
