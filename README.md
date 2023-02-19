@@ -39,7 +39,8 @@ PREFIX_ENABLED=false
 
 ### Using Docker-Compose
 
-Make sure to install the  `docker-compose` using your package manager on linux. It's installed by default on Windows and on Mac
+Make sure to install the  `docker-compose` using your package manager on linux. It's installed by default on Windows and on Mac.
+Make sure to edit the `docker-compose.yml` file and set your own variables there
 ```sh
     # screen
     # Optional : Using screen so that you can run the process in background , you may come out of screen using CTRL + A + D and join it back by typing screen -x
@@ -49,7 +50,7 @@ Make sure to install the  `docker-compose` using your package manager on linux. 
 
 ```sh
     docker build . -t [image-name] 
-    docker run [image-name]
+    docker run -e OPENAI_API_KEY=<your key> [image-name]
 ```
 ## Usage
 
