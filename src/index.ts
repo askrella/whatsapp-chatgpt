@@ -1,5 +1,8 @@
 import qrcode from "qrcode-terminal";
-import { Client, Message } from "whatsapp-web.js";
+import { Client, Message, Events, LocalAuth } from "whatsapp-web.js";
+
+import { intro, spinner, note, outro } from "@clack/prompts";
+import color from 'picocolors'
 
 // Environment variables
 import dotenv from "dotenv";
@@ -22,6 +25,7 @@ const client = new Client({
 	puppeteer: {
 		args: ["--no-sandbox"]
 	}
+	// authStrategy: new LocalAuth()
 });
 
 // Handles message
@@ -53,19 +57,38 @@ async function sendMessage(message: Message) {
 
 // Entrypoint
 const start = async () => {
+	intro(color.bgCyan(color.white(" Whatsapp ChatGPT & DALLE ")));
+	note('A Whatsapp bot that uses OpenAI\'s ChatGPT and DALLE to generate text and images from a prompt.')
+
+	let s = spinner();
+	s.start("Starting");
+
 	// Whatsapp auth
-	client.on("qr", (qr: string) => {
-		console.log("[Whatsapp ChatGPT] Scan this QR code in whatsapp to log in:");
-		qrcode.generate(qr, { small: true });
+	client.on(Events.QR_RECEIVED, (qr: string) => {
+		qrcode.generate(qr, { small: true }, (qrcode: string) => {
+			s.stop('Client is ready!');
+
+			note(qrcode, "Scan the QR code above to login to Whatsapp Web.");
+			s.start('Waiting for QR code to be scanned');
+		});
+	});
+
+	// Whatsapp loading
+	client.on(Events.LOADING_SCREEN, (percent) => {
+		if (percent == '0') {
+			s.stop('Authenticated!');
+			s.start('Logging in');
+		}
 	});
 
 	// Whatsapp ready
-	client.on("ready", () => {
-		console.log("[Whatsapp ChatGPT] Client is ready!");
+	client.on(Events.READY, () => {
+		s.stop('Loaded!');
+		outro("Whatsapp ChatGPT & DALLE is ready to use.");
 	});
 
 	// Whatsapp message
-	client.on("message", async (message: any) => {
+	client.on(Events.MESSAGE_RECEIVED, async (message: any) => {
 		// Ignore if message is from status broadcast
 		if (message.from == statusBroadcast) return;
 
@@ -80,7 +103,7 @@ const start = async () => {
 	});
 
 	// Reply to own message
-	client.on("message_create", async (message: Message) => {
+	client.on(Events.MESSAGE_CREATE, async (message: Message) => {
 		// Ignore if message is from status broadcast
 		if (message.from == statusBroadcast) return;
 
