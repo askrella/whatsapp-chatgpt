@@ -1,5 +1,5 @@
-const qrcode = require("qrcode-terminal");
-const { Client } = require("whatsapp-web.js");
+import qrcode from 'qrcode-terminal'
+import { Client, Message } from "whatsapp-web.js";
 
 // Environment variables
 import dotenv from 'dotenv';
@@ -25,7 +25,7 @@ const client = new Client({
 });
 
 // sends message
-async function sendMessage(message:any) {
+async function sendMessage(message: Message) {
     const messageString = message.body
 
     if (messageString.length == 0) return;
@@ -65,13 +65,13 @@ const start = async () => {
     })
 
     // Whatsapp message
-    client.on("message", async (message: any) => {
+    client.on("message", async (message: Message) => {
         if (message.from == "status@broadcast") return
         await sendMessage(message);
     })
     
-/*     // reply to own message
-    client.on("message_create", async(message) => {
+    // reply to own message
+    client.on("message_create", async (message: Message) => {
         if (message.fromMe && shouldReplySelf) {
             await sendMessage(message);
         }
