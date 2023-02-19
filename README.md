@@ -3,6 +3,9 @@
 ![Prettier](https://github.com/askrella/whatsapp-chatgpt/actions/workflows/prettier.yml/badge.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+
+[![Discord Invite](https://dcbadge.vercel.app/api/server/9VJaRXKwd3)](https://discord.gg/9VJaRXKwd3)
+
 This WhatsApp bot uses OpenAI's GPT and DALL-E to respond to user inputs.
 
 <img width="904" alt="Example prompts" src="https://user-images.githubusercontent.com/6507938/219959783-96cac29a-d786-4586-a1fc-4dca827c4344.png">
