@@ -2,8 +2,8 @@ import type ConfigType from "../types/config";
 import { Message } from "whatsapp-web.js";
 
 // ChatGPT & DALLE
-import { handleMessageGPT } from "./gpt";
-import { handleMessageDALLE } from "./dalle";
+import { handleMessageGPT } from "../models/gpt";
+import { handleMessageDALLE } from "../models/dalle";
 
 // sends message
 export const sendMessage = async (

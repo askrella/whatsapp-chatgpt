@@ -1,28 +1,10 @@
 import qrcode from "qrcode-terminal";
-import { Client, Message } from "whatsapp-web.js";
+import {  Message } from "whatsapp-web.js";
 import { sendMessage } from "./lib/message";
-import type ConfigType from "./types/config";
+import { config } from "./config";
+import { CONSTANT } from "./helper/CONSTANT";
+import { whatsappClient as client } from "./lib/whatsapp-client";
 
-// Environment variables
-import dotenv from "dotenv";
-dotenv.config();
-
-// Whatsapp status (status@broadcast)
-const statusBroadcast = "status@broadcast";
-
-// config
-const config:ConfigType = {
-	prefixEnabled: process.env.PREFIX_ENABLED == "true",
-	gptPrefix: "!gpt",
-	dallePrefix: "!dalle"
-}
-
-// Whatsapp Client
-const client = new Client({
-	puppeteer: {
-		args: ["--no-sandbox"]
-	}
-});
 
 // Entrypoint
 const start = async () => {
@@ -41,7 +23,7 @@ const start = async () => {
 	// Whatsapp message
 	client.on("message", async (message: any) => {
 		// Ignore if message is from status broadcast
-		if (message.from == statusBroadcast) return;
+		if (message.from == CONSTANT.StatusBroadcast) return;
 
 		// Ignore if message is empty or media
 		if (message.body.length == 0) return;
@@ -56,7 +38,7 @@ const start = async () => {
 	// Reply to own message
 	client.on("message_create", async (message: Message) => {
 		// Ignore if message is from status broadcast
-		if (message.from == statusBroadcast) return;
+		if (message.from == CONSTANT.StatusBroadcast) return;
 
 		// Ignore if message is empty or media
 		if (message.body.length == 0) return;
