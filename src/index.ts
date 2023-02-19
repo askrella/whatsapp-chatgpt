@@ -4,7 +4,7 @@ const qrcode = require("qrcode-terminal");
 const { Client } = require("whatsapp-web.js");
 
 // Listeners
-import { onMessage } from "./events-callbacks";
+import { onMessage } from "./event-callbacks";
 
 // Environment variables
 import dotenv from 'dotenv';

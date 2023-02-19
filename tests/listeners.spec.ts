@@ -4,7 +4,7 @@ import { Message } from "whatsapp-web.js";
 import * as gpt from "../src/gpt";
 import * as dalle from "../src/dalle";
 
-import { onMessage } from "../src/events-callbacks";
+import { onMessage } from "../src/event-callbacks";
 
 // Mocked message object
 const mockMessage = {
