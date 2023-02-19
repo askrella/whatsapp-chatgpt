@@ -1,5 +1,3 @@
-import {LocalAuth} from "whatsapp-web.js";
-
 const qrcode = require("qrcode-terminal");
 const { Client } = require("whatsapp-web.js");
 
@@ -9,8 +7,6 @@ import { handleMessageDALLE } from './dalle'
 
 // Environment variables
 import dotenv from 'dotenv';
-
-// Load environment variables
 dotenv.config();
 
 // Prefixes
@@ -32,11 +28,10 @@ async function sendMessage(message:any) {
 
     if (messageString.length == 0) return;
 
-    if (!prefixEnabled)
-    {
+    if (!prefixEnabled) {
         // GPT (only <prompt>)
         await handleMessageGPT(message, messageString);
-        return;
+        return
     }
 
     // GPT (!gpt <prompt>)
@@ -69,15 +64,15 @@ const start = async () => {
 
     // Whatsapp message
     client.on("message", async (message: any) => {
-        const messageString = message.body;
         if (message.from == "status@broadcast") return
-        await sendMessage (message);
+        await sendMessage(message);
     })
     
     // reply to own message
-    client.on ("message_create", async(message)=>{
-        if (message.fromMe && shouldReplySelf)
-            await sendMessage (message);
+    client.on("message_create", async(message) => {
+        if (message.fromMe && shouldReplySelf) {
+            await sendMessage(message);
+        }
     });
 
     // Whatsapp initialization
