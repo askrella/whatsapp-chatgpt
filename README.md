@@ -44,12 +44,6 @@ To use the bot, simply send a message with the `!gpt` or `!dalle` command follow
 - GPT: `!gpt What is the meaning of life?`
 - DALL-E: `!dalle A frog with a red hat is walking on a bridge.`
 
-The bot only responds to messages that are received by you, not sent by you, unless `REPLY_SELF_ENABLED` is set to `true` in the `.env` file.
-
-## Enabling replies to self
-
-To enable replies to self, set `REPLY_SELF_ENABLED` to `true` in the `.env` file.
-
 ## Disabling the Prefix
 
 You can disable the `!gpt`/`!dalle` prefix by setting `PREFIX_ENABLED` to `false` in the `.env` file. If you disable the prefix, the bot will not support DALL-E, and only GPT will be used.
