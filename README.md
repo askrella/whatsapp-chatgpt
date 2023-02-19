@@ -42,7 +42,22 @@ GPT:
 DALLE:
 - `!dalle A frog with a red hat is walking on a bridge.`
 
-The bot only responds to messages that are received by you, not sent by you.
+## Sending Messages to Yourself
+
+The WhatsApp ChatGPT bot now supports sending messages to yourself using the current authenticated account.
+This feature can be useful for various purposes, such as testing and research.
+
+To use this feature, simply send a message to your own phone number using the WhatsApp link `https://wa.me/phone`.
+This will take you to your own chat window.
+
+Once you have access to your own chat, you can use the `me<command>` syntax to issue commands to the bot.
+For example, to use the DALLE model, send a message with the command `medalle`. To use the GPT model, send a message with the command `megpt`.
+
+### Note
+
+- To use this feature, make sure that you have authenticated your WhatsApp account with the WhatsApp ChatGPT bot.
+- When sending messages to yourself, ensure that you are using the same account that is authenticated with the bot.
+  Otherwise, you will not receive any response.
 
 ## Disable prefix
 
