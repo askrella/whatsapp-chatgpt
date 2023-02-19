@@ -2,17 +2,15 @@ import qrcode from "qrcode-terminal";
 import { Client, Message, Events } from "whatsapp-web.js";
 import { startsWithIgnoreCase } from "./utils";
 
-// Config
+// Config & Constants
 import config from "./config";
+import constants from "./constants";
 
 // ChatGPT & DALLE
 import { handleMessageGPT } from "./handlers/gpt";
 import { handleMessageDALLE } from "./handlers/dalle";
 
 import * as cli from "./cli/ui";
-
-// Whatsapp status (status@broadcast)
-const statusBroadcast = "status@broadcast";
 
 // Whatsapp Client
 const client = new Client({
@@ -69,10 +67,14 @@ const start = async () => {
 		cli.printOutro();
 	});
 
+	client.on(Events.AUTHENTICATED, (session) => {
+		console.log(session)
+	});
+
 	// WhatsApp message
 	client.on(Events.MESSAGE_RECEIVED, async (message: any) => {
 		// Ignore if message is from status broadcast
-		if (message.from == statusBroadcast) return;
+		if (message.from == constants.statusBroadcast) return;
 
 		// Ignore if message is empty or media
 		if (message.body.length == 0) return;
@@ -87,7 +89,7 @@ const start = async () => {
 	// Reply to own message
 	client.on(Events.MESSAGE_CREATE, async (message: Message) => {
 		// Ignore if message is from status broadcast
-		if (message.from == statusBroadcast) return;
+		if (message.from == constants.statusBroadcast) return;
 
 		// Ignore if message is empty or media
 		if (message.body.length == 0) return;
