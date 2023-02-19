@@ -1,6 +1,6 @@
 import qrcode from "qrcode-terminal";
 import { Client, Message } from "whatsapp-web.js";
-import startsWithIgnoreCase from "./utils"
+import { startsWithIgnoreCase } from "./utils"
 
 // Environment variables
 import dotenv from "dotenv";
