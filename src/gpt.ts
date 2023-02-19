@@ -1,18 +1,11 @@
-const process = require("process")
-import { ChatGPTAPI, ChatMessage } from 'chatgpt'
-
-// Environment variables
-require("dotenv").config()
-
-// ChatGPT Client
-const api = new ChatGPTAPI({
-    apiKey: process.env.OPENAI_API_KEY
-})
+import { ChatMessage } from "chatgpt";
+import { Message } from "whatsapp-web.js";
+import { chatgpt } from "./openai";
 
 // Mapping from number to last conversation id
 const conversations = {}
 
-const handleMessageGPT = async (message: any, prompt: any) => {
+const handleMessageGPT = async (message: Message, prompt: string) => {
     try {
         // Get last conversation
         const lastConversation = conversations[message.from]
@@ -25,10 +18,10 @@ const handleMessageGPT = async (message: any, prompt: any) => {
         let response: ChatMessage;
         if (lastConversation) {
             // Handle message with previous conversation
-            response = await api.sendMessage(prompt, lastConversation)
+            response = await chatgpt.sendMessage(prompt, lastConversation)
         } else {
             // Handle message with new conversation
-            response = await api.sendMessage(prompt)
+            response = await chatgpt.sendMessage(prompt)
         }
 
         const end = Date.now() - start
