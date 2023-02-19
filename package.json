@@ -7,7 +7,6 @@
   "scripts": {
     "start": "npx vite-node src/index.ts"
   },
-  
   "license": "MIT",
   "dependencies": {
     "chatgpt": "^4.4.1",

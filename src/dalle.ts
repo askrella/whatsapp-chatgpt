@@ -17,7 +17,7 @@ const handleMessageDALLE = async (message: any, prompt: any) => {
 
         const end = Date.now() - start
 
-        const base64 = response.data.data[0].b64_json;
+        const base64 = response.data.data[0].b64_json as string;
         const image = await new MessageMedia("image/jpeg", base64, "image.jpg");
 
         console.log(`[Whatsapp DALLE] Answer to ${message.from} | OpenAI request took ${end}ms`)
