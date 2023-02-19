@@ -37,8 +37,20 @@ PREFIX_ENABLED=false
 
 ## Docker
 
-``` docker build . -t [image-name] ```
+### Using Docker-Compose
 
+Make sure to install the  `docker-compose` using your package manager on linux. It's installed by default on Windows and on Mac
+```sh
+    # screen
+    # Optional : Using screen so that you can run the process in background , you may come out of screen using CTRL + A + D and join it back by typing screen -x
+    sudo docker-compose up
+```
+### Docker build it yourself
+
+```sh
+    docker build . -t [image-name] 
+    docker run [image-name]
+```
 ## Usage
 
 To use the bot, simply send a message with the `!gpt`/`!dalle` command followed by your prompt. For example:

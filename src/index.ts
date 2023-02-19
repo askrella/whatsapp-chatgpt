@@ -15,8 +15,9 @@ dotenv.config();
 
 // Prefixes
 const prefixEnabled = process.env.PREFIX_ENABLED == "true"
-const gptPrefix = '!gpt'
-const dallePrefix = '!dalle'
+const gptPrefix = process.env.GPT_PREFIX || '!gpt';
+const dallePrefix = process.env.DALLE_PREFIX || '!dalle';
+
 
 // Whatsapp Client
 const client = new Client({

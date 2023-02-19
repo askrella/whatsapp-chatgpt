@@ -1,0 +1,9 @@
+version: '3'
+services:
+  whatsapp-chatgpt:
+    image: ghcr.io/askrella/whatsapp-chatgpt:latest
+    environment:
+      OPENAI_API_KEY: ""
+      PREFIX_ENABLED: ""
+      GPT_PREFIX: ""
+      DALLE_PREFIX: ""
