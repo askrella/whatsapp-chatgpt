@@ -5,7 +5,8 @@
   "main": "src/index.ts",
   "author": "Askrella Software Agency UG (haftungsbeschränkt)",
   "scripts": {
-    "start": "npx vite-node src/index.ts"
+    "start": "npx vite-node src/index.ts",
+    "format": "prettier --write ./src"
   },
   "license": "MIT",
   "dependencies": {
@@ -16,6 +17,8 @@
     "whatsapp-web.js": "^1.19.4"
   },
   "devDependencies": {
-    "@types/qrcode-terminal": "^0.12.0"
+    "@types/qrcode-terminal": "^0.12.0",
+    "prettier": "^2.8.4"
   }
 }
+
