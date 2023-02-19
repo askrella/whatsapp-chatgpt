@@ -3,20 +3,15 @@ import { Configuration, OpenAIApi } from "openai";
 
 import { MessageMedia } from "whatsapp-web.js";
 
-// Environment variables
-require("dotenv").config();
-
-// OpenAI Client
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
+
 const openai = new OpenAIApi(configuration);
 
-const handleMessageDALLE = async (message: any, prompt: any) => {
+export const handleMessageDALLE = async (message: any, prompt: any) => {
   try {
     const start = Date.now();
-
-    // Send the prompt to the API
     console.log(
       "[Whatsapp DALLE] Received prompt from " + message.from + ": " + prompt
     );
@@ -39,13 +34,11 @@ const handleMessageDALLE = async (message: any, prompt: any) => {
 
     message.reply(image);
   } catch (error: any) {
-    console.error("An error occured", error);
+    console.error("An error happened", error);
     message.reply(
-      "An error occured, please contact the administrator. (" +
+      "An error happened, please contact the administrator. (" +
         error.message +
         ")"
     );
   }
 };
-
-export { handleMessageDALLE };

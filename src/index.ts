@@ -1,5 +1,5 @@
-// Whatsapp client
 import { Client, LocalAuth } from "whatsapp-web.js";
+import dotenv from "dotenv";
 
 import {
   onMessage,
@@ -9,10 +9,8 @@ import {
   onMessageCreate,
 } from "./listeners";
 
-// Environment variables
-require("dotenv").config();
+dotenv.config();
 
-// Whatsapp Client
 const client = new Client({
   puppeteer: {
     args: ["--no-sandbox"],
@@ -20,7 +18,6 @@ const client = new Client({
   authStrategy: new LocalAuth(),
 });
 
-// Entrypoint
 const start = async () => {
   client.on("qr", onQRCode);
   client.on("authenticated", onAuthenticated);
@@ -29,7 +26,6 @@ const start = async () => {
   client.on("message", onMessage);
   client.on("message_create", onMessageCreate);
 
-  // Whatsapp initialization
   return client.initialize();
 };
 
