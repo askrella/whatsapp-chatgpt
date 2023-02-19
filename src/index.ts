@@ -9,9 +9,11 @@ dotenv.config();
 import { handleMessageGPT } from './gpt'
 import { handleMessageDALLE } from './dalle'
 
+// Whatsapp status (status@broadcast)
+const statusBroadcast = "status@broadcast"
+
 // Prefixes
 const prefixEnabled = process.env.PREFIX_ENABLED == "true"
-const shouldReplySelf = process.env.REPLY_SELF_ENABLED == "true"
 const gptPrefix = '!gpt'
 const dallePrefix = '!dalle'
 
@@ -22,7 +24,7 @@ const client = new Client({
     }
 });
 
-// sends message
+// Handles message
 async function sendMessage(message: Message) {
     const messageString = message.body
 
@@ -40,7 +42,7 @@ async function sendMessage(message: Message) {
         await handleMessageGPT(message, prompt)
         return
     }
-    
+
     // DALLE (!dalle <prompt>)
     if (messageString.startsWith(dallePrefix)) {
         const prompt = messageString.substring(dallePrefix.length + 1);
@@ -63,16 +65,36 @@ const start = async () => {
     })
 
     // Whatsapp message
-    client.on("message", async (message: Message) => {
-        if (message.from == "status@broadcast") return
+    client.on("message", async (message: any) => {
+        // Ignore if message is from status broadcast
+        if (message.from == statusBroadcast) return;
+
+        // Ignore if message is empty or media
+        if (message.body.length == 0) return;
+        if (message.hasMedia) return;
+
+        // Ignore if it's a quoted message, (e.g. GPT reply)
+        if (message.hasQuotedMsg) return;
+
         await sendMessage(message);
     })
-    
-    // reply to own message
+
+    // Reply to own message
     client.on("message_create", async (message: Message) => {
-        if (message.fromMe && shouldReplySelf) {
-            await sendMessage(message);
-        }
+        // Ignore if message is from status broadcast
+        if (message.from == statusBroadcast) return;
+
+        // Ignore if message is empty or media
+        if (message.body.length == 0) return;
+        if (message.hasMedia) return;
+
+        // Ignore if it's a quoted message, (e.g. GPT reply)
+        if (message.hasQuotedMsg) return;
+
+        // Ignore if it's not from me
+        if (!message.fromMe) return;
+
+        await sendMessage(message)
     });
 
     // Whatsapp initialization
