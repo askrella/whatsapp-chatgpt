@@ -1,9 +1,13 @@
 # GPT + DALL-E + Whatsapp = AI Assistant 🚀
+
 ![Docker](https://github.com/askrella/whatsapp-chatgpt/actions/workflows/docker.yml/badge.svg)
 ![Prettier](https://github.com/askrella/whatsapp-chatgpt/actions/workflows/prettier.yml/badge.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-This WhatsApp bot uses OpenAI's GPT and DALL-E to respond to user inputs.
+
+[![Discord Invite](https://dcbadge.vercel.app/api/server/9VJaRXKwd3)](https://discord.gg/9VJaRXKwd3)
+
+This WhatsApp bot uses OpenAI's GPT and DALL-E 2 to respond to user inputs.
 
 <img width="904" alt="Example prompts" src="https://user-images.githubusercontent.com/6507938/219959783-96cac29a-d786-4586-a1fc-4dca827c4344.png">
 
@@ -18,8 +22,8 @@ This WhatsApp bot uses OpenAI's GPT and DALL-E to respond to user inputs.
 1. Clone this repository
 2. Install the required packages by running `npm install`
 3. Put your OpenAI API key into the `.env` file
-   - Example file: [.env-example](https://github.com/askrella/whatsapp-chatgpt/blob/master/.env-example)
-   - You can obtain an API key [here](https://platform.openai.com/account/api-keys)
+    - Example file: [.env-example](https://github.com/askrella/whatsapp-chatgpt/blob/master/.env-example)
+    - You can obtain an API key [here](https://platform.openai.com/account/api-keys)
 4. Run the bot using `npm run start`
 5. Scan the QR code with WhatsApp (link a device)
 6. Now you're ready to go! People can send you messages, and the bot will respond to them
@@ -27,6 +31,7 @@ This WhatsApp bot uses OpenAI's GPT and DALL-E to respond to user inputs.
 ## Docker
 
 Make sure to edit the `docker-compose.yml` file and set your own variables there.
+
 ```sh
 sudo docker-compose up
 ```
@@ -47,6 +52,15 @@ DALLE:
 
 You can disable the `!gpt`/`!dalle` prefix by setting `PREFIX_ENABLED` to `false` in the `.env` file.<br/>
 If you disable the prefix, the bot will not support DALL-E, and only GPT will be used.
+
+## Sending messages to yourself
+
+This bot also supports sending messages to yourself.
+
+To use this feature, simply send a message to your own phone number using the WhatsApp link `https://wa.me/<your_phone_number>`.
+This will take you to your own chat window.
+
+After gaining access to your own chat, you can send a message to yourself and the bot will respond.
 
 ## Disclaimer
 

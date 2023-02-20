@@ -1,17 +1,15 @@
 import { ChatGPTAPI } from "chatgpt";
 import { Configuration, OpenAIApi } from "openai";
+import config from "../config";
 
-// Open AI API Key
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY || "";
-
-// ChatGPT Client
+// ChatGPT Client (text-davinci-003)
 export const chatgpt = new ChatGPTAPI({
-	apiKey: OPENAI_API_KEY
+	apiKey: config.openAIAPIKey
 });
 
-// OpenAI Client
+// OpenAI Client (DALL-E)
 export const openai = new OpenAIApi(
 	new Configuration({
-		apiKey: OPENAI_API_KEY
+		apiKey: config.openAIAPIKey
 	})
 );

@@ -10,14 +10,19 @@
 	},
 	"license": "MIT",
 	"dependencies": {
-		"chatgpt": "^4.4.1",
+		"@clack/prompts": "^0.4.3",
+		"chatgpt": "^4.7.0",
 		"dotenv": "^16.0.3",
 		"openai": "^3.1.0",
+		"picocolors": "^1.0.0",
 		"qrcode-terminal": "^0.12.0",
 		"whatsapp-web.js": "^1.19.4"
 	},
 	"devDependencies": {
-		"prettier": "^2.8.4",
-		"@types/qrcode-terminal": "^0.12.0"
+		"@types/qrcode-terminal": "^0.12.0",
+		"prettier": "^2.8.4"
+	},
+	"engines": {
+		"node": ">=18.0.0"
 	}
 }

@@ -1,6 +1,7 @@
 import { ChatMessage } from "chatgpt";
 import { Message } from "whatsapp-web.js";
-import { chatgpt } from "./openai";
+import { chatgpt } from "../providers/openai";
+import * as cli from "../cli/ui";
 
 // Mapping from number to last conversation id
 const conversations = {};
@@ -10,7 +11,7 @@ const handleMessageGPT = async (message: Message, prompt: string) => {
 		// Get last conversation
 		const lastConversation = conversations[message.from];
 
-		console.log("[Whatsapp ChatGPT] Received prompt from " + message.from + ": " + prompt);
+		cli.print(`[GPT] Received prompt from ${message.from}: ${prompt}`);
 
 		const start = Date.now();
 
@@ -26,7 +27,7 @@ const handleMessageGPT = async (message: Message, prompt: string) => {
 
 		const end = Date.now() - start;
 
-		console.log(`[Whatsapp ChatGPT] Answer to ${message.from}: ${response.text}  | OpenAI request took ${end}ms)`);
+		cli.print(`[GPT] Answer to ${message.from}: ${response.text}  | OpenAI request took ${end}ms)`);
 
 		// Set the conversation
 		conversations[message.from] = {

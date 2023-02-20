@@ -5,7 +5,6 @@ WORKDIR /app/
 ENV OPENAI_API_KEY ""
 ENV PREFIX_ENABLED ""
 
-
 COPY . .
 
 RUN npm install
