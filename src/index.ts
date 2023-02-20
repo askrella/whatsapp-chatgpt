@@ -65,7 +65,7 @@ const start = async () => {
     })
 
     // Whatsapp message
-    client.on("message", async (message: any) => {
+    client.on("message", async (message: Message) => {
         // Ignore if message is from status broadcast
         if (message.from == statusBroadcast) return;
 
