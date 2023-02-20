@@ -1,22 +1,22 @@
 import { dalleConfigType, dalleImageSize } from "./dalle-config";
 
 export enum aiConfigTarget {
-    dalle = "dalle",
-    // chatgpt = "chatgpt"
+	dalle = "dalle"
+	// chatgpt = "chatgpt"
 }
 
 export const aiConfigTypes = {
-    dalle: dalleConfigType
-}
+	dalle: dalleConfigType
+};
 
 export const aiConfigValues = {
-    dalle: {
-        size: dalleImageSize
-    }
-}
+	dalle: {
+		size: dalleImageSize
+	}
+};
 
 export interface IAiConfig {
-    dalle: {
-        size: dalleImageSize
-    }
+	dalle: {
+		size: dalleImageSize;
+	};
 }

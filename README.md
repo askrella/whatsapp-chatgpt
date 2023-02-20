@@ -4,7 +4,6 @@
 ![Prettier](https://github.com/askrella/whatsapp-chatgpt/actions/workflows/prettier.yml/badge.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-
 [![Discord Invite](https://dcbadge.vercel.app/api/server/9VJaRXKwd3)](https://discord.gg/9VJaRXKwd3)
 
 This WhatsApp bot uses OpenAI's GPT and DALL-E 2 to respond to user inputs.
@@ -78,4 +77,5 @@ The operations performed by this bot are not free. You will be charged by OpenAI
 -   https://github.com/transitive-bullshit/chatgpt-api
 
 ## Star History
+
 [![Star History Chart](https://api.star-history.com/svg?repos=askrella/whatsapp-chatgpt&type=Date)](https://star-history.com/#askrella/whatsapp-chatgpt&Date)

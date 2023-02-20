@@ -44,12 +44,12 @@ async function handleIncomingMessage(message: Message) {
 		return;
 	}
 
-    // AiConfig (!config <prompt>)
-    if (startsWithIgnoreCase(messageString, config.aiConfigPrefix)) {
-        const prompt = messageString.substring(config.aiConfigPrefix.length + 1);
-        await handleMessageAIConfig(message, prompt)
-        return
-    }
+	// AiConfig (!config <prompt>)
+	if (startsWithIgnoreCase(messageString, config.aiConfigPrefix)) {
+		const prompt = messageString.substring(config.aiConfigPrefix.length + 1);
+		await handleMessageAIConfig(message, prompt);
+		return;
+	}
 }
 
 // Entrypoint

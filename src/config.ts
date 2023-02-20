@@ -19,7 +19,7 @@ const config: IConfig = {
 	prefixEnabled: process.env.PREFIX_ENABLED == "true" || true, // Default: true
 	gptPrefix: "!gpt",
 	dallePrefix: "!dalle",
-	aiConfigPrefix: "!config",
+	aiConfigPrefix: "!config"
 };
 
 export default config;
