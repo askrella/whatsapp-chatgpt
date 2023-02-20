@@ -10,6 +10,7 @@ interface IConfig {
 	prefixEnabled: boolean;
 	gptPrefix: string;
 	dallePrefix: string;
+	aiConfigPrefix: string;
 }
 
 // Config
@@ -17,7 +18,8 @@ const config: IConfig = {
 	openAIAPIKey: process.env.OPENAI_API_KEY || "", // Default: ""
 	prefixEnabled: process.env.PREFIX_ENABLED == "true" || true, // Default: true
 	gptPrefix: "!gpt",
-	dallePrefix: "!dalle"
+	dallePrefix: "!dalle",
+	aiConfigPrefix: "!config",
 };
 
 export default config;
