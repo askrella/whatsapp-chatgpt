@@ -14,3 +14,9 @@ export const aiConfigValues = {
         size: dalleImageSize
     }
 }
+
+export interface IAiConfig {
+    dalle: {
+        size: dalleImageSize
+    }
+}

@@ -9,7 +9,7 @@ import constants from "./constants";
 // ChatGPT & DALLE
 import { handleMessageGPT } from "./handlers/gpt";
 import { handleMessageDALLE } from "./handlers/dalle";
-import { handleMessageAICONFIG } from "./ai-config";
+import { handleMessageAIConfig } from "./handlers/ai-config";
 
 import * as cli from "./cli/ui";
 
@@ -44,10 +44,10 @@ async function handleIncomingMessage(message: Message) {
 		return;
 	}
 
-    // AiConfig (!aiconfig <prompt>)
-    if (messageString.startsWith(aiConfigPrefix)) {
-        const prompt = messageString.substring(configPrefix.length + 1);
-        await handleMessageAICONFIG(message, prompt)
+    // AiConfig (!config <prompt>)
+    if (startsWithIgnoreCase(messageString, config.aiConfigPrefix)) {
+        const prompt = messageString.substring(config.aiConfigPrefix.length + 1);
+        await handleMessageAIConfig(message, prompt)
         return
     }
 }
