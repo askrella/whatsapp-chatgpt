@@ -5,10 +5,24 @@ import { chatgpt } from "./openai";
 // Mapping from number to last conversation id
 const conversations = {};
 
+// Cache to store frequently asked questions and their responses
+const responseCache = new Map();
+
+
 const handleMessageGPT = async (message: Message, prompt: string) => {
 	try {
 		// Get last conversation
 		const lastConversation = conversations[message.from];
+
+          // Check the cache for the response
+        const cachedResponse = responseCache.get(prompt);
+
+        if (cachedResponse) {
+            console.log("[Whatsapp ChatGPT] Using cached response for " + prompt);
+            // Send the cached response to the chat
+            message.reply(cachedResponse);
+            return;
+        }
 
 		console.log("[Whatsapp ChatGPT] Received prompt from " + message.from + ": " + prompt);
 
@@ -33,6 +47,9 @@ const handleMessageGPT = async (message: Message, prompt: string) => {
 			conversationId: response.conversationId,
 			parentMessageId: response.id
 		};
+
+        // Add the response to the cache
+        responseCache.set(prompt, response.text);
 
 		// Send the response to the chat
 		message.reply(response.text);
