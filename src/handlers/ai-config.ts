@@ -4,12 +4,12 @@ import {dalleImageSize} from "../types/dalle-config";
 
 const aiConfig: IAiConfig = {
     dalle: {
-        size: "512x512" as dalleImageSize,
+        size: dalleImageSize["512x512"]
     },
     // chatgpt: {}
 };
 
-const handleMessageAIConfig = async (message: any, prompt: any) => {
+const handleMessageAIConfig = async (message: Message, prompt: any) => {
     try {
         console.log("[Whatsapp Config] Received prompt from " + message.from + ": " + prompt);
 
