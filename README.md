@@ -79,8 +79,13 @@ After gaining access to your own chat, you can send a message to yourself and th
 ## Voice transcription & TTS
 
 The features voice transcription and TTS are using our Speech API.
+
 Be aware that your messages are sent to our servers and are processed there.
+
 We don't store any data or use it for any other purpose than to provide the service.
+
+Our Speech API is also open source:
+- https://github.com/askrella/speech-rest-api
 
 ### Voice transcription
 This bot can also understand voice messages.
