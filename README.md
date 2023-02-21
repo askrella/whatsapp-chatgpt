@@ -12,70 +12,16 @@ This WhatsApp bot uses OpenAI's GPT and DALL-E 2 to respond to user inputs.
 
 ## Requirements
 
--   Node.js (18 or newer)
--   A recent version of npm
--   An [OpenAI API key](https://beta.openai.com/signup)
--   A WhatsApp account
+- Node.js (18 or newer)
+- A recent version of npm
+- An [OpenAI API key](https://beta.openai.com/signup)
+- A WhatsApp account
 
-## Installation
+## Documentation
 
-1. Clone this repository
-2. Install the required packages by running `npm install`
-3. Put your OpenAI API key into the `.env` file
-    - Example file: [.env-example](https://github.com/askrella/whatsapp-chatgpt/blob/master/.env-example)
-    - You can obtain an API key [here](https://platform.openai.com/account/api-keys)
-4. Run the bot using `npm run start`
-5. Scan the QR code with WhatsApp (link a device)
-6. Now you're ready to go! People can send you messages, and the bot will respond to them
+In the documentation you can find more information about how to install, configure and use this bot.
 
-## Docker
-
-Make sure to edit the `docker-compose.yml` file and set your own variables there.
-
-```sh
-sudo docker-compose up
-```
-
-## Usage
-
-To use the bot, simply send a message with the `!gpt`/`!dalle`/`!config` command followed by your prompt. For example:
-
-### GPT
-
-```
-!gpt What is the meaning of life?
-```
-
-### DALLE
-
-```
-!dalle A frog with a red hat is walking on a bridge.
-```
-
-### AI Config
-
-To modify the bot's configuration, you can use the `!config` command. For example:
-
-```
-!config <target> <type> <value>
-
-e.g.
-!config dalle size 256x256
-```
-
-## Disable prefix
-
-You can disable the `!gpt`/`!dalle`/`!config` prefix by setting `PREFIX_ENABLED` to `false` in the `.env` file.<br/>
-If you disable the prefix, the bot will not support DALL-E, and only GPT will be used.
-
-## Sending messages to yourself
-
-This bot also supports sending messages to yourself.
-
-To use this feature, simply send a message to your own phone number using the WhatsApp link `https://wa.me/<your_phone_number>`.
-This will take you to your own chat window.
-
-After gaining access to your own chat, you can send a message to yourself and the bot will respond.
+<span style="font-size: 1.2rem;">➡️ https://askrella.github.io/whatsapp-chatgpt</span>
 
 ## Disclaimer
 
@@ -94,8 +40,8 @@ WhatsApp does not allow bots or unofficial clients on their platform, so this sh
 
 ## Used libraries
 
--   https://github.com/pedroslopez/whatsapp-web.js
 -   https://github.com/transitive-bullshit/chatgpt-api
+-   https://github.com/pedroslopez/whatsapp-web.js
 
 ## Star History
 
