@@ -35,6 +35,9 @@ async function handleIncomingMessage(message: Message) {
 		// Transcribe with Speech API
 		const { text } = await transcribeRequest(new Blob([mediaBuffer]));
 
+		// Reply with transcription
+		message.reply("You said: " + text)
+
 		// Check transcription is empty (silent voice message)
 		if (text.length == 0) {
 			message.reply("I couldn't understand what you said.");
