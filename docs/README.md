@@ -1,4 +1,4 @@
-# GPT + DALL-E + Whatsapp = AI Assistant 🚀
+# GPT + DALL-E + WhatsApp = AI Assistant 🚀
 
 ![Docker](https://github.com/askrella/whatsapp-chatgpt/actions/workflows/docker.yml/badge.svg)
 ![Prettier](https://github.com/askrella/whatsapp-chatgpt/actions/workflows/prettier.yml/badge.svg)
