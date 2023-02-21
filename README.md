@@ -21,7 +21,7 @@ This WhatsApp bot uses OpenAI's GPT and DALL-E 2 to respond to user inputs.
 
 In the documentation you can find more information about how to install, configure and use this bot.
 
-<span style="font-size: 1.2rem;">➡️ https://askrella.github.io/whatsapp-chatgpt</span>
+<span style="font-size: 1.4rem;">➡️ https://askrella.github.io/whatsapp-chatgpt</span>
 
 ## Disclaimer
 
