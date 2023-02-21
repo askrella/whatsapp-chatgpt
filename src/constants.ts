@@ -7,7 +7,7 @@ interface IConstants {
 
 const constants: IConstants = {
 	statusBroadcast: "status@broadcast",
-	sessionPath: "./session"
+	sessionPath: "./"
 };
 
 export default constants;
