@@ -21,7 +21,7 @@ const config: IConfig = {
 	openAIAPIKey: process.env.OPENAI_API_KEY || "", // Default: ""
 	newsRSSURL: process.env.NEWS_RSS_URL || "https://www.yahoo.com/news/rss", // Default: https://www.yahoo.com/news/rss
 	maxRSSItems: process.env.MAX_RSS_ITEMS || 7, // Default: 7
-	prefixEnabled: process.env.PREFIX_ENABLED == "true" || true, // Default: true
+	prefixEnabled: (String(process.env.PREFIX_ENABLED).toLowerCase() === "true") && (String(process.env.PREFIX_ENABLED).toLowerCase() != ""), // Default: false
 	gptPrefix: process.env.GPT_PREFIX ||  "!gpt", // Default: !gpt
 	dallePrefix: process.env.DALLE_PREFIX || "!dalle", // Default: !dalle
 	aiConfigPrefix: process.env.AI_CONFIG_PREFIX || "!config", // Default: !config
