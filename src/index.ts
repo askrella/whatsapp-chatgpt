@@ -10,6 +10,7 @@ import constants from "./constants";
 import { handleMessageGPT } from "./handlers/gpt";
 import { handleMessageDALLE } from "./handlers/dalle";
 import { handleMessageAIConfig } from "./handlers/ai-config";
+import { handleMessageNEWS } from "./handlers/news";
 
 import * as cli from "./cli/ui";
 
@@ -41,6 +42,13 @@ async function handleIncomingMessage(message: Message) {
 	if (startsWithIgnoreCase(messageString, config.aiConfigPrefix)) {
 		const prompt = messageString.substring(config.aiConfigPrefix.length + 1);
 		await handleMessageAIConfig(message, prompt);
+		return;
+	}
+
+	// News (!news <args>)
+	if (startsWithIgnoreCase(messageString, config.newsPrefix)) {
+		const prompt = messageString.substring(config.newsPrefix.length + 1);
+		await handleMessageNEWS(message, prompt);
 		return;
 	}
 }
