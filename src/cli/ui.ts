@@ -31,7 +31,7 @@ export const printAuthenticated = () => {
 
 export const printAuthenticationFailure = () => {
 	s.stop("Authentication failed!");
-}
+};
 
 export const printOutro = () => {
 	s.stop("Loaded!");

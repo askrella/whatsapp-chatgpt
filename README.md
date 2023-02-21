@@ -12,10 +12,10 @@ This WhatsApp bot uses OpenAI's GPT and DALL-E 2 to respond to user inputs.
 
 ## Requirements
 
-- Node.js (18 or newer)
-- A recent version of npm
-- An [OpenAI API key](https://beta.openai.com/signup)
-- A WhatsApp account
+-   Node.js (18 or newer)
+-   A recent version of npm
+-   An [OpenAI API key](https://beta.openai.com/signup)
+-   A WhatsApp account
 
 ## Installation
 
@@ -47,11 +47,13 @@ To use the bot, simply send a message with the `!gpt`/`!dalle`/`!config` command
 ```
 
 ### DALLE
+
 ```
 !dalle A frog with a red hat is walking on a bridge.
 ```
 
 ### AI Config
+
 To modify the bot's configuration, you can use the `!config` command. For example:
 
 ```

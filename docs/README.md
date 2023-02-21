@@ -12,14 +12,18 @@ This WhatsApp bot uses OpenAI's GPT and DALL-E 2 to respond to user inputs.
 
 ## Requirements
 
-- Node.js (18 or newer)
-- A recent version of npm
-- An [OpenAI API key](https://beta.openai.com/signup)
-- A WhatsApp account
+-   Node.js (18 or newer)
+-   A recent version of npm
+-   An [OpenAI API key](https://beta.openai.com/signup)
+-   A WhatsApp account
 
-## Documentation & Usage
+## Documentation
 
-https://askrella.github.io/whatsapp-chatgpt/
+In the documentation you can find more information about how to install, configure and use this bot.
+
+Check it out here:
+
+➡️ https://askrella.github.io/whatsapp-chatgpt
 
 ## Disclaimer
 
@@ -38,8 +42,8 @@ WhatsApp does not allow bots or unofficial clients on their platform, so this sh
 
 ## Used libraries
 
--   https://github.com/pedroslopez/whatsapp-web.js
 -   https://github.com/transitive-bullshit/chatgpt-api
+-   https://github.com/pedroslopez/whatsapp-web.js
 
 ## Star History
 
