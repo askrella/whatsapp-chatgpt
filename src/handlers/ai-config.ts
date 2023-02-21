@@ -15,7 +15,11 @@ const handleMessageAIConfig = async (message: Message, prompt: any) => {
 
 		const args: string[] = prompt.split(" ");
 
-		if (prompt === "help") {
+		/*
+			!config
+			!config help
+		*/
+		if (args.length == 1 || prompt === "help") {
 			let helpMessage = "Available commands:\n";
 			for (let target in aiConfigTarget) {
 				for (let type in aiConfigTypes[target]) {
@@ -30,7 +34,10 @@ const handleMessageAIConfig = async (message: Message, prompt: any) => {
 			}
 			message.reply(helpMessage);
 			return;
-		} else if (args.length !== 3) {
+		}
+		
+		// !config <target> <type> <value>
+		if (args.length !== 3) {
 			message.reply(
 				"Invalid number of arguments, please use the following format: <target> <type> <value> or type !config help for more information."
 			);

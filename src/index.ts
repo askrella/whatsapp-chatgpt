@@ -19,7 +19,7 @@ const client = new Client({
 		args: ["--no-sandbox"]
 	},
 	authStrategy: new LocalAuth({
-		clientId: null, // For multiple sessions
+		clientId: undefined, // For multiple sessions
 		dataPath: constants.sessionData
 	}),
 });
