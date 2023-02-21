@@ -20,37 +20,36 @@ async function handleIncomingMessage(message: Message) {
 	if (message.hasMedia) {
 		const media = await message.downloadMedia();
 
-        // Ignore non-audio media
-        if (!media.mimetype.startsWith("audio/")) return
+		// Ignore non-audio media
+		if (!media.mimetype.startsWith("audio/")) return;
 
-        // Check if transcription is enabled (Default: false)
-        if (!config.transcriptionEnabled) {
-            message.reply("Voice transcription is disabled.");
-            return;
-        }
+		// Check if transcription is enabled (Default: false)
+		if (!config.transcriptionEnabled) {
+			message.reply("Voice transcription is disabled.");
+			return;
+		}
 
-        // Convert media to base64 string
-        const mediaBuffer = Buffer.from(media.data, "base64");
+		// Convert media to base64 string
+		const mediaBuffer = Buffer.from(media.data, "base64");
 
-        // Transcribe with Speech API
-        const { text } = await transcribeRequest(new Blob([mediaBuffer]));
+		// Transcribe with Speech API
+		const { text } = await transcribeRequest(new Blob([mediaBuffer]));
 
-        // Check transcription is empty (silent voice message)
-        if (text.length == 0) {
-            message.reply("I couldn't understand what you said.");
-            return;
-        }
+		// Check transcription is empty (silent voice message)
+		if (text.length == 0) {
+			message.reply("I couldn't understand what you said.");
+			return;
+		}
 
-        // Modify messageString to be handled by GPT
-        if (config.prefixEnabled) {
-            // Build !gpt <prompt>
-            messageString = config.gptPrefix + " " + text;
-        } else {
-            // Build <prompt>
-            messageString = text;
-        }
-    }
-	
+		// Modify messageString to be handled by GPT
+		if (config.prefixEnabled) {
+			// Build !gpt <prompt>
+			messageString = config.gptPrefix + " " + text;
+		} else {
+			// Build <prompt>
+			messageString = text;
+		}
+	}
 
 	if (!config.prefixEnabled) {
 		// GPT (only <prompt>)

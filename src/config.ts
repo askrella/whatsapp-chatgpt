@@ -33,10 +33,7 @@ const config: IConfig = {
 	// Transcription & Text-to-Speech
 	ttsEnabled: getEnvBooleanWithDefault("TTS_ENABLED", false), // Default: false
 	transcriptionEnabled: getEnvBooleanWithDefault("TRANSCRIPTION_ENABLED", false) // Default: false
-}
-
-// Disable TTS since it's really experimental
-config.ttsEnabled = false;
+};
 
 /**
  * Get an environment variable as a boolean with a default value
