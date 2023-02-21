@@ -1,49 +1,12 @@
 import qrcode from "qrcode-terminal";
 import { Client, Message, Events, LocalAuth } from "whatsapp-web.js";
-import { startsWithIgnoreCase } from "./utils";
 
-// Config & Constants
-import config from "./config";
+// Constants
 import constants from "./constants";
 
-// ChatGPT & DALLE
-import { handleMessageGPT } from "./handlers/gpt";
-import { handleMessageDALLE } from "./handlers/dalle";
-import { handleMessageAIConfig } from "./handlers/ai-config";
-
+// CLI
 import * as cli from "./cli/ui";
-
-// Handles message
-async function handleIncomingMessage(message: Message) {
-	const messageString = message.body;
-
-	if (!config.prefixEnabled) {
-		// GPT (only <prompt>)
-		await handleMessageGPT(message, messageString);
-		return;
-	}
-
-	// GPT (!gpt <prompt>)
-	if (startsWithIgnoreCase(messageString, config.gptPrefix)) {
-		const prompt = messageString.substring(config.gptPrefix.length + 1);
-		await handleMessageGPT(message, prompt);
-		return;
-	}
-
-	// DALLE (!dalle <prompt>)
-	if (startsWithIgnoreCase(messageString, config.dallePrefix)) {
-		const prompt = messageString.substring(config.dallePrefix.length + 1);
-		await handleMessageDALLE(message, prompt);
-		return;
-	}
-
-	// AiConfig (!config <args>)
-	if (startsWithIgnoreCase(messageString, config.aiConfigPrefix)) {
-		const prompt = messageString.substring(config.aiConfigPrefix.length + 1);
-		await handleMessageAIConfig(message, prompt);
-		return;
-	}
-}
+import { handleIncomingMessage } from "./handlers/message";
 
 // Entrypoint
 const start = async () => {
@@ -74,10 +37,12 @@ const start = async () => {
 		}
 	});
 
+	// WhatsApp authenticated
 	client.on(Events.AUTHENTICATED, () => {
 		cli.printAuthenticated();
 	});
 
+	// WhatsApp authentication failure
 	client.on(Events.AUTHENTICATION_FAILURE, () => {
 		cli.printAuthenticationFailure();
 	});
@@ -92,11 +57,7 @@ const start = async () => {
 		// Ignore if message is from status broadcast
 		if (message.from == constants.statusBroadcast) return;
 
-		// Ignore if message is empty or media
-		if (message.body.length == 0) return;
-		if (message.hasMedia) return;
-
-		// Ignore if it's a quoted message, (e.g. GPT reply)
+		// Ignore if it's a quoted message, (e.g. Bot reply)
 		if (message.hasQuotedMsg) return;
 
 		await handleIncomingMessage(message);
@@ -107,11 +68,7 @@ const start = async () => {
 		// Ignore if message is from status broadcast
 		if (message.from == constants.statusBroadcast) return;
 
-		// Ignore if message is empty or media
-		if (message.body.length == 0) return;
-		if (message.hasMedia) return;
-
-		// Ignore if it's a quoted message, (e.g. GPT reply)
+		// Ignore if it's a quoted message, (e.g. Bot reply)
 		if (message.hasQuotedMsg) return;
 
 		// Ignore if it's not from me

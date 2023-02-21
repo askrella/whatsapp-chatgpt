@@ -46,11 +46,13 @@ To use the bot, simply send a message with the `!gpt`/`!dalle`/`!config` command
 ```
 
 ### DALLE
+
 ```
 !dalle A frog with a red hat is walking on a bridge.
 ```
 
 ### AI Config
+
 To modify the bot's configuration, you can use the `!config` command. For example:
 
 ```
@@ -73,6 +75,22 @@ To use this feature, simply send a message to your own phone number using the Wh
 This will take you to your own chat window.
 
 After gaining access to your own chat, you can send a message to yourself and the bot will respond.
+
+## Voice transcription & TTS
+
+The features voice transcription and TTS are using our Speech API.
+Be aware that your messages are sent to our servers and are processed there.
+We don't store any data or use it for any other purpose than to provide the service.
+
+### Voice transcription
+This bot can also understand voice messages.
+
+To enable this feature, set `TRANSCRIPTION_ENABLED` to `true` in the `.env` file.
+
+### TTS (Text-To-Speech)
+This bot can also answer using voice messages.
+
+To enable this feature, set `TTS_ENABLED` to `true` in the `.env` file.
 
 ## Disclaimer
 

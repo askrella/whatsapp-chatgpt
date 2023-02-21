@@ -11,7 +11,7 @@ const aiConfig: IAiConfig = {
 
 const handleMessageAIConfig = async (message: Message, prompt: any) => {
 	try {
-		console.log("[Whatsapp Config] Received prompt from " + message.from + ": " + prompt);
+		console.log("[AI-Config] Received prompt from " + message.from + ": " + prompt);
 
 		const args: string[] = prompt.split(" ");
 
@@ -35,7 +35,7 @@ const handleMessageAIConfig = async (message: Message, prompt: any) => {
 			message.reply(helpMessage);
 			return;
 		}
-		
+
 		// !config <target> <type> <value>
 		if (args.length !== 3) {
 			message.reply(
