@@ -58,7 +58,7 @@ async function sendVoiceMessageReply(message: Message, gptResponse: any) {
 	// Get audio buffer
 	cli.print(`[Speech API] Generating audio from GPT response "${gptResponse.text}"...`);
 	const audioBuffer = await ttsRequest(gptResponse.text);
-	cli.print("[Speech API] Audio generated! Sending...");
+	cli.print("[Speech API] Audio generated!");
 
 	// Get temp folder and file path
 	const tempFolder = os.tmpdir();
