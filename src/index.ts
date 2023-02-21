@@ -37,7 +37,7 @@ async function handleIncomingMessage(message: Message) {
 		return;
 	}
 
-	// AiConfig (!config <prompt>)
+	// AiConfig (!config <args>)
 	if (startsWithIgnoreCase(messageString, config.aiConfigPrefix)) {
 		const prompt = messageString.substring(config.aiConfigPrefix.length + 1);
 		await handleMessageAIConfig(message, prompt);
@@ -55,6 +55,7 @@ const start = async () => {
 			args: ["--no-sandbox"]
 		},
 		authStrategy: new LocalAuth({
+			clientId: undefined,
 			dataPath: constants.sessionPath
 		})
 	});
@@ -78,7 +79,7 @@ const start = async () => {
 	});
 
 	client.on(Events.AUTHENTICATION_FAILURE, () => {
-		cli.print("Automatic Authentication failed!");
+		cli.printAuthenticationFailure();
 	});
 
 	// WhatsApp ready
