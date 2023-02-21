@@ -13,17 +13,6 @@ import { handleMessageAIConfig } from "./handlers/ai-config";
 
 import * as cli from "./cli/ui";
 
-// WhatsApp Client
-const client = new Client({
-	puppeteer: {
-		args: ["--no-sandbox"]
-	},
-	authStrategy: new LocalAuth({
-		clientId: undefined, // For multiple sessions
-		dataPath: constants.sessionData
-	}),
-});
-
 // Handles message
 async function handleIncomingMessage(message: Message) {
 	const messageString = message.body;
@@ -60,6 +49,16 @@ async function handleIncomingMessage(message: Message) {
 const start = async () => {
 	cli.printIntro();
 
+	// WhatsApp Client
+	const client = new Client({
+		puppeteer: {
+			args: ["--no-sandbox"]
+		},
+		authStrategy: new LocalAuth({
+			dataPath: constants.sessionPath
+		})
+	});
+
 	// WhatsApp auth
 	client.on(Events.QR_RECEIVED, (qr: string) => {
 		qrcode.generate(qr, { small: true }, (qrcode: string) => {
@@ -76,6 +75,10 @@ const start = async () => {
 
 	client.on(Events.AUTHENTICATED, () => {
 		cli.printAuthenticated();
+	});
+
+	client.on(Events.AUTHENTICATION_FAILURE, () => {
+		cli.print("Automatic Authentication failed!");
 	});
 
 	// WhatsApp ready

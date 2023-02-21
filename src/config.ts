@@ -17,9 +17,9 @@ interface IConfig {
 const config: IConfig = {
 	openAIAPIKey: process.env.OPENAI_API_KEY || "", // Default: ""
 	prefixEnabled: process.env.PREFIX_ENABLED == "true" || true, // Default: true
-	gptPrefix: (process.env.GPT_PREFIX != "") ? process.env.GPT_PREFIX : "!gpt", // Default: !gpt
-	dallePrefix: (process.env.DALLE_PREFIX != "") ? process.env.DALLE_PREFIX : "!dalle", // Default: !dalle
-	aiConfigPrefix: (process.env.AI_CONFIG_PREFIX != "") ? process.env.AI_CONFIG_PREFIX : "!config", // Default: !config
+	gptPrefix: process.env.GPT_PREFIX ||  "!gpt", // Default: !gpt
+	dallePrefix: process.env.DALLE_PREFIX || "!dalle", // Default: !dalle
+	aiConfigPrefix: process.env.AI_CONFIG_PREFIX || "!config", // Default: !config
 };
 
 export default config;

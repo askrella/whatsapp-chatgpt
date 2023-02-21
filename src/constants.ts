@@ -2,12 +2,12 @@ interface IConstants {
 	// WhatsApp status broadcast
 	statusBroadcast: string;
 	// WhatsApp session storage
-	sessionData: string;
+	sessionPath: string;
 }
 
 const constants: IConstants = {
 	statusBroadcast: "status@broadcast",
-	sessionData: "./session/session.json"
+	sessionPath: "./session"
 };
 
 export default constants;
