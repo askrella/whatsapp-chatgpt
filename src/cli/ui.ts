@@ -24,6 +24,11 @@ export const printLoading = () => {
 	s.start("Logging in");
 };
 
+export const printAuthenticated = () => {
+	s.stop("Session started!");
+	s.start("Opening session");
+};
+
 export const printOutro = () => {
 	s.stop("Loaded!");
 	outro("Whatsapp ChatGPT & DALLE is ready to use.");

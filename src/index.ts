@@ -1,5 +1,5 @@
 import qrcode from "qrcode-terminal";
-import { Client, Message, Events } from "whatsapp-web.js";
+import { Client, Message, Events, LocalAuth } from "whatsapp-web.js";
 import { startsWithIgnoreCase } from "./utils";
 
 // Config & Constants
@@ -13,11 +13,15 @@ import { handleMessageAIConfig } from "./handlers/ai-config";
 
 import * as cli from "./cli/ui";
 
-// Whatsapp Client
+// WhatsApp Client
 const client = new Client({
 	puppeteer: {
 		args: ["--no-sandbox"]
-	}
+	},
+	authStrategy: new LocalAuth({
+		clientId: null, // For multiple sessions
+		dataPath: constants.sessionData
+	}),
 });
 
 // Handles message
@@ -56,21 +60,25 @@ async function handleIncomingMessage(message: Message) {
 const start = async () => {
 	cli.printIntro();
 
-	// Whatsapp auth
+	// WhatsApp auth
 	client.on(Events.QR_RECEIVED, (qr: string) => {
 		qrcode.generate(qr, { small: true }, (qrcode: string) => {
 			cli.printQRCode(qrcode);
 		});
 	});
 
-	// Whatsapp loading
+	// WhatsApp loading
 	client.on(Events.LOADING_SCREEN, (percent) => {
 		if (percent == "0") {
 			cli.printLoading();
 		}
 	});
 
-	// Whatsapp ready
+	client.on(Events.AUTHENTICATED, () => {
+		cli.printAuthenticated();
+	});
+
+	// WhatsApp ready
 	client.on(Events.READY, () => {
 		cli.printOutro();
 	});
@@ -108,7 +116,7 @@ const start = async () => {
 		await handleIncomingMessage(message);
 	});
 
-	// Whatsapp initialization
+	// WhatsApp initialization
 	client.initialize();
 };
 
