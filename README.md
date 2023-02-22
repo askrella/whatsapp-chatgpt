@@ -8,7 +8,7 @@
 
 This WhatsApp bot uses OpenAI's GPT and DALL-E 2 to respond to user inputs.
 
-You can talk to the bot in voice messages, it will transcribe and respond. :robot:
+You can talk to the bot in voice messages, the bot will transcribe and respond. :robot:
 
 <p align="center">
 <img width="904" alt="Whatsapp ChatGPT" src="https://user-images.githubusercontent.com/6507938/220681521-17a12a41-44df-4d51-b491-f6a83871fc9e.png">

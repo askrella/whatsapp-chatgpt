@@ -8,10 +8,11 @@
 
 This WhatsApp bot uses OpenAI's GPT and DALL-E 2 to respond to user inputs.
 
-You can even talk to the bot using voice messages, he will transcribe them and respond with a voice message.
-For more information, check out our [documentation](https://askrella.github.io/whatsapp-chatgpt).
+You can talk to the bot in voice messages, the bot will transcribe and respond. :robot:
 
-<img width="904" alt="Example prompts" src="https://user-images.githubusercontent.com/6507938/219959783-96cac29a-d786-4586-a1fc-4dca827c4344.png">
+<p align="center">
+<img width="904" alt="Whatsapp ChatGPT" src="https://user-images.githubusercontent.com/6507938/220681521-17a12a41-44df-4d51-b491-f6a83871fc9e.png">
+</p>
 
 ## Requirements
 
@@ -19,6 +20,12 @@ For more information, check out our [documentation](https://askrella.github.io/w
 -   A recent version of npm
 -   An [OpenAI API key](https://beta.openai.com/signup)
 -   A WhatsApp account
+
+## Documentation
+
+In the documentation you can find more information about how to install, configure and use this bot.
+
+<span style="font-size: 1.4rem;">➡️ https://askrella.github.io/whatsapp-chatgpt</span>
 
 ## Disclaimer
 
