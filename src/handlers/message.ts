@@ -4,13 +4,18 @@ import { startsWithIgnoreCase } from "../utils";
 // Config & Constants
 import config from "../config";
 
+// CLI
+import * as cli from "../cli/ui"
+
 // ChatGPT & DALLE
 import { handleMessageGPT } from "../handlers/gpt";
 import { handleMessageDALLE } from "../handlers/dalle";
 import { handleMessageAIConfig } from "../handlers/ai-config";
 
-// Speech API
+// Speech API & Whisper
+import { TranscriptionMode } from "../types/transcription-mode";
 import { transcribeRequest } from "../providers/speech";
+import { transcribeAudioLocal } from "../providers/whisper-local";
 
 // Handles message
 async function handleIncomingMessage(message: Message) {
@@ -25,33 +30,49 @@ async function handleIncomingMessage(message: Message) {
 
 		// Check if transcription is enabled (Default: false)
 		if (!config.transcriptionEnabled) {
-			message.reply("Voice transcription is disabled.");
+			cli.print("[Transcription] Received voice messsage but voice transcription is disabled.");
 			return;
 		}
 
 		// Convert media to base64 string
 		const mediaBuffer = Buffer.from(media.data, "base64");
 
-		// Transcribe with Speech API
-		const { text } = await transcribeRequest(new Blob([mediaBuffer]));
+		let transcribedText, transcribedLanguage;
 
-		// Reply with transcription
-		message.reply("You said: " + text)
+		// Transcribe locally or with Speech API
+		cli.print(`[Transcription] Transcribing audio with "${config.transcriptionMode}" mode...`);
 
-		// Check transcription is empty (silent voice message)
-		if (text.length == 0) {
+		if (config.transcriptionMode == TranscriptionMode.Local) {
+			const { text, language } = await transcribeAudioLocal(mediaBuffer);
+			transcribedText = text;
+			transcribedLanguage = language;
+		} else if (config.transcriptionMode == TranscriptionMode.SpeechAPI) {
+			const { text, language } = await transcribeRequest(new Blob([mediaBuffer]));
+			transcribedText = text;
+			transcribedLanguage = language;
+		}
+
+		// Check transcription is null (error)
+		if (transcribedText == null) {
 			message.reply("I couldn't understand what you said.");
 			return;
 		}
 
-		// Modify messageString to be handled by GPT
-		if (config.prefixEnabled) {
-			// Build !gpt <prompt>
-			messageString = config.gptPrefix + " " + text;
-		} else {
-			// Build <prompt>
-			messageString = text;
+		// Check transcription is empty (silent voice message)
+		if (transcribedText.length == 0) {
+			message.reply("I couldn't understand what you said.");
+			return;
 		}
+
+		// Log transcription
+		cli.print(`[Transcription] Transcription response: ${transcribedText} (language: ${transcribedLanguage})`)
+
+		// Reply with transcription
+		message.reply("You said: " + transcribedText  + " (language: " + transcribedLanguage + ")")
+
+		// Handle message GPT
+		await handleMessageGPT(message, transcribedText);
+		return;
 	}
 
 	if (!config.prefixEnabled) {
