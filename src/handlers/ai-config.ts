@@ -35,7 +35,7 @@ const handleMessageAIConfig = async (message: Message, prompt: any) => {
 			message.reply(helpMessage);
 			return;
 		}
-		
+
 		// !config <target> <type> <value>
 		if (args.length !== 3) {
 			message.reply(

@@ -24,8 +24,8 @@ const config: IConfig = {
 	prefixEnabled: getEnvBooleanWithDefault("PREFIX_ENABLED", true), // Default: true
 	gptPrefix: process.env.GPT_PREFIX || "!gpt", // Default: !gpt
 	dallePrefix: process.env.DALLE_PREFIX || "!dalle", // Default: !dalle
-	aiConfigPrefix: process.env.AI_CONFIG_PREFIX || "!config", // Default: !config
-}
+	aiConfigPrefix: process.env.AI_CONFIG_PREFIX || "!config" // Default: !config
+};
 
 function getEnvBooleanWithDefault(key: string, defaultValue: boolean): boolean {
 	if (process.env[key] == undefined || process.env[key] == "") {
