@@ -1,4 +1,4 @@
-# Text-To-Speech
+# Text-To-Speech (EXPERIMENTAL)
 
 The TTS feature allows the bot to answer with voice messages instead of text messages. You can actually talk to the bot.
 

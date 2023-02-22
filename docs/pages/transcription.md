@@ -1,4 +1,4 @@
-# Transcription
+# Transcription (EXPERIMENTAL)
 
 The transcription feature allows you to use your voice to interact with the bot.
 It's a great way to use the bot without having to type anything.
