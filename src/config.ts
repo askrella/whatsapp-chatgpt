@@ -1,5 +1,7 @@
 import process from "process";
 
+import { TranscriptionMode } from "./types/transcription-mode";
+
 // Environment variables
 import dotenv from "dotenv";
 dotenv.config();
@@ -14,6 +16,12 @@ interface IConfig {
 	gptPrefix: string;
 	dallePrefix: string;
 	aiConfigPrefix: string;
+
+	// Voice transcription & Text-to-Speech
+	speechServerUrl: string;
+	ttsEnabled: boolean;
+	transcriptionEnabled: boolean;
+	transcriptionMode: TranscriptionMode;
 }
 
 // Config
@@ -24,16 +32,45 @@ const config: IConfig = {
 	prefixEnabled: getEnvBooleanWithDefault("PREFIX_ENABLED", true), // Default: true
 	gptPrefix: process.env.GPT_PREFIX || "!gpt", // Default: !gpt
 	dallePrefix: process.env.DALLE_PREFIX || "!dalle", // Default: !dalle
-	aiConfigPrefix: process.env.AI_CONFIG_PREFIX || "!config" // Default: !config
+	aiConfigPrefix: process.env.AI_CONFIG_PREFIX || "!config", // Default: !config
+
+	// Speech API, Default: https://speech-service.verlekar.com
+	speechServerUrl: process.env.SPEECH_API_URL || "https://speech-service.verlekar.com",
+
+	// Text-to-Speech
+	ttsEnabled: getEnvBooleanWithDefault("TTS_ENABLED", false), // Default: false
+
+	// Transcription
+	transcriptionEnabled: getEnvBooleanWithDefault("TRANSCRIPTION_ENABLED", false), // Default: false
+	transcriptionMode: getEnvTranscriptionMode() // Default: local
 };
 
+/**
+ * Get an environment variable as a boolean with a default value
+ * @param key The environment variable key
+ * @param defaultValue The default value
+ * @returns The value of the environment variable or the default value
+ */
 function getEnvBooleanWithDefault(key: string, defaultValue: boolean): boolean {
-	if (process.env[key] == undefined || process.env[key] == "") {
+	const envValue = process.env[key]?.toLowerCase();
+	if (envValue == undefined || envValue == "") {
 		return defaultValue;
 	}
 
-	const envValue = process.env[key]!.toLowerCase();
 	return envValue == "true";
+}
+
+/**
+ * Get the transcription mode from the environment variable
+ * @returns The transcription mode
+ */
+function getEnvTranscriptionMode(): TranscriptionMode {
+	const envValue = process.env.TRANSCRIPTION_MODE?.toLowerCase();
+	if (envValue == undefined || envValue == "") {
+		return TranscriptionMode.Local;
+	}
+
+	return envValue as TranscriptionMode;
 }
 
 export default config;
