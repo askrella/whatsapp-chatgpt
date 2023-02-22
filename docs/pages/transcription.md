@@ -42,7 +42,7 @@ You can find the source code here:
 
 -   https://github.com/askrella/speech-rest-api
 
-If you want enable the Speech API you need to set the following environment variable:
+If you want use the Speech API mode you need to set the following environment variable:
 
 ```bash
 TRANSCRIPTION_MODE=speech-api
