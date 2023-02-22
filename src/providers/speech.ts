@@ -4,7 +4,7 @@ import config from "../config";
  * @param sentence The sentence to be converted to speech
  * @returns Audio buffer
  */
-async function ttsRequest(sentence: string): Promise<Buffer> {
+async function ttsRequest(sentence: string): Promise<Buffer | null> {
 	const url = config.speechServerUrl + "/tts";
 
 	// Request options
@@ -18,9 +18,14 @@ async function ttsRequest(sentence: string): Promise<Buffer> {
 		})
 	};
 
-	const response = await fetch(url, options);
-	const audioBuffer = await response.arrayBuffer();
-	return Buffer.from(audioBuffer);
+	try {
+		const response = await fetch(url, options);
+		const audioBuffer = await response.arrayBuffer();
+		return Buffer.from(audioBuffer);
+	} catch (error) {
+		console.error("An error occured (TTS request)", error);
+		return null;
+	}
 }
 
 /**

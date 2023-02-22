@@ -60,6 +60,12 @@ async function sendVoiceMessageReply(message: Message, gptResponse: any) {
 	const audioBuffer = await ttsRequest(gptResponse.text);
 	cli.print("[Speech API] Audio generated!");
 
+	// Check if audio buffer is valid
+	if (audioBuffer == null || audioBuffer.length == 0) {
+		message.reply("Speech API couldn't generate audio, please contact the administrator.");
+		return;
+	}
+
 	// Get temp folder and file path
 	const tempFolder = os.tmpdir();
 	const tempFilePath = tempFolder + randomUUID() + ".opus";
