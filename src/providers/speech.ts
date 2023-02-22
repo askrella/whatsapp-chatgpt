@@ -27,7 +27,7 @@ async function ttsRequest(sentence: string): Promise<Buffer> {
  * @param audioBlob The audio blob to be transcribed
  * @returns Response: { text: string, language: string }
  */
-async function transcribeRequest(audioBlob: Blob): Promise<{ text: string, language: string }> {
+async function transcribeRequest(audioBlob: Blob): Promise<{ text: string; language: string }> {
 	const url = config.speechServerUrl + "/transcribe";
 
 	// FormData

@@ -35,14 +35,14 @@ const config: IConfig = {
 	aiConfigPrefix: process.env.AI_CONFIG_PREFIX || "!config", // Default: !config
 
 	// Speech API, Default: https://speech-service.verlekar.com
-	speechServerUrl: process.env.SPEECH_API_URL || "https://speech-service.verlekar.com", 
+	speechServerUrl: process.env.SPEECH_API_URL || "https://speech-service.verlekar.com",
 
 	// Text-to-Speech
 	ttsEnabled: getEnvBooleanWithDefault("TTS_ENABLED", false), // Default: false
 
 	// Transcription
 	transcriptionEnabled: getEnvBooleanWithDefault("TRANSCRIPTION_ENABLED", false), // Default: false
-	transcriptionMode: getEnvTranscriptionMode(), // Default: local
+	transcriptionMode: getEnvTranscriptionMode() // Default: local
 };
 
 /**
@@ -69,7 +69,7 @@ function getEnvTranscriptionMode(): TranscriptionMode {
 	if (envValue == undefined || envValue == "") {
 		return TranscriptionMode.Local;
 	}
-	
+
 	return envValue as TranscriptionMode;
 }
 

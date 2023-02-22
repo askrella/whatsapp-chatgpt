@@ -12,10 +12,10 @@ This WhatsApp bot uses OpenAI's GPT and DALL-E 2 to respond to user inputs.
 
 ## Requirements
 
-- Node.js (18 or newer)
-- A recent version of npm
-- An [OpenAI API key](https://beta.openai.com/signup)
-- A WhatsApp account
+-   Node.js (18 or newer)
+-   A recent version of npm
+-   An [OpenAI API key](https://beta.openai.com/signup)
+-   A WhatsApp account
 
 ## Disclaimer
 

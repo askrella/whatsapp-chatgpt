@@ -11,7 +11,8 @@ TTS_ENABLED=true
 This feature will use the Speech API to convert the GPT response to voice. It's open source and you can host it yourself.
 
 You can find the source code here:
-- https://github.com/askrella/speech-rest-api
+
+-   https://github.com/askrella/speech-rest-api
 
 By default the bot will use our hosted Speech API (for free). You can change the URL by setting the following environment variable:
 

@@ -5,7 +5,7 @@ import { startsWithIgnoreCase } from "../utils";
 import config from "../config";
 
 // CLI
-import * as cli from "../cli/ui"
+import * as cli from "../cli/ui";
 
 // ChatGPT & DALLE
 import { handleMessageGPT } from "../handlers/gpt";
@@ -65,10 +65,10 @@ async function handleIncomingMessage(message: Message) {
 		}
 
 		// Log transcription
-		cli.print(`[Transcription] Transcription response: ${transcribedText} (language: ${transcribedLanguage})`)
+		cli.print(`[Transcription] Transcription response: ${transcribedText} (language: ${transcribedLanguage})`);
 
 		// Reply with transcription
-		message.reply("You said: " + transcribedText  + " (language: " + transcribedLanguage + ")")
+		message.reply("You said: " + transcribedText + " (language: " + transcribedLanguage + ")");
 
 		// Handle message GPT
 		await handleMessageGPT(message, transcribedText);

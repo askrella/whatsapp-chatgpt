@@ -6,8 +6,9 @@ It's a great way to use the bot without having to type anything.
 You can enable it by setting `TRANSCRIPTION_ENABLED=true` in your `.env` file.
 
 There are two modes available:
-- `local`
-- `speech-api`
+
+-   `local`
+-   `speech-api`
 
 # Transcription Modes
 
@@ -18,12 +19,15 @@ For the local mode you need to have [whisper](https://github.com/openai/whisper)
 With local mode the voice messages will be transcribed on your machine. Best for privacy.
 
 You need to install Python:
-- https://www.python.org/downloads/
+
+-   https://www.python.org/downloads/
 
 Check out the whisper installation guide here:
-- https://github.com/openai/whisper#setup
+
+-   https://github.com/openai/whisper#setup
 
 Use the following environment variable to enable the local mode:
+
 ```bash
 TRANSCRIPTION_MODE=local
 ```
@@ -35,9 +39,11 @@ The Speech API is a REST API that converts your voice messages to text. The voic
 The Speech API doesn't store the voice messages permanently. It's open source and you can host it yourself.
 
 You can find the source code here:
-- https://github.com/askrella/speech-rest-api
+
+-   https://github.com/askrella/speech-rest-api
 
 If you want enable the Speech API you need to set the following environment variable:
+
 ```bash
 TRANSCRIPTION_MODE=speech-api
 ```
