@@ -12,40 +12,10 @@ This WhatsApp bot uses OpenAI's GPT and DALL-E 2 to respond to user inputs.
 
 ## Requirements
 
--   Node.js (18 or newer)
--   A recent version of npm
--   An [OpenAI API key](https://beta.openai.com/signup)
--   A WhatsApp account
-
-## Documentation
-
-In the documentation you can find more information about how to install, configure and use this bot.
-
-<span style="font-size: 1.4rem;">➡️ https://askrella.github.io/whatsapp-chatgpt</span>
-
-## Voice transcription & TTS
-
-The features voice transcription and TTS are using our Speech API.
-
-Be aware that your messages are sent to our servers and are processed there.
-
-We don't store any data or use it for any other purpose than to provide the service.
-
-Our Speech API is also open source:
-
--   https://github.com/askrella/speech-rest-api
-
-### Voice transcription
-
-This bot can also understand voice messages.
-
-To enable this feature, set `TRANSCRIPTION_ENABLED` to `true` in the `.env` file.
-
-### TTS (Text-To-Speech)
-
-This bot can also answer using voice messages.
-
-To enable this feature, set `TTS_ENABLED` to `true` in the `.env` file.
+- Node.js (18 or newer)
+- A recent version of npm
+- An [OpenAI API key](https://beta.openai.com/signup)
+- A WhatsApp account
 
 ## Disclaimer
 

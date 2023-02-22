@@ -45,7 +45,9 @@ function getEnvBooleanWithDefault(key: string, defaultValue: boolean): boolean {
 	if (process.env[key] == undefined || process.env[key] == "") {
 		return defaultValue;
 	}
-	return process.env[key] == "true";
+
+	const envValue = process.env[key]!.toLowerCase();
+	return envValue == "true";
 }
 
 export default config;
