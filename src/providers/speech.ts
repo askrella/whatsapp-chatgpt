@@ -1,10 +1,10 @@
 import config from "../config";
 
 /**
- * @param sentence The sentence to be converted to speech
+ * @param text The sentence to be converted to speech
  * @returns Audio buffer
  */
-async function ttsRequest(sentence: string): Promise<Buffer | null> {
+async function ttsRequest(text: string): Promise<Buffer | null> {
 	const url = config.speechServerUrl + "/tts";
 
 	// Request options
@@ -14,7 +14,7 @@ async function ttsRequest(sentence: string): Promise<Buffer | null> {
 			"Content-Type": "application/json"
 		},
 		body: JSON.stringify({
-			sentences: [sentence]
+			text
 		})
 	};
 
