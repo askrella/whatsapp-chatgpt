@@ -10,6 +10,7 @@ dotenv.config();
 interface IConfig {
 	// OpenAI API Key
 	openAIAPIKey: string;
+	maxModelTokens: number;
 
 	// Prefix
 	prefixEnabled: boolean;
@@ -27,6 +28,7 @@ interface IConfig {
 // Config
 const config: IConfig = {
 	openAIAPIKey: process.env.OPENAI_API_KEY || "", // Default: ""
+	maxModelTokens: getEnvMaxModelTokens(), // Default: 4096
 
 	// Prefix
 	prefixEnabled: getEnvBooleanWithDefault("PREFIX_ENABLED", true), // Default: true
@@ -44,6 +46,19 @@ const config: IConfig = {
 	transcriptionEnabled: getEnvBooleanWithDefault("TRANSCRIPTION_ENABLED", false), // Default: false
 	transcriptionMode: getEnvTranscriptionMode() // Default: local
 };
+
+/**
+ * Get the max model tokens from the environment variable
+ * @returns The max model tokens from the environment variable or 4096
+ */
+function getEnvMaxModelTokens() {
+	const envValue = process.env.MAX_MODEL_TOKENS;
+	if (envValue == undefined || envValue == "") {
+		return 4096;
+	}
+
+	return parseInt(envValue);
+}
 
 /**
  * Get an environment variable as a boolean with a default value
