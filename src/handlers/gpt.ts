@@ -7,6 +7,7 @@ import { chatgpt } from "../providers/openai";
 import * as cli from "../cli/ui";
 import config from "../config";
 import { ttsRequest } from "../providers/speech";
+import { handleMessageDALLE } from "../handlers/dalle";
 
 // Mapping from number to last conversation id
 const conversations = {};
@@ -54,6 +55,44 @@ const handleMessageGPT = async (message: Message, prompt: string) => {
 	}
 };
 
+const guessMessage = async (message: Message, prompt: string) => {
+	try {
+		// Get last conversation
+		const lastConversation = conversations[message.from];
+
+		cli.print(`[GPT] Received prompt from ${message.from}: ${prompt}`);
+		var guessPrompt = `Given the following prompt, should ChatGPT handle this request, or should DALLE, an AI model that generates image? Respond with one word, either ChatGPT or DALLE: ${prompt}`
+
+		const start = Date.now();
+
+		// Check if we have a conversation with the user
+		let response: ChatMessage;
+		if (lastConversation) {
+			// Handle message with previous conversation
+			response = await chatgpt.sendMessage(guessPrompt, lastConversation);
+		} else {
+			// Handle message with new conversation
+			response = await chatgpt.sendMessage(guessPrompt);
+		}
+
+		const end = Date.now() - start;
+
+		cli.print(`[GPT] Answer to ${message.from}: ${response.text}  | OpenAI request took ${end}ms)`);
+
+		if (response.text.toLowerCase().includes("dalle")) {
+			// Assume that ChatGPT thinks it should handle the message
+			prompt = prompt.substring(config.dallePrefix.length + 1);
+			await handleMessageDALLE(message, prompt);
+		} else {
+			handleMessageGPT(message, prompt);
+		}
+
+	} catch (error: any) {
+		console.error("An error occured", error);
+		message.reply("An error occured, please contact the administrator. (" + error.message + ")");
+	}
+};
+
 async function sendVoiceMessageReply(message: Message, gptResponse: any) {
 	// Get audio buffer
 	cli.print(`[Speech API] Generating audio from GPT response "${gptResponse.text}"...`);
@@ -81,4 +120,4 @@ async function sendVoiceMessageReply(message: Message, gptResponse: any) {
 	fs.unlinkSync(tempFilePath);
 }
 
-export { handleMessageGPT };
+export { handleMessageGPT, guessMessage };

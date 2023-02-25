@@ -18,6 +18,9 @@ interface IConfig {
 	dallePrefix: string;
 	aiConfigPrefix: string;
 
+	// Auto select model
+	autoSelectModel: boolean;
+
 	// Voice transcription & Text-to-Speech
 	speechServerUrl: string;
 	ttsEnabled: boolean;
@@ -35,6 +38,9 @@ const config: IConfig = {
 	gptPrefix: process.env.GPT_PREFIX || "!gpt", // Default: !gpt
 	dallePrefix: process.env.DALLE_PREFIX || "!dalle", // Default: !dalle
 	aiConfigPrefix: process.env.AI_CONFIG_PREFIX || "!config", // Default: !config
+
+	// Auto select model
+	autoSelectModel: getEnvBooleanWithDefault("AUTO_MODEL", false),
 
 	// Speech API, Default: https://speech-service.verlekar.com
 	speechServerUrl: process.env.SPEECH_API_URL || "https://speech-service.verlekar.com",

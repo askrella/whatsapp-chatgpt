@@ -8,7 +8,7 @@ import config from "../config";
 import * as cli from "../cli/ui";
 
 // ChatGPT & DALLE
-import { handleMessageGPT } from "../handlers/gpt";
+import { handleMessageGPT, guessMessage } from "../handlers/gpt";
 import { handleMessageDALLE } from "../handlers/dalle";
 import { handleMessageAIConfig } from "../handlers/ai-config";
 
@@ -75,10 +75,19 @@ async function handleIncomingMessage(message: Message) {
 		return;
 	}
 
-	if (!config.prefixEnabled) {
+	// if (!config.prefixEnabled) {
+	// 	// GPT (only <prompt>)
+	// 	await handleMessageGPT(message, messageString);
+	// 	return;
+	// }
+
+	if (!config.autoSelectModel && !config.prefixEnabled) {
 		// GPT (only <prompt>)
 		await handleMessageGPT(message, messageString);
 		return;
+	} else if (config.autoSelectModel && !config.prefixEnabled) {
+		// Automatically detect the model
+		await guessMessage(message, messageString);
 	}
 
 	// GPT (!gpt <prompt>)
