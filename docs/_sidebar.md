@@ -7,6 +7,7 @@
 -   [Configuration](pages/gpt.md)
     -  [GPT configuration](pages/gpt.md)
     -  [Configure Prefix](pages/configure-prefix.md)
+    -  [Auto Decide Model](pages/auto_model.md)
 -   [Talk with the bot](pages/transcription.md)
     -   [Transcription with OpenAI Whisper](pages/transcription.md)
     -   [Text-To-Speech with Speech API](pages/tts.md)

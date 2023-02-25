@@ -7,7 +7,7 @@ import { chatgpt } from "../providers/openai";
 import * as cli from "../cli/ui";
 import config from "../config";
 import { ttsRequest } from "../providers/speech";
-import { handleMessageDALLE } from "../handlers/dalle";
+import { AIType } from "../types/ai-decision";
 
 // Mapping from number to last conversation id
 const conversations = {};
@@ -81,10 +81,9 @@ const guessMessage = async (message: Message, prompt: string) => {
 
 		if (response.text.toLowerCase().includes("dalle")) {
 			// Assume that ChatGPT thinks it should handle the message
-			prompt = prompt.substring(config.dallePrefix.length + 1);
-			await handleMessageDALLE(message, prompt);
+			return AIType.dalle;
 		} else {
-			handleMessageGPT(message, prompt);
+			return AIType.gpt;
 		}
 
 	} catch (error: any) {

@@ -16,6 +16,7 @@ import { handleMessageAIConfig } from "../handlers/ai-config";
 import { TranscriptionMode } from "../types/transcription-mode";
 import { transcribeRequest } from "../providers/speech";
 import { transcribeAudioLocal } from "../providers/whisper-local";
+import { AIType } from "../types/ai-decision";
 
 // Handles message
 async function handleIncomingMessage(message: Message) {
@@ -75,19 +76,20 @@ async function handleIncomingMessage(message: Message) {
 		return;
 	}
 
-	// if (!config.prefixEnabled) {
-	// 	// GPT (only <prompt>)
-	// 	await handleMessageGPT(message, messageString);
-	// 	return;
-	// }
-
 	if (!config.autoSelectModel && !config.prefixEnabled) {
 		// GPT (only <prompt>)
 		await handleMessageGPT(message, messageString);
 		return;
 	} else if (config.autoSelectModel && !config.prefixEnabled) {
 		// Automatically detect the model
-		await guessMessage(message, messageString);
+		const model = await guessMessage(message, messageString);
+
+		if (model == AIType.dalle) {
+			await handleMessageDALLE(message, messageString);
+		} else if (model == AIType.gpt) {
+			await handleMessageGPT(message, messageString);
+		}
+		return;
 	}
 
 	// GPT (!gpt <prompt>)
