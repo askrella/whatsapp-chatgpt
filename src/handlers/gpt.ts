@@ -1,5 +1,6 @@
 import os from "os";
 import fs from "fs";
+import path from "path";
 import { randomUUID } from "crypto";
 import { ChatMessage } from "chatgpt";
 import { Message, MessageMedia } from "whatsapp-web.js";
@@ -43,7 +44,7 @@ const handleMessageGPT = async (message: Message, prompt: string) => {
 		// TTS reply (Default: disabled)
 		if (config.ttsEnabled) {
 			sendVoiceMessageReply(message, response);
-			return;
+			//return;
 		}
 
 		// Default: Text reply
@@ -68,7 +69,7 @@ async function sendVoiceMessageReply(message: Message, gptResponse: any) {
 
 	// Get temp folder and file path
 	const tempFolder = os.tmpdir();
-	const tempFilePath = tempFolder + randomUUID() + ".opus";
+	const tempFilePath = path.join(tempFolder, randomUUID() + ".opus");
 
 	// Save buffer to temp file
 	fs.writeFileSync(tempFilePath, audioBuffer);
