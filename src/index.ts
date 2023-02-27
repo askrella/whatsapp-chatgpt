@@ -45,7 +45,7 @@ const start = async () => {
 		cli.printAuthenticated();
 	});
 
-	// WhatsApp authentication failure
+	// WhatsApp's authentication failure
 	client.on(Events.AUTHENTICATION_FAILURE, () => {
 		cli.printAuthenticationFailure();
 	});
@@ -85,9 +85,11 @@ const start = async () => {
 	});
 
 	// WhatsApp initialization
-	client.initialize();
+	await client.initialize();
 };
 
-start();
+start().catch((error) => {
+	console.error(error);
+});
 
 export { botReadyTimestamp };
