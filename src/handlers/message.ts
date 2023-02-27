@@ -17,9 +17,29 @@ import { TranscriptionMode } from "../types/transcription-mode";
 import { transcribeRequest } from "../providers/speech";
 import { transcribeAudioLocal } from "../providers/whisper-local";
 
+// For deciding to ignore old messages
+import { botReadyTimestamp } from "../index";
+
 // Handles message
 async function handleIncomingMessage(message: Message) {
 	let messageString = message.body;
+
+	// Prevent handling old messages
+	if (message.timestamp != null) {
+		const messageTimestamp = new Date(message.timestamp * 1000);
+		
+		// If startTimestamp is null, the bot is not ready yet
+		if (botReadyTimestamp == null) {
+			cli.print("Ignoring message because bot is not ready yet: " + messageString)
+			return;
+		}
+
+		// Ignore messages that are sent before the bot is started
+		if (messageTimestamp < botReadyTimestamp) {
+			cli.print("Ignoring old message: " + messageString);
+			return;
+		}
+	}
 
 	// Transcribe audio
 	if (message.hasMedia) {
