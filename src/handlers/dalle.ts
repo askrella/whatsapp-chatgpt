@@ -27,10 +27,10 @@ const handleMessageDALLE = async (message: any, prompt: any) => {
 
 		cli.print(`[DALL-E] Answer to ${message.from} | OpenAI request took ${end}ms`);
 
-		return message.reply(image);
+		message.reply(image);
 	} catch (error: any) {
 		console.error("An error occured", error);
-		return message.reply("An error occured, please contact the administrator. (" + error.message + ")");
+		message.reply("An error occured, please contact the administrator. (" + error.message + ")");
 	}
 };
 

@@ -32,14 +32,16 @@ const handleMessageAIConfig = async (message: Message, prompt: any) => {
 				}
 			}
 
-			return message.reply(helpMessage);
+			message.reply(helpMessage);
+			return
 		}
 
 		// !config <target> <type> <value>
 		if (args.length !== 3) {
-			return message.reply(
+			message.reply(
 				"Invalid number of arguments, please use the following format: <target> <type> <value> or type !config help for more information."
 			);
+			return
 		}
 
 		const target: string = args[0];
@@ -52,19 +54,21 @@ const handleMessageAIConfig = async (message: Message, prompt: any) => {
 		}
 
 		if (!(type in aiConfigTypes[target])) {
-			return message.reply("Invalid type, please use one of the following: " + Object.keys(aiConfigTypes[target]).join(", "));
+			message.reply("Invalid type, please use one of the following: " + Object.keys(aiConfigTypes[target]).join(", "));
+			return
 		}
 
 		if (!(value in aiConfigValues[target][type])) {
-			return message.reply("Invalid value, please use one of the following: " + Object.keys(aiConfigValues[target][type]).join(", "));
+			message.reply("Invalid value, please use one of the following: " + Object.keys(aiConfigValues[target][type]).join(", "));
+			return
 		}
 
 		aiConfig[target][type] = value;
 
-		return message.reply("Successfully set " + target + " " + type + " to " + value);
+		message.reply("Successfully set " + target + " " + type + " to " + value);
 	} catch (error: any) {
 		console.error("An error occured", error);
-		return message.reply("An error occured, please contact the administrator. (" + error.message + ")");
+		message.reply("An error occured, please contact the administrator. (" + error.message + ")");
 	}
 };
 

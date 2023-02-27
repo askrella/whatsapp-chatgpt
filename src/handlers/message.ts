@@ -70,12 +70,14 @@ async function handleIncomingMessage(message: Message) {
 		}
 
 		if (transcribedText == null) {
-			return message.reply("I couldn't understand what you said.");
+			message.reply("I couldn't understand what you said.");
+			return
 		}
 
 		// checking if transcription is empty (silent voice message)
 		if (transcribedText.length == 0) {
-			return message.reply("I couldn't understand what you said.");
+			message.reply("I couldn't understand what you said.");
+			return
 		}
 
 		cli.print(`[Transcription] Transcription response: ${transcribedText} (language: ${transcribedLanguage})`);

@@ -1,11 +1,11 @@
-import config from "../config";
+import { config } from "../env/env-variables";
 
 /**
  * @param text The sentence to be converted to speech
  * @returns Audio buffer
  */
 async function ttsRequest(text: string): Promise<Buffer | null> {
-	const url = config.speechServerUrl + "/tts";
+	const url = config.SPEECH_API_URL + "/tts";
 
 	// Request options
 	const options = {
@@ -33,7 +33,7 @@ async function ttsRequest(text: string): Promise<Buffer | null> {
  * @returns Response: { text: string, language: string }
  */
 async function transcribeRequest(audioBlob: Blob): Promise<{ text: string; language: string }> {
-	const url = config.speechServerUrl + "/transcribe";
+	const url = config.SPEECH_API_URL + "/transcribe";
 
 	// FormData
 	const formData = new FormData();
