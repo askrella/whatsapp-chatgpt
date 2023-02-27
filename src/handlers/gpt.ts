@@ -48,14 +48,14 @@ const handleMessageGPT = async (message: Message, prompt: string) => {
 		// TTS reply (Default: disabled)
 		if (config.TTS_ENABLED) {
 			sendVoiceMessageReply(message, response);
-			return
+			return;
 		}
 
 		// Default: Text reply
 		message.reply(response.text);
 	} catch (error: any) {
 		console.error("An error occured", error);
-		.reply("An error occured, please contact the administrator. (" + error.message + ")");
+		message.reply("An error occured, please contact the administrator. (" + error.message + ")");
 	}
 };
 
@@ -74,7 +74,7 @@ async function sendVoiceMessageReply(message: Message, gptResponse: any) {
 	// Check if audio buffer is valid
 	if (audioBuffer == null || audioBuffer.length == 0) {
 		message.reply("Speech API couldn't generate audio, please contact the administrator.");
-		return
+		return;
 	}
 
 	// Get temp folder and file path

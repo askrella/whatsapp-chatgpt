@@ -71,13 +71,13 @@ async function handleIncomingMessage(message: Message) {
 
 		if (transcribedText == null) {
 			message.reply("I couldn't understand what you said.");
-			return
+			return;
 		}
 
 		// checking if transcription is empty (silent voice message)
 		if (transcribedText.length == 0) {
 			message.reply("I couldn't understand what you said.");
-			return
+			return;
 		}
 
 		cli.print(`[Transcription] Transcription response: ${transcribedText} (language: ${transcribedLanguage})`);
@@ -96,24 +96,28 @@ async function handleIncomingMessage(message: Message) {
 	// AiConfig (!config <args>)
 	if (startsWithIgnoreCase(messageString, config.AI_CONFIG_PREFIX)) {
 		const prompt = messageString.substring(config.AI_CONFIG_PREFIX.length + 1);
-		return handleMessageAIConfig(message, prompt);
+		await handleMessageAIConfig(message, prompt);
+		return;
 	}
 
 	// GPT (only <prompt>)
 	if (!config.PREFIX_ENABLED) {
-		return handleMessageGPT(message, messageString);
+		await handleMessageGPT(message, messageString);
+		return;
 	}
 
 	// GPT (!gpt <prompt>)
 	if (startsWithIgnoreCase(messageString, config.GPT_PREFIX)) {
 		const prompt = messageString.substring(config.GPT_PREFIX.length + 1);
-		return handleMessageGPT(message, prompt);
+		await handleMessageGPT(message, prompt);
+		return;
 	}
 
 	// DALLE (!dalle <prompt>)
 	if (startsWithIgnoreCase(messageString, config.DALLE_PREFIX)) {
 		const prompt = messageString.substring(config.DALLE_PREFIX.length + 1);
-		return handleMessageDALLE(message, prompt);
+		await handleMessageDALLE(message, prompt);
+		return;
 	}
 }
 

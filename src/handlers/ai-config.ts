@@ -33,7 +33,7 @@ const handleMessageAIConfig = async (message: Message, prompt: any) => {
 			}
 
 			message.reply(helpMessage);
-			return
+			return;
 		}
 
 		// !config <target> <type> <value>
@@ -41,7 +41,7 @@ const handleMessageAIConfig = async (message: Message, prompt: any) => {
 			message.reply(
 				"Invalid number of arguments, please use the following format: <target> <type> <value> or type !config help for more information."
 			);
-			return
+			return;
 		}
 
 		const target: string = args[0];
@@ -55,12 +55,12 @@ const handleMessageAIConfig = async (message: Message, prompt: any) => {
 
 		if (!(type in aiConfigTypes[target])) {
 			message.reply("Invalid type, please use one of the following: " + Object.keys(aiConfigTypes[target]).join(", "));
-			return
+			return;
 		}
 
 		if (!(value in aiConfigValues[target][type])) {
 			message.reply("Invalid value, please use one of the following: " + Object.keys(aiConfigValues[target][type]).join(", "));
-			return
+			return;
 		}
 
 		aiConfig[target][type] = value;
