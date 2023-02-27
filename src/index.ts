@@ -8,6 +8,9 @@ import constants from "./constants";
 import * as cli from "./cli/ui";
 import { handleIncomingMessage } from "./handlers/message";
 
+// Ready timestamp of the bot
+let botReadyTimestamp: Date | null = null;
+
 // Entrypoint
 const start = async () => {
 	cli.printIntro();
@@ -49,7 +52,11 @@ const start = async () => {
 
 	// WhatsApp ready
 	client.on(Events.READY, () => {
+		// Print outro
 		cli.printOutro();
+
+		// Set bot ready timestamp
+		botReadyTimestamp = new Date();
 	});
 
 	// WhatsApp message
@@ -82,3 +89,7 @@ const start = async () => {
 };
 
 start();
+
+export {
+	botReadyTimestamp
+}
