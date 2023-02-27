@@ -1,13 +1,17 @@
 import os from "os";
 import fs from "fs";
 import path from "path";
+
 import { randomUUID } from "crypto";
 import { ChatMessage } from "chatgpt";
 import { Message, MessageMedia } from "whatsapp-web.js";
+
+import { config } from "../env/env-variables";
+
 import { chatgpt } from "../providers/openai";
-import * as cli from "../cli/ui";
-import config from "../config";
 import { ttsRequest } from "../providers/speech";
+
+import * as cli from "../cli/ui";
 
 // Mapping from number to last conversation id
 const conversations = {};
@@ -42,37 +46,33 @@ const handleMessageGPT = async (message: Message, prompt: string) => {
 		};
 
 		// TTS reply (Default: disabled)
-		if (config.ttsEnabled) {
-			sendVoiceMessageReply(message, response);
-			return;
+		if (config.TTS_ENABLED) {
+			return sendVoiceMessageReply(message, response);
 		}
 
 		// Default: Text reply
-		message.reply(response.text);
+		return message.reply(response.text);
 	} catch (error: any) {
 		console.error("An error occured", error);
-		message.reply("An error occured, please contact the administrator. (" + error.message + ")");
+		return message.reply("An error occured, please contact the administrator. (" + error.message + ")");
 	}
 };
 
 const handleDeleteConversation = async (message: Message) => {
-	// Delete conversation
 	delete conversations[message.from];
-
-	// Reply
-	message.reply("Conversation context was resetted!");
+	return message.reply("Conversation context was resetted!");
 }
 
 async function sendVoiceMessageReply(message: Message, gptResponse: any) {
 	// Get audio buffer
 	cli.print(`[Speech API] Generating audio from GPT response "${gptResponse.text}"...`);
+
 	const audioBuffer = await ttsRequest(gptResponse.text);
 	cli.print("[Speech API] Audio generated!");
 
 	// Check if audio buffer is valid
 	if (audioBuffer == null || audioBuffer.length == 0) {
-		message.reply("Speech API couldn't generate audio, please contact the administrator.");
-		return;
+		return message.reply("Speech API couldn't generate audio, please contact the administrator.");
 	}
 
 	// Get temp folder and file path
@@ -84,7 +84,7 @@ async function sendVoiceMessageReply(message: Message, gptResponse: any) {
 
 	// Send audio
 	const messageMedia = new MessageMedia("audio/ogg; codecs=opus", audioBuffer.toString("base64"));
-	message.reply(messageMedia);
+	return message.reply(messageMedia);
 
 	// Delete temp file
 	fs.unlinkSync(tempFilePath);

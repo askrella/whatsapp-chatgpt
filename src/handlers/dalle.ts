@@ -1,7 +1,8 @@
 import { MessageMedia } from "whatsapp-web.js";
+import { CreateImageRequestSizeEnum } from "openai";
+
 import { openai } from "../providers/openai";
 import { aiConfig } from "../handlers/ai-config";
-import { CreateImageRequestSizeEnum } from "openai";
 
 import * as cli from "../cli/ui";
 
@@ -26,10 +27,10 @@ const handleMessageDALLE = async (message: any, prompt: any) => {
 
 		cli.print(`[DALL-E] Answer to ${message.from} | OpenAI request took ${end}ms`);
 
-		message.reply(image);
+		return message.reply(image);
 	} catch (error: any) {
 		console.error("An error occured", error);
-		message.reply("An error occured, please contact the administrator. (" + error.message + ")");
+		return message.reply("An error occured, please contact the administrator. (" + error.message + ")");
 	}
 };
 

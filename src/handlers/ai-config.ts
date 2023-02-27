@@ -12,7 +12,6 @@ const aiConfig: IAiConfig = {
 const handleMessageAIConfig = async (message: Message, prompt: any) => {
 	try {
 		console.log("[AI-Config] Received prompt from " + message.from + ": " + prompt);
-
 		const args: string[] = prompt.split(" ");
 
 		/*
@@ -32,16 +31,15 @@ const handleMessageAIConfig = async (message: Message, prompt: any) => {
 					helpMessage += `\t${target} ${type}: ${Object.keys(aiConfigValues[target][type]).join(", ")}\n`;
 				}
 			}
-			message.reply(helpMessage);
-			return;
+
+			return message.reply(helpMessage);
 		}
 
 		// !config <target> <type> <value>
 		if (args.length !== 3) {
-			message.reply(
+			return message.reply(
 				"Invalid number of arguments, please use the following format: <target> <type> <value> or type !config help for more information."
 			);
-			return;
 		}
 
 		const target: string = args[0];
@@ -54,21 +52,19 @@ const handleMessageAIConfig = async (message: Message, prompt: any) => {
 		}
 
 		if (!(type in aiConfigTypes[target])) {
-			message.reply("Invalid type, please use one of the following: " + Object.keys(aiConfigTypes[target]).join(", "));
-			return;
+			return message.reply("Invalid type, please use one of the following: " + Object.keys(aiConfigTypes[target]).join(", "));
 		}
 
 		if (!(value in aiConfigValues[target][type])) {
-			message.reply("Invalid value, please use one of the following: " + Object.keys(aiConfigValues[target][type]).join(", "));
-			return;
+			return message.reply("Invalid value, please use one of the following: " + Object.keys(aiConfigValues[target][type]).join(", "));
 		}
 
 		aiConfig[target][type] = value;
 
-		message.reply("Successfully set " + target + " " + type + " to " + value);
+		return message.reply("Successfully set " + target + " " + type + " to " + value);
 	} catch (error: any) {
 		console.error("An error occured", error);
-		message.reply("An error occured, please contact the administrator. (" + error.message + ")");
+		return message.reply("An error occured, please contact the administrator. (" + error.message + ")");
 	}
 };
 

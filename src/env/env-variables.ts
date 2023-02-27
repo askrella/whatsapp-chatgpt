@@ -6,21 +6,19 @@ import { z } from "zod";
 dotenv.config();
 
 const environmentVariables = z.object({
-	OPENAI_API_KEY: z.string(),
 	MAX_MODEL_TOKENS: z.number().default(4096),
+	OPENAI_API_KEY: z.string(),
 
-	PREFIX_ENABLED: z.boolean().default(true),
-
+	PREFIX_ENABLED: z.preprocess((text) => new Boolean(text), z.boolean()),
 	GPT_PREFIX: z.string().default("!gpt"),
 	DALLE_PREFIX: z.string().default("!dalle"),
-	RESET_PREFIX: z.string().default("!reset"),
 	AI_CONFIG_PREFIX: z.string().default("!config"),
+	RESET_PREFIX: z.string().default("!reset"),
 
 	SPEECH_API_URL: z.string().default("https://speech-service.verlekar.com"),
-
-	TRANSCRIPTION_ENABLED: z.boolean().default(true),
-	TRANSCRIPTION_MODE: z.enum(["local", "speech-api"]),
-	TTS_ENABLED: z.boolean().default(false)
+	TRANSCRIPTION_MODE: z.enum(["local", "speech-api"]).default("local"),
+	TRANSCRIPTION_ENABLED: z.preprocess((text) => new Boolean(text), z.boolean()),
+	TTS_ENABLED: z.preprocess((text) => new Boolean(text), z.boolean())
 });
 
 /**
@@ -49,7 +47,7 @@ const processEnv = {
 const parsedEnv = environmentVariables.safeParse(processEnv);
 
 if (parsedEnv.success === false) {
-	console.error("🔴 Invalid environment variables:", env.error.flatten().fieldErrors);
+	console.error("🔴 Invalid environment variables:", parsedEnv.error.flatten().fieldErrors);
 	throw new Error(parsedEnv.error.message);
 }
 
