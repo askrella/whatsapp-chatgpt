@@ -1,4 +1,4 @@
-mport process from "process";
+import process from "process";
 
 import { TranscriptionMode } from "./types/transcription-mode";
 
@@ -8,45 +8,45 @@ dotenv.config();
 
 // Config Interface
 interface IConfig {
-    // OpenAI API Key
-    openAIAPIKey: string;
-    maxModelTokens: number;
+	// OpenAI API Key
+	openAIAPIKey: string;
+	maxModelTokens: number;
 
-    // Prefix
-    prefixEnabled: boolean;
-    gptPrefix: string;
-    dallePrefix: string;
-    resetPrefix: string;
-    aiConfigPrefix: string;
+	// Prefix
+	prefixEnabled: boolean;
+	gptPrefix: string;
+	dallePrefix: string;
+	resetPrefix: string;
+	aiConfigPrefix: string;
 
-    // Voice transcription & Text-to-Speech
-    speechServerUrl: string;
-    ttsEnabled: boolean;
-    transcriptionEnabled: boolean;
-    transcriptionMode: TranscriptionMode;
+	// Voice transcription & Text-to-Speech
+	speechServerUrl: string;
+	ttsEnabled: boolean;
+	transcriptionEnabled: boolean;
+	transcriptionMode: TranscriptionMode;
 }
 
 // Config
 const config: IConfig = {
-    openAIAPIKey: process.env.OPENAI_API_KEY || "", // Default: ""
-    maxModelTokens: getEnvMaxModelTokens(), // Default: 4096
+	openAIAPIKey: process.env.OPENAI_API_KEY || "", // Default: ""
+	maxModelTokens: getEnvMaxModelTokens(), // Default: 4096
 
-    // Prefix
-    prefixEnabled: getEnvBooleanWithDefault("PREFIX_ENABLED", true), // Default: true
-    gptPrefix: process.env.GPT_PREFIX || "!gpt", // Default: !gpt
-    dallePrefix: process.env.DALLE_PREFIX || "!dalle", // Default: !dalle
-    resetPrefix: process.env.RESET_PREFIX || "!reset", // Default: !reset
-    aiConfigPrefix: process.env.AI_CONFIG_PREFIX || "!config", // Default: !config
+	// Prefix
+	prefixEnabled: getEnvBooleanWithDefault("PREFIX_ENABLED", true), // Default: true
+	gptPrefix: process.env.GPT_PREFIX || "!gpt", // Default: !gpt
+	dallePrefix: process.env.DALLE_PREFIX || "!dalle", // Default: !dalle
+	resetPrefix: process.env.RESET_PREFIX || "!reset", // Default: !reset
+	aiConfigPrefix: process.env.AI_CONFIG_PREFIX || "!config", // Default: !config
 
-    // Speech API, Default: https://speech-service.verlekar.com
-    speechServerUrl: process.env.SPEECH_API_URL || "https://speech-service.verlekar.com",
+	// Speech API, Default: https://speech-service.verlekar.com
+	speechServerUrl: process.env.SPEECH_API_URL || "https://speech-service.verlekar.com",
 
-    // Text-to-Speech
-    ttsEnabled: getEnvBooleanWithDefault("TTS_ENABLED", false), // Default: false
+	// Text-to-Speech
+	ttsEnabled: getEnvBooleanWithDefault("TTS_ENABLED", false), // Default: false
 
-    // Transcription
-    transcriptionEnabled: getEnvBooleanWithDefault("TRANSCRIPTION_ENABLED", false), // Default: false
-    transcriptionMode: getEnvTranscriptionMode() // Default: local
+	// Transcription
+	transcriptionEnabled: getEnvBooleanWithDefault("TRANSCRIPTION_ENABLED", false), // Default: false
+	transcriptionMode: getEnvTranscriptionMode() // Default: local
 };
 
 /**
@@ -54,12 +54,12 @@ const config: IConfig = {
  * @returns The max model tokens from the environment variable or 4096
  */
 function getEnvMaxModelTokens() {
-    const envValue = process.env.MAX_MODEL_TOKENS;
-    if (envValue == undefined || envValue == "") {
-        return 4096;
-    }
+	const envValue = process.env.MAX_MODEL_TOKENS;
+	if (envValue == undefined || envValue == "") {
+		return 4096;
+	}
 
-    return parseInt(envValue);
+	return parseInt(envValue);
 }
 
 /**
@@ -69,12 +69,12 @@ function getEnvMaxModelTokens() {
  * @returns The value of the environment variable or the default value
  */
 function getEnvBooleanWithDefault(key: string, defaultValue: boolean): boolean {
-    const envValue = process.env[key]?.toLowerCase();
-    if (envValue == undefined || envValue == "") {
-        return defaultValue;
-    }
+	const envValue = process.env[key]?.toLowerCase();
+	if (envValue == undefined || envValue == "") {
+		return defaultValue;
+	}
 
-    return envValue == "true";
+	return envValue == "true";
 }
 
 /**
@@ -82,12 +82,12 @@ function getEnvBooleanWithDefault(key: string, defaultValue: boolean): boolean {
  * @returns The transcription mode
  */
 function getEnvTranscriptionMode(): TranscriptionMode {
-    const envValue = process.env.TRANSCRIPTION_MODE?.toLowerCase();
-    if (envValue == undefined || envValue == "") {
-        return TranscriptionMode.Local;
-    }
+	const envValue = process.env.TRANSCRIPTION_MODE?.toLowerCase();
+	if (envValue == undefined || envValue == "") {
+		return TranscriptionMode.Local;
+	}
 
-    return envValue as TranscriptionMode;
+	return envValue as TranscriptionMode;
 }
 
 export default config;

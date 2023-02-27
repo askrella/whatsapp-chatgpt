@@ -61,7 +61,7 @@ const handleMessageGPT = async (message: Message, prompt: string) => {
 const handleDeleteConversation = async (message: Message) => {
 	delete conversations[message.from];
 	return message.reply("Conversation context was resetted!");
-}
+};
 
 async function sendVoiceMessageReply(message: Message, gptResponse: any) {
 	// Get audio buffer
