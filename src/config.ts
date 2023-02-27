@@ -35,7 +35,7 @@ const config: IConfig = {
 	prefixEnabled: getEnvBooleanWithDefault("PREFIX_ENABLED", true), // Default: true
 	gptPrefix: process.env.GPT_PREFIX || "!gpt", // Default: !gpt
 	dallePrefix: process.env.DALLE_PREFIX || "!dalle", // Default: !dalle
-	resetPrefix: process.env.CLEAR_PREFIX || "!clear", // Default: !clear
+	resetPrefix: process.env.RESET_PREFIX || "!reset", // Default: !reset
 	aiConfigPrefix: process.env.AI_CONFIG_PREFIX || "!config", // Default: !config
 
 	// Speech API, Default: https://speech-service.verlekar.com
