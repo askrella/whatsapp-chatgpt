@@ -16,6 +16,7 @@ interface IConfig {
 	prefixEnabled: boolean;
 	gptPrefix: string;
 	dallePrefix: string;
+	resetPrefix: string;
 	aiConfigPrefix: string;
 
 	// Voice transcription & Text-to-Speech
@@ -34,6 +35,7 @@ const config: IConfig = {
 	prefixEnabled: getEnvBooleanWithDefault("PREFIX_ENABLED", true), // Default: true
 	gptPrefix: process.env.GPT_PREFIX || "!gpt", // Default: !gpt
 	dallePrefix: process.env.DALLE_PREFIX || "!dalle", // Default: !dalle
+	resetPrefix: process.env.CLEAR_PREFIX || "!clear", // Default: !clear
 	aiConfigPrefix: process.env.AI_CONFIG_PREFIX || "!config", // Default: !config
 
 	// Speech API, Default: https://speech-service.verlekar.com

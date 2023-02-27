@@ -44,7 +44,7 @@ const handleMessageGPT = async (message: Message, prompt: string) => {
 		// TTS reply (Default: disabled)
 		if (config.ttsEnabled) {
 			sendVoiceMessageReply(message, response);
-			//return;
+			return;
 		}
 
 		// Default: Text reply
@@ -54,6 +54,14 @@ const handleMessageGPT = async (message: Message, prompt: string) => {
 		message.reply("An error occured, please contact the administrator. (" + error.message + ")");
 	}
 };
+
+const handleDeleteConversation = async (message: Message) => {
+	// Delete conversation
+	delete conversations[message.from];
+
+	// Reply
+	message.reply("Conversation context was resetted!");
+}
 
 async function sendVoiceMessageReply(message: Message, gptResponse: any) {
 	// Get audio buffer
@@ -82,4 +90,4 @@ async function sendVoiceMessageReply(message: Message, gptResponse: any) {
 	fs.unlinkSync(tempFilePath);
 }
 
-export { handleMessageGPT };
+export { handleMessageGPT, handleDeleteConversation };

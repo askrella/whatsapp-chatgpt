@@ -8,7 +8,7 @@ import config from "../config";
 import * as cli from "../cli/ui";
 
 // ChatGPT & DALLE
-import { handleMessageGPT } from "../handlers/gpt";
+import { handleMessageGPT, handleDeleteConversation } from "../handlers/gpt";
 import { handleMessageDALLE } from "../handlers/dalle";
 import { handleMessageAIConfig } from "../handlers/ai-config";
 
@@ -75,8 +75,20 @@ async function handleIncomingMessage(message: Message) {
 		return;
 	}
 
+	// Clear conversation context (!clear)
+	if (startsWithIgnoreCase(messageString, config.resetPrefix)) {
+		await handleDeleteConversation(message);
+	}
+
+	// AiConfig (!config <args>)
+	if (startsWithIgnoreCase(messageString, config.aiConfigPrefix)) {
+		const prompt = messageString.substring(config.aiConfigPrefix.length + 1);
+		await handleMessageAIConfig(message, prompt);
+		return;
+	}
+
+	// GPT (only <prompt>)
 	if (!config.prefixEnabled) {
-		// GPT (only <prompt>)
 		await handleMessageGPT(message, messageString);
 		return;
 	}
@@ -95,12 +107,6 @@ async function handleIncomingMessage(message: Message) {
 		return;
 	}
 
-	// AiConfig (!config <args>)
-	if (startsWithIgnoreCase(messageString, config.aiConfigPrefix)) {
-		const prompt = messageString.substring(config.aiConfigPrefix.length + 1);
-		await handleMessageAIConfig(message, prompt);
-		return;
-	}
 }
 
 export { handleIncomingMessage };
