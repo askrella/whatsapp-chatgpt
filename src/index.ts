@@ -10,6 +10,7 @@ import { handleIncomingMessage } from "./handlers/message";
 
 // Ready timestamp of the bot
 let botReadyTimestamp: Date | null = null;
+var chatStop = false;
 
 // Entrypoint
 const start = async () => {
@@ -62,16 +63,27 @@ const start = async () => {
 	// WhatsApp message
 	client.on(Events.MESSAGE_RECEIVED, async (message: any) => {
 		// Ignore if message is from status broadcast
+		cli.print(`STATUS ` + chatStop);
 		if (message.from == constants.statusBroadcast) return;
-
-		// Ignore if it's a quoted message, (e.g. Bot reply)
-		if (message.hasQuotedMsg) return;
-
-		await handleIncomingMessage(message);
+		if(message.body == 'stop'){
+			chatStop = true
+			return;
+		}else if(message.body == 'start'){
+			chatStop = false
+			return;
+		}else{
+			
+			// Ignore if it's a quoted message, (e.g. Bot reply)
+			if (message.hasQuotedMsg) return;
+			if(chatStop == false){
+				await handleIncomingMessage(message);
+			}
+		}
 	});
 
 	// Reply to own message
 	client.on(Events.MESSAGE_CREATE, async (message: Message) => {
+			cli.print(`GIRDI ` + message.fromMe);
 		// Ignore if message is from status broadcast
 		if (message.from == constants.statusBroadcast) return;
 
@@ -80,8 +92,20 @@ const start = async () => {
 
 		// Ignore if it's not from me
 		if (!message.fromMe) return;
-
-		await handleIncomingMessage(message);
+		
+		if (message.fromMe)
+		{
+			if(message.body == 'stop'){
+				chatStop = true
+				return;
+			}else if(message.body == 'start'){
+				chatStop = false
+				return;
+			}
+		}
+		if(chatStop == false){
+			await handleIncomingMessage(message);
+		}
 	});
 
 	// WhatsApp initialization
