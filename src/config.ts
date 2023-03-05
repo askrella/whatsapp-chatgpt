@@ -8,9 +8,10 @@ dotenv.config();
 
 // Config Interface
 interface IConfig {
-	// OpenAI API Key
+	// OpenAI
 	openAIAPIKey: string;
 	maxModelTokens: number;
+	prePrompt: string | undefined;
 
 	// Prefix
 	prefixEnabled: boolean;
@@ -30,6 +31,7 @@ interface IConfig {
 const config: IConfig = {
 	openAIAPIKey: process.env.OPENAI_API_KEY || "", // Default: ""
 	maxModelTokens: getEnvMaxModelTokens(), // Default: 4096
+	prePrompt: process.env.PRE_PROMPT, // Default: undefined
 
 	// Prefix
 	prefixEnabled: getEnvBooleanWithDefault("PREFIX_ENABLED", true), // Default: true
