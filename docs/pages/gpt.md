@@ -5,7 +5,7 @@
 You can modify the max model tokens for GPT-3 by setting the `MAX_MODEL_TOKENS` environment variable. For example:
 
 ```bash
-MAX_MODEL_TOKENS=4096
+MAX_MODEL_TOKENS=2000
 ```
 
 ## What are tokens and how to count them?
