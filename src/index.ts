@@ -83,7 +83,6 @@ const start = async () => {
 
 	// Reply to own message
 	client.on(Events.MESSAGE_CREATE, async (message: Message) => {
-			cli.print(`GIRDI ` + message.fromMe);
 		// Ignore if message is from status broadcast
 		if (message.from == constants.statusBroadcast) return;
 
