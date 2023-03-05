@@ -63,12 +63,11 @@ const start = async () => {
 	// WhatsApp message
 	client.on(Events.MESSAGE_RECEIVED, async (message: any) => {
 		// Ignore if message is from status broadcast
-		cli.print(`STATUS ` + chatStop);
 		if (message.from == constants.statusBroadcast) return;
-		if(message.body == 'stop'){
+		if(message.body == process.env.STOP_COMMAND){
 			chatStop = true
 			return;
-		}else if(message.body == 'start'){
+		}else if(message.body == process.env.START_COMMAND){
 			chatStop = false
 			return;
 		}else{
@@ -94,10 +93,10 @@ const start = async () => {
 		
 		if (message.fromMe)
 		{
-			if(message.body == 'stop'){
+			if(message.body == process.env.STOP_COMMAND){
 				chatStop = true
 				return;
-			}else if(message.body == 'start'){
+			}else if(message.body == process.env.START_COMMAND){
 				chatStop = false
 				return;
 			}
