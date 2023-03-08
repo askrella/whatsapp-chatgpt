@@ -108,7 +108,11 @@ async function handleIncomingMessage(message: Message) {
 	}
 
 	// GPT (only <prompt>)
-	if (!config.prefixEnabled) {
+
+	const selfNotedMessage = message.fromMe && message.hasQuotedMsg === false && message.from === message.to;
+
+
+	if (!config.prefixEnabled || (config.prefixSkippedForMe && selfNotedMessage)) {
 		await handleMessageGPT(message, messageString);
 		return;
 	}
