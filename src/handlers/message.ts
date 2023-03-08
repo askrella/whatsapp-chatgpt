@@ -46,7 +46,7 @@ async function handleIncomingMessage(message: Message) {
 		const media = await message.downloadMedia();
 
 		// Ignore non-audio media
-		if (!media.mimetype.startsWith("audio/")) return;
+		if (!media || !media.mimetype.startsWith("audio/")) return;
 
 		// Check if transcription is enabled (Default: false)
 		if (!config.transcriptionEnabled) {
