@@ -23,9 +23,12 @@ interface IConfig {
 
 	// Voice transcription & Text-to-Speech
 	speechServerUrl: string;
+	whisperServerUrl: string;
+	whisperApiKey: string;
 	ttsEnabled: boolean;
 	transcriptionEnabled: boolean;
 	transcriptionMode: TranscriptionMode;
+	transcriptionLanguage: string;
 }
 
 // Config
@@ -44,13 +47,16 @@ const config: IConfig = {
 
 	// Speech API, Default: https://speech-service.verlekar.com
 	speechServerUrl: process.env.SPEECH_API_URL || "https://speech-service.verlekar.com",
+	whisperServerUrl: process.env.WHISPER_API_URL || "https://transcribe.whisperapi.com",
+	whisperApiKey: process.env.WHISPER_API_KEY || "", // Default: ""
 
 	// Text-to-Speech
 	ttsEnabled: getEnvBooleanWithDefault("TTS_ENABLED", false), // Default: false
 
 	// Transcription
 	transcriptionEnabled: getEnvBooleanWithDefault("TRANSCRIPTION_ENABLED", false), // Default: false
-	transcriptionMode: getEnvTranscriptionMode() // Default: local
+	transcriptionMode: getEnvTranscriptionMode(), // Default: local
+	transcriptionLanguage: process.env.TRANSCRIPTION_LANGUAGE || "", // Default: null
 };
 
 /**
