@@ -16,6 +16,7 @@ import { handleMessageAIConfig } from "../handlers/ai-config";
 import { TranscriptionMode } from "../types/transcription-mode";
 import { transcribeRequest } from "../providers/speech";
 import { transcribeAudioLocal } from "../providers/whisper-local";
+import { transcribeWhisperApi } from "../providers/whisper-api";
 
 // For deciding to ignore old messages
 import { botReadyTimestamp } from "../index";
@@ -62,14 +63,25 @@ async function handleIncomingMessage(message: Message) {
 		// Transcribe locally or with Speech API
 		cli.print(`[Transcription] Transcribing audio with "${config.transcriptionMode}" mode...`);
 
-		if (config.transcriptionMode == TranscriptionMode.Local) {
-			const { text, language } = await transcribeAudioLocal(mediaBuffer);
-			transcribedText = text;
-			transcribedLanguage = language;
-		} else if (config.transcriptionMode == TranscriptionMode.SpeechAPI) {
-			const { text, language } = await transcribeRequest(new Blob([mediaBuffer]));
-			transcribedText = text;
-			transcribedLanguage = language;
+		let res;
+		switch (config.transcriptionMode) {
+			case TranscriptionMode.Local:
+				res = await transcribeAudioLocal(mediaBuffer);
+				transcribedText = res.text;
+				transcribedLanguage = res.language;
+				break;
+			case TranscriptionMode.WhisperAPI:
+				res = await transcribeWhisperApi(new Blob([mediaBuffer]));
+				transcribedText = res.text;
+				transcribedLanguage = res.language;
+				break;
+			case TranscriptionMode.SpeechAPI:
+				res = await transcribeRequest(new Blob([mediaBuffer]));
+				transcribedText = res.text;
+				transcribedLanguage = res.language;
+				break;
+			default:
+				cli.print(`[Transcription] Unsupported transcription mode: ${config.transcriptionMode}`)
 		}
 
 		// Check transcription is null (error)
@@ -108,7 +120,11 @@ async function handleIncomingMessage(message: Message) {
 	}
 
 	// GPT (only <prompt>)
-	if (!config.prefixEnabled) {
+
+	const selfNotedMessage = message.fromMe && message.hasQuotedMsg === false && message.from === message.to;
+
+
+	if (!config.prefixEnabled || (config.prefixSkippedForMe && selfNotedMessage)) {
 		await handleMessageGPT(message, messageString);
 		return;
 	}

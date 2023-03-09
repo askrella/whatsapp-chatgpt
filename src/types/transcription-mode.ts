@@ -1,4 +1,5 @@
 export enum TranscriptionMode {
 	Local = "local",
-	SpeechAPI = "speech-api"
+	SpeechAPI = "speech-api",
+	WhisperAPI = "whisper-api",
 }

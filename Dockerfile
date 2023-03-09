@@ -4,6 +4,7 @@ WORKDIR /app/
 
 ENV OPENAI_API_KEY ""
 ENV PREFIX_ENABLED ""
+ENV PREFIX_ENABLED ""
 
 RUN apt-get update
 RUN apt-get install chromium -y
