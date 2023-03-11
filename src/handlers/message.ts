@@ -27,10 +27,10 @@ async function handleIncomingMessage(message: Message) {
 	// Prevent handling old messages
 	if (message.timestamp != null) {
 		const messageTimestamp = new Date(message.timestamp * 1000);
-		
+
 		// If startTimestamp is null, the bot is not ready yet
 		if (botReadyTimestamp == null) {
-			cli.print("Ignoring message because bot is not ready yet: " + messageString)
+			cli.print("Ignoring message because bot is not ready yet: " + messageString);
 			return;
 		}
 
@@ -42,17 +42,16 @@ async function handleIncomingMessage(message: Message) {
 	}
 
 	// If default deny is enabled
-	if(config.defaultDeny){
+	if (config.defaultDeny) {
 		// If sender is in blocklist ignore
-		if(config.blockList.includes(message.from)){
-			cli.print("Ignoring message from: " + message.from)
+		if (config.blockList.includes(message.from)) {
+			cli.print("Ignoring message from: " + message.from);
 			return;
 		}
-	}
-	else {
+	} else {
 		// If sender is not on allowlist ignore
-		if(!config.allowList.includes(message.from)){
-			cli.print("Ignoring message from: " + message.from)
+		if (!config.allowList.includes(message.from)) {
+			cli.print("Ignoring message from: " + message.from);
 			return;
 		}
 	}
@@ -142,7 +141,6 @@ async function handleIncomingMessage(message: Message) {
 		await handleMessageDALLE(message, prompt);
 		return;
 	}
-
 }
 
 export { handleIncomingMessage };

@@ -56,10 +56,9 @@ const config: IConfig = {
 	transcriptionMode: getEnvTranscriptionMode(), // Default: local
 
 	//Allowlist & Blocklist
-	allowList: process.env.ALLOW_LIST?.split(',') || [],
-	blockList: process.env.BLOCK_LIST?.split(',') || [],
+	allowList: process.env.ALLOW_LIST?.split(",") || [],
+	blockList: process.env.BLOCK_LIST?.split(",") || [],
 	defaultDeny: getEnvBooleanWithDefault("DEFAULT_DENY", false)
-
 };
 
 /**
