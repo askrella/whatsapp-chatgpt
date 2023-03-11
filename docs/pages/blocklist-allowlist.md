@@ -1,7 +1,8 @@
 # Message Filtering
 
 The following documentation explains the bot message filtering feature that allows the bot to ignore incoming messages that are not on the allow list.
-Configuration Parameters
+
+## Configuration Parameters
 
 There are three configuration parameters for the bot message filtering feature:
 - DEFAULT_DENY: This parameter defines whether the bot should ignore incoming messages if they are not on the allow list. If this parameter is set to true, then the bot will only allow messages that are explicitly listed on the ALLOW_LIST. If it is set to false, then the bot will allow all messages except for those listed on the BLOCK_LIST.
