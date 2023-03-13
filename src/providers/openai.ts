@@ -9,7 +9,7 @@ let options = {
 	frequency_penalty: 0, // OpenAI parameter
 	presence_penalty: 0, // OpenAI parameter
 	// instructions: ``,
-	model: "gpt-3.5-turbo", // OpenAI parameter  `gpt-3.5-turbo` is PAID
+	model: "gpt-3.5-turbo" // OpenAI parameter  `gpt-3.5-turbo` is PAID
 };
 
 export const chatgpt = new ChatGPT(config.openAIAPIKey, options); // Note: options is optional

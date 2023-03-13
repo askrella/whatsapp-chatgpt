@@ -9,6 +9,7 @@ There are two modes available:
 
 -   `local`
 -   `speech-api`
+-   `whisper-api`
 
 # Transcription Modes
 
@@ -52,4 +53,24 @@ By default the bot will use our hosted Speech API (for free). You can change the
 
 ```bash
 SPEECH_API_URL=<your-speech-api-url>
+```
+
+## Whisper API
+
+The Whisper API is a REST API provided by AssemblyAI that is capable of converting voice messages into text. The voice messages are processed on the server, rather than on your own machine.
+
+If you wish to use the Whisper API mode, you will need to set the environment variable
+
+```
+TRANSCRIPTION_MODE=whisper-api
+```
+
+To use the API, you must first sign up and obtain an API key from:
+
+-   https://whisperapi.com/
+
+The transcribed language is usually detected automatically, but if you want to ensure accurate language detection, you can set the environment variable `TRANSCRIPTION_LANGUAGE` to the desired language (for example, "en" for English).
+
+```
+TRANSCRIPTION_LANGUAGE=en
 ```
