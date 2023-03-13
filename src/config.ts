@@ -8,6 +8,9 @@ dotenv.config();
 
 // Config Interface
 interface IConfig {
+	// Access control
+	whitelistedPhoneNumbers: string[] | undefined;
+
 	// OpenAI
 	openAIAPIKey: string;
 	maxModelTokens: number;
@@ -33,6 +36,8 @@ interface IConfig {
 
 // Config
 const config: IConfig = {
+	whitelistedPhoneNumbers: process.env.WHITELISTED_PHONE_NUMBERS?.split(",") || undefined,
+
 	openAIAPIKey: process.env.OPENAI_API_KEY || "", // Default: ""
 	maxModelTokens: getEnvMaxModelTokens(), // Default: 4096
 	prePrompt: process.env.PRE_PROMPT, // Default: undefined

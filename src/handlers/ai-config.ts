@@ -3,6 +3,9 @@ import { aiConfigTarget, aiConfigTypes, aiConfigValues, IAiConfig } from "../typ
 import { dalleImageSize } from "../types/dalle-config";
 
 const aiConfig: IAiConfig = {
+	general: {
+		whitelist: "",
+	},
 	dalle: {
 		size: dalleImageSize["512x512"]
 	}
@@ -58,7 +61,7 @@ const handleMessageAIConfig = async (message: Message, prompt: any) => {
 			return;
 		}
 
-		if (!(value in aiConfigValues[target][type])) {
+		if (typeof aiConfigValues[target][type] === "object" && !(value in aiConfigValues[target][type])) {
 			message.reply("Invalid value, please use one of the following: " + Object.keys(aiConfigValues[target][type]).join(", "));
 			return;
 		}

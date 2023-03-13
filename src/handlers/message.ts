@@ -20,6 +20,7 @@ import { transcribeWhisperApi } from "../providers/whisper-api";
 
 // For deciding to ignore old messages
 import { botReadyTimestamp } from "../index";
+import { aiConfig } from "../handlers/ai-config";
 
 // Handles message
 async function handleIncomingMessage(message: Message) {
@@ -40,6 +41,14 @@ async function handleIncomingMessage(message: Message) {
 			cli.print("Ignoring old message: " + messageString);
 			return;
 		}
+	}
+
+	const selfNotedMessage = message.fromMe && message.hasQuotedMsg === false && message.from === message.to;
+	const whitelistedPhoneNumbers = aiConfig.general.whitelist.split(",") || config.whitelistedPhoneNumbers;
+
+	if (!selfNotedMessage && whitelistedPhoneNumbers && !whitelistedPhoneNumbers.includes(message.from)) {
+		cli.print(`Ignoring message from ${message.from} because it is not whitelisted.`);
+		return;
 	}
 
 	// Transcribe audio
@@ -120,17 +129,6 @@ async function handleIncomingMessage(message: Message) {
 		return;
 	}
 
-	// GPT (only <prompt>)
-
-	const selfNotedMessage = message.fromMe && message.hasQuotedMsg === false && message.from === message.to;
-
-	// GPT (!gpt <prompt>)
-	if (startsWithIgnoreCase(messageString, config.gptPrefix)) {
-		const prompt = messageString.substring(config.gptPrefix.length + 1);
-		await handleMessageGPT(message, prompt);
-		return;
-	}
-
 	// DALLE (!dalle <prompt>)
 	if (startsWithIgnoreCase(messageString, config.dallePrefix)) {
 		const prompt = messageString.substring(config.dallePrefix.length + 1);
@@ -138,6 +136,7 @@ async function handleIncomingMessage(message: Message) {
 		return;
 	}
 
+	// GPT (only <prompt>)
 	if (!config.prefixEnabled || (config.prefixSkippedForMe && selfNotedMessage)) {
 		await handleMessageGPT(message, messageString);
 		return;
