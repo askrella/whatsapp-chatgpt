@@ -110,6 +110,7 @@ async function handleIncomingMessage(message: Message) {
 	// Clear conversation context (!clear)
 	if (startsWithIgnoreCase(messageString, config.resetPrefix)) {
 		await handleDeleteConversation(message);
+		return;
 	}
 
 	// AiConfig (!config <args>)
@@ -122,12 +123,6 @@ async function handleIncomingMessage(message: Message) {
 	// GPT (only <prompt>)
 
 	const selfNotedMessage = message.fromMe && message.hasQuotedMsg === false && message.from === message.to;
-
-
-	if (!config.prefixEnabled || (config.prefixSkippedForMe && selfNotedMessage)) {
-		await handleMessageGPT(message, messageString);
-		return;
-	}
 
 	// GPT (!gpt <prompt>)
 	if (startsWithIgnoreCase(messageString, config.gptPrefix)) {
@@ -143,6 +138,10 @@ async function handleIncomingMessage(message: Message) {
 		return;
 	}
 
+	if (!config.prefixEnabled || (config.prefixSkippedForMe && selfNotedMessage)) {
+		await handleMessageGPT(message, messageString);
+		return;
+	}
 }
 
 export { handleIncomingMessage };
