@@ -22,6 +22,10 @@ interface IConfig {
 	resetPrefix: string;
 	aiConfigPrefix: string;
 
+	// Prompt Moderation
+	promptModerationEnabled: boolean;
+	promptModerationBacklistedCategories: string[];
+
 	// AWS
 	awsAccessKeyId: string;
 	awsSecretAccessKey: string;
@@ -49,6 +53,20 @@ const config: IConfig = {
 	dallePrefix: process.env.DALLE_PREFIX || "!dalle", // Default: !dalle
 	resetPrefix: process.env.RESET_PREFIX || "!reset", // Default: !reset
 	aiConfigPrefix: process.env.AI_CONFIG_PREFIX || "!config", // Default: !config
+
+	// Prompt Moderation
+	promptModerationEnabled: getEnvBooleanWithDefault("PROMPT_MODERATION_ENABLED", false), // Default: false
+	promptModerationBacklistedCategories: process.env.PROMPT_MODERATION_BACKLISTED_CATEGORIES
+		? JSON.parse(process.env.PROMPT_MODERATION_BACKLISTED_CATEGORIES.replace(/'/g, '"')) || [
+				"hate",
+				"hate/threatening",
+				"self-harm",
+				"sexual",
+				"sexual/minors",
+				"violence",
+				"violence/graphic"
+		  ]
+		: ["hate", "hate/threatening", "self-harm", "sexual", "sexual/minors", "violence", "violence/graphic"],
 
 	// AWS
 	awsAccessKeyId: process.env.AWS_ACCESS_KEY_ID || "", // Default: ""
