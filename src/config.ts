@@ -56,7 +56,7 @@ const config: IConfig = {
 	// Transcription
 	transcriptionEnabled: getEnvBooleanWithDefault("TRANSCRIPTION_ENABLED", false), // Default: false
 	transcriptionMode: getEnvTranscriptionMode(), // Default: local
-	transcriptionLanguage: process.env.TRANSCRIPTION_LANGUAGE || "", // Default: null
+	transcriptionLanguage: process.env.TRANSCRIPTION_LANGUAGE || "" // Default: null
 };
 
 /**

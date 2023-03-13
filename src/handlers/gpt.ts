@@ -27,13 +27,13 @@ const handleMessageGPT = async (message: Message, prompt: string) => {
 			response = await chatgpt.ask(prompt, lastConversationId);
 		} else {
 			// Create new conversation
-			const convId = randomUUID()
-			const conv = chatgpt.addConversation(convId)
+			const convId = randomUUID();
+			const conv = chatgpt.addConversation(convId);
 
 			// Set conversation
-			conversations[message.from] = conv.id
+			conversations[message.from] = conv.id;
 
-			cli.print(`[GPT] New conversation for ${message.from} (ID: ${conv.id})`)
+			cli.print(`[GPT] New conversation for ${message.from} (ID: ${conv.id})`);
 
 			// Pre prompt
 			if (config.prePrompt != null) {
@@ -70,7 +70,7 @@ const handleDeleteConversation = async (message: Message) => {
 
 	// Reply
 	message.reply("Conversation context was resetted!");
-}
+};
 
 async function sendVoiceMessageReply(message: Message, gptTextResponse: string) {
 	// Get audio buffer

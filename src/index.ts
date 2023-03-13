@@ -90,6 +90,4 @@ const start = async () => {
 
 start();
 
-export {
-	botReadyTimestamp
-}
+export { botReadyTimestamp };
