@@ -47,6 +47,11 @@ If you already have this set, you can proceed to set the `TRANSCRIPTION_MODE` en
 TRANSCRIPTION_MODE=openai
 ```
 
+(The transcribed language is usually detected automatically, but if you want to ensure accurate language detection, you can set the environment variable `TRANSCRIPTION_LANGUAGE` to the desired language (for example, "English" for English, see [Supported Languages](https://github.com/openai/whisper#available-models-and-languages) for the full list).
+
+```
+TRANSCRIPTION_LANGUAGE=English
+
 Remarks:
 
 -   Please note that this endpoint has a file size limit of 25 MB, so it is recommended to avoid transcribing long audio files.
