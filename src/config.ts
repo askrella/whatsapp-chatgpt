@@ -56,16 +56,16 @@ const config: IConfig = {
 
 	// Prompt Moderation
 	promptModerationEnabled: getEnvBooleanWithDefault("PROMPT_MODERATION_ENABLED", false), // Default: false
-	promptModerationBacklistedCategories: process.env.PROMPT_MODERATION_BACKLISTED_CATEGORIES
+	promptModerationBacklistedCategories: getEnvStringArrayWithDefault("PROMPT_MODERATION_BACKLISTED_CATEGORIES", [
 		? JSON.parse(process.env.PROMPT_MODERATION_BACKLISTED_CATEGORIES.replace(/'/g, '"')) || [
-				"hate",
-				"hate/threatening",
-				"self-harm",
-				"sexual",
-				"sexual/minors",
-				"violence",
-				"violence/graphic"
-		  ]
+		"hate",
+		"hate/threatening",
+		"self-harm",
+		"sexual",
+		"sexual/minors",
+		"violence",
+		"violence/graphic"
+	]), // Default: ["hate", "hate/threatening", "self-harm", "sexual", "sexual/minors", "violence", "violence/graphic"]
 		: ["hate", "hate/threatening", "self-harm", "sexual", "sexual/minors", "violence", "violence/graphic"],
 
 	// AWS
@@ -113,6 +113,21 @@ function getEnvBooleanWithDefault(key: string, defaultValue: boolean): boolean {
 	}
 
 	return envValue == "true";
+}
+
+/**
+ * Get environment variables as a array of strings with a default value
+ * @param key The environment variable key
+ * @param defaultValue The default value
+ * @returns The value of the environment variable or the default value
+ */
+function getEnvStringArrayWithDefault(key: string, defaultValue: string[]): string[] {
+	const envValue = process.env[key];
+	if (envValue == undefined || envValue == "") {
+		return defaultValue;
+	} else {
+		return JSON.parse(envValue.replace(/'/g, '"'));
+	}
 }
 
 /**
