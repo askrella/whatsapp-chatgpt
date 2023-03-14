@@ -5,9 +5,10 @@ It's a great way to use the bot without having to type anything.
 
 You can enable it by setting `TRANSCRIPTION_ENABLED=true` in your `.env` file.
 
-There are two modes available:
+There are multiple modes available:
 
 -   `local`
+-   `openai`
 -   `speech-api`
 -   `whisper-api`
 
@@ -85,7 +86,7 @@ The Whisper API is a REST API provided by AssemblyAI that is capable of converti
 
 If you wish to use the Whisper API mode, you will need to set the environment variable
 
-```
+```bash
 TRANSCRIPTION_MODE=whisper-api
 ```
 
