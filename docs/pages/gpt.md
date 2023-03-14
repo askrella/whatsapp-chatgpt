@@ -36,18 +36,10 @@ PROMPT_MODERATION_ENABLED=true
 
 You can also configure the blacklisted categories, which will be used to filter the prompt moderation.
 
-To do that, use the `PROMPT_MODERATION_BACKLISTED_CATEGORIES` environment variable. For example:
+To do that, use the `PROMPT_MODERATION_BLACKLISTED_CATEGORIES` environment variable. For example:
 
 ```bash
-PROMPT_MODERATION_BACKLISTED_CATEGORIES = [
-    "hate",
-    "hate/threatening",
-    "self-harm",
-    "sexual",
-    "sexual/minors",
-    "violence",
-    "violence/graphic"
-    ]
+PROMPT_MODERATION_BLACKLISTED_CATEGORIES = ["hate","hate/threatening","self-harm","sexual","sexual/minors","violence","violence/graphic"]
 ```
 
 You can see all available categories [here](https://beta.openai.com/docs/api-reference/moderations).

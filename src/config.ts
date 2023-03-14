@@ -25,7 +25,7 @@ interface IConfig {
 
 	// Prompt Moderation
 	promptModerationEnabled: boolean;
-	promptModerationBacklistedCategories: string[];
+	promptModerationBlacklistedCategories: string[];
 
 	// AWS
 	awsAccessKeyId: string;
@@ -62,17 +62,7 @@ const config: IConfig = {
 
 	// Prompt Moderation
 	promptModerationEnabled: getEnvBooleanWithDefault("PROMPT_MODERATION_ENABLED", false), // Default: false
-	promptModerationBacklistedCategories: getEnvStringArrayWithDefault("PROMPT_MODERATION_BACKLISTED_CATEGORIES", [
-		? JSON.parse(process.env.PROMPT_MODERATION_BACKLISTED_CATEGORIES.replace(/'/g, '"')) || [
-		"hate",
-		"hate/threatening",
-		"self-harm",
-		"sexual",
-		"sexual/minors",
-		"violence",
-		"violence/graphic"
-	]), // Default: ["hate", "hate/threatening", "self-harm", "sexual", "sexual/minors", "violence", "violence/graphic"]
-		: ["hate", "hate/threatening", "self-harm", "sexual", "sexual/minors", "violence", "violence/graphic"],
+	promptModerationBlacklistedCategories: getEnvPromptModerationBlacklistedCategories(), // Default: ["hate", "hate/threatening", "self-harm", "sexual", "sexual/minors", "violence", "violence/graphic"]
 
 	// AWS
 	awsAccessKeyId: process.env.AWS_ACCESS_KEY_ID || "", // Default: ""
@@ -126,15 +116,13 @@ function getEnvBooleanWithDefault(key: string, defaultValue: boolean): boolean {
 }
 
 /**
- * Get environment variables as a array of strings with a default value
- * @param key The environment variable key
- * @param defaultValue The default value
- * @returns The value of the environment variable or the default value
+ * Get the blacklist categories for prompt moderation from the environment variable
+ * @returns Blacklisted categories for prompt moderation
  */
-function getEnvStringArrayWithDefault(key: string, defaultValue: string[]): string[] {
-	const envValue = process.env[key];
+function getEnvPromptModerationBlacklistedCategories(): string[] {
+	const envValue = process.env.PROMPT_MODERATION_BLACKLISTED_CATEGORIES;
 	if (envValue == undefined || envValue == "") {
-		return defaultValue;
+		return ["hate", "hate/threatening", "self-harm", "sexual", "sexual/minors", "violence", "violence/graphic"];
 	} else {
 		return JSON.parse(envValue.replace(/'/g, '"'));
 	}

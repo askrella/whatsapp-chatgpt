@@ -47,10 +47,11 @@ If you already have this set, you can proceed to set the `TRANSCRIPTION_MODE` en
 TRANSCRIPTION_MODE=openai
 ```
 
-(The transcribed language is usually detected automatically, but if you want to ensure accurate language detection, you can set the environment variable `TRANSCRIPTION_LANGUAGE` to the desired language (for example, "English" for English, see [Supported Languages](https://github.com/openai/whisper#available-models-and-languages) for the full list).
+The transcribed language is usually detected automatically, but if you want to ensure accurate language detection, you can set the environment variable `TRANSCRIPTION_LANGUAGE` to the desired language (for example, "English" for English, see [Supported Languages](https://github.com/openai/whisper#available-models-and-languages) for the full list).
 
-```
+```bash
 TRANSCRIPTION_LANGUAGE=English
+```
 
 Remarks:
 
@@ -70,7 +71,7 @@ If you want use the Speech API mode you need to set the following environment va
 
 ```bash
 TRANSCRIPTION_MODE=speech-api
-```
+````
 
 By default the bot will use our hosted Speech API (for free). You can change the URL by setting the following environment variable:
 

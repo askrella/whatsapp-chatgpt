@@ -19,7 +19,6 @@ const handleMessageDALLE = async (message: any, prompt: any) => {
 			try {
 				await moderateIncomingPrompt(prompt);
 			} catch (error: any) {
-				cli.print("[DALL-E] Prompt was rejected.");
 				message.reply(error.message);
 				return;
 			}

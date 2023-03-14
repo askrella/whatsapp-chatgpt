@@ -30,7 +30,6 @@ const handleMessageGPT = async (message: Message, prompt: string) => {
 			try {
 				await moderateIncomingPrompt(prompt);
 			} catch (error: any) {
-				cli.print("[GPT] Prompt was rejected.");
 				message.reply(error.message);
 				return;
 			}
@@ -54,7 +53,7 @@ const handleMessageGPT = async (message: Message, prompt: string) => {
 			cli.print(`[GPT] New conversation for ${message.from} (ID: ${conv.id})`);
 
 			// Pre prompt
-			if (config.prePrompt != null) {
+			if (config.prePrompt != null && config.prePrompt.trim() != "") {
 				cli.print(`[GPT] Pre prompt: ${config.prePrompt}`);
 				const prePromptResponse = await chatgpt.ask(config.prePrompt, conv.id);
 				cli.print("[GPT] Pre prompt response: " + prePromptResponse);

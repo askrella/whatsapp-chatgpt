@@ -16,19 +16,20 @@ const moderateIncomingPrompt = async (prompt: string) => {
 
 	const moderationResponseData = moderationResponse.data;
 	const moderationResponseCategories = moderationResponseData.results[0].categories;
-	const blackListedCategories = config.promptModerationBacklistedCategories;
+	const blackListedCategories = config.promptModerationBlacklistedCategories;
 
-	cli.print(`[MODERATION] OpenAI Moderation response: ${JSON.stringify(moderationResponseData)}`);
+	// Print categories as [ category: true/false ]
+	const categoriesForPrint = Object.keys(moderationResponseCategories).map((category) => {
+		return `${category}: ${moderationResponseCategories[category]}`;
+	});
+	cli.print(`[MODERATION] OpenAI Moderation response: ${JSON.stringify(categoriesForPrint)}`);
 
-	// Check if any of the backlisted categories are set to true
+	// Check if any of the blacklisted categories are set to true
 	for (const category of blackListedCategories) {
 		if (moderationResponseCategories[category]) {
-			cli.print(`[MODERATION] Prompt was rejected by the moderation system. Category: ${category}`);
 			throw new Error(`Prompt was rejected by the moderation system. Reason: ${category}`);
 		}
 	}
-
-	cli.print("[MODERATION] Prompt was accepted by the moderation system.");
 
 	return true;
 };
