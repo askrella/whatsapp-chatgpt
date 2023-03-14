@@ -6,7 +6,11 @@ import { Message, MessageMedia } from "whatsapp-web.js";
 import { chatgpt } from "../providers/openai";
 import * as cli from "../cli/ui";
 import config from "../config";
-import { ttsRequest } from "../providers/speech";
+
+// TTS
+import { ttsRequest as speechTTSRequest } from "../providers/speech";
+import { ttsRequest as awsTTSRequest } from "../providers/aws";
+import { TTSMode } from "../types/tts-mode";
 
 // Mapping from number to last conversation id
 const conversations = {};
@@ -73,16 +77,45 @@ const handleDeleteConversation = async (message: Message) => {
 };
 
 async function sendVoiceMessageReply(message: Message, gptTextResponse: string) {
+	var logTAG = "[TTS]";
+	var ttsRequest = async function (): Promise<Buffer | null> {
+		return await speechTTSRequest(gptTextResponse);
+	};
+
+	switch (config.ttsMode) {
+		case TTSMode.SpeechAPI:
+			logTAG = "[SpeechAPI]";
+			ttsRequest = async function (): Promise<Buffer | null> {
+				return await speechTTSRequest(gptTextResponse);
+			};
+			break;
+
+		case TTSMode.AWSPolly:
+			logTAG = "[AWSPolly]";
+			ttsRequest = async function (): Promise<Buffer | null> {
+				return await awsTTSRequest(gptTextResponse);
+			};
+			break;
+
+		default:
+			logTAG = "[SpeechAPI]";
+			ttsRequest = async function (): Promise<Buffer | null> {
+				return await speechTTSRequest(gptTextResponse);
+			};
+			break;
+	}
+
 	// Get audio buffer
-	cli.print(`[Speech API] Generating audio from GPT response "${gptTextResponse}"...`);
-	const audioBuffer = await ttsRequest(gptTextResponse);
-	cli.print("[Speech API] Audio generated!");
+	cli.print(`${logTAG} Generating audio from GPT response "${gptTextResponse}"...`);
+	const audioBuffer = await ttsRequest();
 
 	// Check if audio buffer is valid
 	if (audioBuffer == null || audioBuffer.length == 0) {
-		message.reply("Speech API couldn't generate audio, please contact the administrator.");
+		message.reply(`${logTAG} couldn't generate audio, please contact the administrator.`);
 		return;
 	}
+
+	cli.print(`${logTAG} Audio generated!`);
 
 	// Get temp folder and file path
 	const tempFolder = os.tmpdir();
