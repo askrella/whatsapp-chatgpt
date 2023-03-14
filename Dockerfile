@@ -7,7 +7,7 @@ ENV PREFIX_ENABLED ""
 ENV PREFIX_ENABLED ""
 
 RUN apt-get update
-RUN apt-get install chromium -y
+RUN apt-get install chromium ffmpeg -y
 
 COPY package.json package-lock.json ./
 

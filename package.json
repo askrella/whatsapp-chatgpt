@@ -13,12 +13,15 @@
 		"@clack/prompts": "^0.4.3",
 		"chatgpt-official": "^1.1.5",
 		"dotenv": "^16.0.3",
+		"fetch-blob": "^3.2.0",
+		"ffmpeg": "^0.0.4",
 		"openai": "^3.1.0",
 		"picocolors": "^1.0.0",
 		"qrcode-terminal": "^0.12.0",
 		"whatsapp-web.js": "^1.19.4"
 	},
 	"devDependencies": {
+		"@types/fluent-ffmpeg": "^2.1.21",
 		"@types/qrcode-terminal": "^0.12.0",
 		"prettier": "^2.8.4"
 	},

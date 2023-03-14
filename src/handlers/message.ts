@@ -17,6 +17,7 @@ import { TranscriptionMode } from "../types/transcription-mode";
 import { transcribeRequest } from "../providers/speech";
 import { transcribeAudioLocal } from "../providers/whisper-local";
 import { transcribeWhisperApi } from "../providers/whisper-api";
+import { transcribeOpenAI } from "../providers/openai";
 
 // For deciding to ignore old messages
 import { botReadyTimestamp } from "../index";
@@ -67,8 +68,6 @@ async function handleIncomingMessage(message: Message) {
 		// Convert media to base64 string
 		const mediaBuffer = Buffer.from(media.data, "base64");
 
-		let transcribedText, transcribedLanguage;
-
 		// Transcribe locally or with Speech API
 		cli.print(`[Transcription] Transcribing audio with "${config.transcriptionMode}" mode...`);
 
@@ -76,22 +75,20 @@ async function handleIncomingMessage(message: Message) {
 		switch (config.transcriptionMode) {
 			case TranscriptionMode.Local:
 				res = await transcribeAudioLocal(mediaBuffer);
-				transcribedText = res.text;
-				transcribedLanguage = res.language;
+				break;
+			case TranscriptionMode.OpenAI:
+				res = await transcribeOpenAI(mediaBuffer);
 				break;
 			case TranscriptionMode.WhisperAPI:
 				res = await transcribeWhisperApi(new Blob([mediaBuffer]));
-				transcribedText = res.text;
-				transcribedLanguage = res.language;
 				break;
 			case TranscriptionMode.SpeechAPI:
 				res = await transcribeRequest(new Blob([mediaBuffer]));
-				transcribedText = res.text;
-				transcribedLanguage = res.language;
 				break;
 			default:
 				cli.print(`[Transcription] Unsupported transcription mode: ${config.transcriptionMode}`);
 		}
+		const { text: transcribedText, language: transcribedLanguage } = res;
 
 		// Check transcription is null (error)
 		if (transcribedText == null) {
@@ -109,7 +106,8 @@ async function handleIncomingMessage(message: Message) {
 		cli.print(`[Transcription] Transcription response: ${transcribedText} (language: ${transcribedLanguage})`);
 
 		// Reply with transcription
-		message.reply("You said: " + transcribedText + " (language: " + transcribedLanguage + ")");
+		const reply = `You said: ${transcribedText}${transcribedLanguage ? " (language: " + transcribedLanguage + ")" : ""}`;
+		message.reply(reply);
 
 		// Handle message GPT
 		await handleMessageGPT(message, transcribedText);
