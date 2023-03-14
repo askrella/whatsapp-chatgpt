@@ -16,6 +16,8 @@ import { handleMessageAIConfig } from "../handlers/ai-config";
 import { TranscriptionMode } from "../types/transcription-mode";
 import { transcribeRequest } from "../providers/speech";
 import { transcribeAudioLocal } from "../providers/whisper-local";
+import { transcribeWhisperApi } from "../providers/whisper-api";
+import { transcribeOpenAI } from "../providers/openai";
 
 // For deciding to ignore old messages
 import { botReadyTimestamp } from "../index";
@@ -27,10 +29,10 @@ async function handleIncomingMessage(message: Message) {
 	// Prevent handling old messages
 	if (message.timestamp != null) {
 		const messageTimestamp = new Date(message.timestamp * 1000);
-		
+
 		// If startTimestamp is null, the bot is not ready yet
 		if (botReadyTimestamp == null) {
-			cli.print("Ignoring message because bot is not ready yet: " + messageString)
+			cli.print("Ignoring message because bot is not ready yet: " + messageString);
 			return;
 		}
 
@@ -46,7 +48,7 @@ async function handleIncomingMessage(message: Message) {
 		const media = await message.downloadMedia();
 
 		// Ignore non-audio media
-		if (!media.mimetype.startsWith("audio/")) return;
+		if (!media || !media.mimetype.startsWith("audio/")) return;
 
 		// Check if transcription is enabled (Default: false)
 		if (!config.transcriptionEnabled) {
@@ -57,20 +59,27 @@ async function handleIncomingMessage(message: Message) {
 		// Convert media to base64 string
 		const mediaBuffer = Buffer.from(media.data, "base64");
 
-		let transcribedText, transcribedLanguage;
-
 		// Transcribe locally or with Speech API
 		cli.print(`[Transcription] Transcribing audio with "${config.transcriptionMode}" mode...`);
 
-		if (config.transcriptionMode == TranscriptionMode.Local) {
-			const { text, language } = await transcribeAudioLocal(mediaBuffer);
-			transcribedText = text;
-			transcribedLanguage = language;
-		} else if (config.transcriptionMode == TranscriptionMode.SpeechAPI) {
-			const { text, language } = await transcribeRequest(new Blob([mediaBuffer]));
-			transcribedText = text;
-			transcribedLanguage = language;
+		let res;
+		switch (config.transcriptionMode) {
+			case TranscriptionMode.Local:
+				res = await transcribeAudioLocal(mediaBuffer);
+				break;
+			case TranscriptionMode.OpenAI:
+				res = await transcribeOpenAI(mediaBuffer);
+				break;
+			case TranscriptionMode.WhisperAPI:
+				res = await transcribeWhisperApi(new Blob([mediaBuffer]));
+				break;
+			case TranscriptionMode.SpeechAPI:
+				res = await transcribeRequest(new Blob([mediaBuffer]));
+				break;
+			default:
+				cli.print(`[Transcription] Unsupported transcription mode: ${config.transcriptionMode}`);
 		}
+		const { text: transcribedText, language: transcribedLanguage } = res;
 
 		// Check transcription is null (error)
 		if (transcribedText == null) {
@@ -88,7 +97,8 @@ async function handleIncomingMessage(message: Message) {
 		cli.print(`[Transcription] Transcription response: ${transcribedText} (language: ${transcribedLanguage})`);
 
 		// Reply with transcription
-		message.reply("You said: " + transcribedText + " (language: " + transcribedLanguage + ")");
+		const reply = `You said: ${transcribedText}${transcribedLanguage ? " (language: " + transcribedLanguage + ")" : ""}`;
+		message.reply(reply);
 
 		// Handle message GPT
 		await handleMessageGPT(message, transcribedText);
@@ -98,6 +108,7 @@ async function handleIncomingMessage(message: Message) {
 	// Clear conversation context (!clear)
 	if (startsWithIgnoreCase(messageString, config.resetPrefix)) {
 		await handleDeleteConversation(message);
+		return;
 	}
 
 	// AiConfig (!config <args>)
@@ -108,10 +119,8 @@ async function handleIncomingMessage(message: Message) {
 	}
 
 	// GPT (only <prompt>)
-	if (!config.prefixEnabled) {
-		await handleMessageGPT(message, messageString);
-		return;
-	}
+
+	const selfNotedMessage = message.fromMe && message.hasQuotedMsg === false && message.from === message.to;
 
 	// GPT (!gpt <prompt>)
 	if (startsWithIgnoreCase(messageString, config.gptPrefix)) {
@@ -127,6 +136,10 @@ async function handleIncomingMessage(message: Message) {
 		return;
 	}
 
+	if (!config.prefixEnabled || (config.prefixSkippedForMe && selfNotedMessage)) {
+		await handleMessageGPT(message, messageString);
+		return;
+	}
 }
 
 export { handleIncomingMessage };
