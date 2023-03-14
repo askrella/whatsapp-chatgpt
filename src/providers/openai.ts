@@ -85,7 +85,7 @@ export async function transcribeOpenAI(audioBuffer: Buffer): Promise<{ text: str
 
 	const transcription = await response.json();
 	return {
-		text: transcription.transcription,
+		text: transcription.text,
 		language
 	};
 }
