@@ -22,6 +22,10 @@ interface IConfig {
 	resetPrefix: string;
 	aiConfigPrefix: string;
 
+	// Prompt Moderation
+	promptModerationEnabled: boolean;
+	promptModerationBacklistedCategories: string[];
+
 	// AWS
 	awsAccessKeyId: string;
 	awsSecretAccessKey: string;
@@ -49,6 +53,20 @@ const config: IConfig = {
 	dallePrefix: process.env.DALLE_PREFIX || "!dalle", // Default: !dalle
 	resetPrefix: process.env.RESET_PREFIX || "!reset", // Default: !reset
 	aiConfigPrefix: process.env.AI_CONFIG_PREFIX || "!config", // Default: !config
+
+	// Prompt Moderation
+	promptModerationEnabled: getEnvBooleanWithDefault("PROMPT_MODERATION_ENABLED", false), // Default: false
+	promptModerationBacklistedCategories: getEnvStringArrayWithDefault("PROMPT_MODERATION_BACKLISTED_CATEGORIES", [
+		? JSON.parse(process.env.PROMPT_MODERATION_BACKLISTED_CATEGORIES.replace(/'/g, '"')) || [
+		"hate",
+		"hate/threatening",
+		"self-harm",
+		"sexual",
+		"sexual/minors",
+		"violence",
+		"violence/graphic"
+	]), // Default: ["hate", "hate/threatening", "self-harm", "sexual", "sexual/minors", "violence", "violence/graphic"]
+		: ["hate", "hate/threatening", "self-harm", "sexual", "sexual/minors", "violence", "violence/graphic"],
 
 	// AWS
 	awsAccessKeyId: process.env.AWS_ACCESS_KEY_ID || "", // Default: ""
@@ -95,6 +113,21 @@ function getEnvBooleanWithDefault(key: string, defaultValue: boolean): boolean {
 	}
 
 	return envValue == "true";
+}
+
+/**
+ * Get environment variables as a array of strings with a default value
+ * @param key The environment variable key
+ * @param defaultValue The default value
+ * @returns The value of the environment variable or the default value
+ */
+function getEnvStringArrayWithDefault(key: string, defaultValue: string[]): string[] {
+	const envValue = process.env[key];
+	if (envValue == undefined || envValue == "") {
+		return defaultValue;
+	} else {
+		return JSON.parse(envValue.replace(/'/g, '"'));
+	}
 }
 
 /**

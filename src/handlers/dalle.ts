@@ -2,14 +2,28 @@ import { MessageMedia } from "whatsapp-web.js";
 import { openai } from "../providers/openai";
 import { aiConfig } from "../handlers/ai-config";
 import { CreateImageRequestSizeEnum } from "openai";
-
+import config from "../config";
 import * as cli from "../cli/ui";
+
+// Moderation
+import { moderateIncomingPrompt } from "./moderation";
 
 const handleMessageDALLE = async (message: any, prompt: any) => {
 	try {
 		const start = Date.now();
 
 		cli.print(`[DALL-E] Received prompt from ${message.from}: ${prompt}`);
+
+		// Prompt Moderation
+		if (config.promptModerationEnabled) {
+			try {
+				await moderateIncomingPrompt(prompt);
+			} catch (error: any) {
+				cli.print("[DALL-E] Prompt was rejected.");
+				message.reply(error.message);
+				return;
+			}
+		}
 
 		// Send the prompt to the API
 		const response = await openai.createImage({
