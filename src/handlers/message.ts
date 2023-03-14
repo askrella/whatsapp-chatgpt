@@ -43,6 +43,9 @@ async function handleIncomingMessage(message: Message) {
 		}
 	}
 
+	// Ignore groupchats if disabled
+	if ((await message.getChat()).isGroup && !config.groupchatsEnabled) return;
+
 	// Transcribe audio
 	if (message.hasMedia) {
 		const media = await message.downloadMedia();
