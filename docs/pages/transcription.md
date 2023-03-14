@@ -33,6 +33,24 @@ Use the following environment variable to enable the local mode:
 TRANSCRIPTION_MODE=local
 ```
 
+## Using A Remote Transcription API
+
+You might use an external API to turn audio into text, the voice messages are processed on the server and not on your machine.
+
+## Open AI (Whisper)
+
+To use the official Open AI transcription endpoint based on large-v2 Whisper model, you will need to ensure that you have the `OPENAI_API_KEY` environment variable set.
+
+If you already have this set, you can proceed to set the `TRANSCRIPTION_MODE` environment variable:
+
+```bash
+TRANSCRIPTION_MODE=openai
+```
+
+Remarks:
+
+-   Please note that this endpoint has a file size limit of 25 MB, so it is recommended to avoid transcribing long audio files.
+
 ## Speech-API
 
 The Speech API is a REST API that converts your voice messages to text. The voice messages are processed on the server and not on your machine.

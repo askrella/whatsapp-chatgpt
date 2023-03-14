@@ -24,6 +24,7 @@ interface IConfig {
 	// Voice transcription & Text-to-Speech
 	speechServerUrl: string;
 	whisperServerUrl: string;
+	openAIServerUrl: string;
 	whisperApiKey: string;
 	ttsEnabled: boolean;
 	transcriptionEnabled: boolean;
@@ -48,6 +49,7 @@ const config: IConfig = {
 	// Speech API, Default: https://speech-service.verlekar.com
 	speechServerUrl: process.env.SPEECH_API_URL || "https://speech-service.verlekar.com",
 	whisperServerUrl: process.env.WHISPER_API_URL || "https://transcribe.whisperapi.com",
+	openAIServerUrl: process.env.OPENAI_API_URL || "https://api.openai.com/v1/audio/transcriptions",
 	whisperApiKey: process.env.WHISPER_API_KEY || "", // Default: ""
 
 	// Text-to-Speech
