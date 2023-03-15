@@ -140,6 +140,11 @@ async function handleIncomingMessage(message: Message) {
 		await handleMessageGPT(message, messageString);
 		return;
 	}
+	// If No prompt given, then GPT
+	if ( !config.noPrefixIsGpt ) {
+		await handleMessageGPT(message, messageString);
+		return;
+	}
 }
 
 export { handleIncomingMessage };
