@@ -1,6 +1,8 @@
 import process from "process";
 
 import { TranscriptionMode } from "./types/transcription-mode";
+import { TTSMode } from "./types/tts-mode";
+import { AWSPollyEngine } from "./types/aws-polly-engine";
 
 // Environment variables
 import dotenv from "dotenv";
@@ -24,12 +26,24 @@ interface IConfig {
 	resetPrefix: string;
 	aiConfigPrefix: string;
 
+	// Prompt Moderation
+	promptModerationEnabled: boolean;
+	promptModerationBlacklistedCategories: string[];
+
+	// AWS
+	awsAccessKeyId: string;
+	awsSecretAccessKey: string;
+	awsRegion: string;
+	awsPollyVoiceId: string;
+	awsPollyEngine: AWSPollyEngine;
+
 	// Voice transcription & Text-to-Speech
 	speechServerUrl: string;
 	whisperServerUrl: string;
 	openAIServerUrl: string;
 	whisperApiKey: string;
 	ttsEnabled: boolean;
+	ttsMode: TTSMode;
 	transcriptionEnabled: boolean;
 	transcriptionMode: TranscriptionMode;
 	transcriptionLanguage: string;
@@ -51,6 +65,17 @@ const config: IConfig = {
 	resetPrefix: process.env.RESET_PREFIX || "!reset", // Default: !reset
 	aiConfigPrefix: process.env.AI_CONFIG_PREFIX || "!config", // Default: !config
 
+	// Prompt Moderation
+	promptModerationEnabled: getEnvBooleanWithDefault("PROMPT_MODERATION_ENABLED", false), // Default: false
+	promptModerationBlacklistedCategories: getEnvPromptModerationBlacklistedCategories(), // Default: ["hate", "hate/threatening", "self-harm", "sexual", "sexual/minors", "violence", "violence/graphic"]
+
+	// AWS
+	awsAccessKeyId: process.env.AWS_ACCESS_KEY_ID || "", // Default: ""
+	awsSecretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || "", // Default: ""
+	awsRegion: process.env.AWS_REGION || "", // Default: ""
+	awsPollyVoiceId: process.env.AWS_POLLY_VOICE_ID || "", // Default: "Joanna"
+	awsPollyEngine: getEnvAWSPollyVoiceEngine(), // Default: standard
+
 	// Speech API, Default: https://speech-service.verlekar.com
 	speechServerUrl: process.env.SPEECH_API_URL || "https://speech-service.verlekar.com",
 	whisperServerUrl: process.env.WHISPER_API_URL || "https://transcribe.whisperapi.com",
@@ -59,6 +84,7 @@ const config: IConfig = {
 
 	// Text-to-Speech
 	ttsEnabled: getEnvBooleanWithDefault("TTS_ENABLED", false), // Default: false
+	ttsMode: getEnvTTSMode(), // Default: speech-api
 
 	// Transcription
 	transcriptionEnabled: getEnvBooleanWithDefault("TRANSCRIPTION_ENABLED", false), // Default: false
@@ -95,6 +121,19 @@ function getEnvBooleanWithDefault(key: string, defaultValue: boolean): boolean {
 }
 
 /**
+ * Get the blacklist categories for prompt moderation from the environment variable
+ * @returns Blacklisted categories for prompt moderation
+ */
+function getEnvPromptModerationBlacklistedCategories(): string[] {
+	const envValue = process.env.PROMPT_MODERATION_BLACKLISTED_CATEGORIES;
+	if (envValue == undefined || envValue == "") {
+		return ["hate", "hate/threatening", "self-harm", "sexual", "sexual/minors", "violence", "violence/graphic"];
+	} else {
+		return JSON.parse(envValue.replace(/'/g, '"'));
+	}
+}
+
+/**
  * Get the transcription mode from the environment variable
  * @returns The transcription mode
  */
@@ -105,6 +144,32 @@ function getEnvTranscriptionMode(): TranscriptionMode {
 	}
 
 	return envValue as TranscriptionMode;
+}
+
+/**
+ * Get the tss mode from the environment variable
+ * @returns The tts mode
+ */
+function getEnvTTSMode(): TTSMode {
+	const envValue = process.env.TTS_MODE?.toLowerCase();
+	if (envValue == undefined || envValue == "") {
+		return TTSMode.SpeechAPI;
+	}
+
+	return envValue as TTSMode;
+}
+
+/**
+ * Get the AWS Polly voice engine from the environment variable
+ * @returns The voice engine
+ */
+function getEnvAWSPollyVoiceEngine(): AWSPollyEngine {
+	const envValue = process.env.AWS_POLLY_VOICE_ENGINE?.toLowerCase();
+	if (envValue == undefined || envValue == "") {
+		return AWSPollyEngine.Standard;
+	}
+
+	return envValue as AWSPollyEngine;
 }
 
 export default config;
