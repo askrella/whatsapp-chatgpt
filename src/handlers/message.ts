@@ -136,7 +136,7 @@ async function handleIncomingMessage(message: Message) {
 	}
 
 	// If None of the prompts is given but noPrefixIsGpt is set , then fall back to GPT
-	if ( config.prefixEnabled && (config.noPrefixIsGpt) ) {
+	if ( config.prefixEnabled && config.noPrefixIsGpt ) {
 		await handleMessageGPT(message, messageString);
 		return;
 	}

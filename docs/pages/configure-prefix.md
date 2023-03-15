@@ -15,3 +15,4 @@ GPT_PREFIX=!gpt
 DALLE_PREFIX=!dalle
 AI_CONFIG_PREFIX=!config
 ```
+You can set `NOPREFIX_IS_GPT` to `true` to enable handing the message via GPT if user gives no prefix.  
