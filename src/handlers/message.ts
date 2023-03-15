@@ -118,8 +118,14 @@ async function handleIncomingMessage(message: Message) {
 		return;
 	}
 
-	// GPT (only <prompt>)
+	// DALLE (!dalle <prompt>)
+	if (startsWithIgnoreCase(messageString, config.dallePrefix)) {
+		const prompt = messageString.substring(config.dallePrefix.length + 1);
+		await handleMessageDALLE(message, prompt);
+		return;
+	}
 
+	// GPT (only <prompt>)
 	const selfNotedMessage = message.fromMe && message.hasQuotedMsg === false && message.from === message.to;
 
 	// GPT (!gpt <prompt>)
@@ -129,19 +135,13 @@ async function handleIncomingMessage(message: Message) {
 		return;
 	}
 
-	// DALLE (!dalle <prompt>)
-	if (startsWithIgnoreCase(messageString, config.dallePrefix)) {
-		const prompt = messageString.substring(config.dallePrefix.length + 1);
-		await handleMessageDALLE(message, prompt);
+	// If None of the prompts is given, then fall back to GPT
+	if ( config.noPrefixIsGpt ) {
+		await handleMessageGPT(message, messageString);
 		return;
 	}
 
 	if (!config.prefixEnabled || (config.prefixSkippedForMe && selfNotedMessage)) {
-		await handleMessageGPT(message, messageString);
-		return;
-	}
-	// If No prompt given, then GPT
-	if ( config.noPrefixIsGpt ) {
 		await handleMessageGPT(message, messageString);
 		return;
 	}
