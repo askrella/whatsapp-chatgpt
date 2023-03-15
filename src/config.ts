@@ -24,6 +24,10 @@ interface IConfig {
 	resetPrefix: string;
 	aiConfigPrefix: string;
 
+	// Prompt Moderation
+	promptModerationEnabled: boolean;
+	promptModerationBlacklistedCategories: string[];
+
 	// AWS
 	awsAccessKeyId: string;
 	awsSecretAccessKey: string;
@@ -57,6 +61,10 @@ const config: IConfig = {
 	dallePrefix: process.env.DALLE_PREFIX || "!dalle", // Default: !dalle
 	resetPrefix: process.env.RESET_PREFIX || "!reset", // Default: !reset
 	aiConfigPrefix: process.env.AI_CONFIG_PREFIX || "!config", // Default: !config
+
+	// Prompt Moderation
+	promptModerationEnabled: getEnvBooleanWithDefault("PROMPT_MODERATION_ENABLED", false), // Default: false
+	promptModerationBlacklistedCategories: getEnvPromptModerationBlacklistedCategories(), // Default: ["hate", "hate/threatening", "self-harm", "sexual", "sexual/minors", "violence", "violence/graphic"]
 
 	// AWS
 	awsAccessKeyId: process.env.AWS_ACCESS_KEY_ID || "", // Default: ""
@@ -107,6 +115,19 @@ function getEnvBooleanWithDefault(key: string, defaultValue: boolean): boolean {
 	}
 
 	return envValue == "true";
+}
+
+/**
+ * Get the blacklist categories for prompt moderation from the environment variable
+ * @returns Blacklisted categories for prompt moderation
+ */
+function getEnvPromptModerationBlacklistedCategories(): string[] {
+	const envValue = process.env.PROMPT_MODERATION_BLACKLISTED_CATEGORIES;
+	if (envValue == undefined || envValue == "") {
+		return ["hate", "hate/threatening", "self-harm", "sexual", "sexual/minors", "violence", "violence/graphic"];
+	} else {
+		return JSON.parse(envValue.replace(/'/g, '"'));
+	}
 }
 
 /**

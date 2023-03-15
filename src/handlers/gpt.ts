@@ -12,6 +12,9 @@ import { ttsRequest as speechTTSRequest } from "../providers/speech";
 import { ttsRequest as awsTTSRequest } from "../providers/aws";
 import { TTSMode } from "../types/tts-mode";
 
+// Moderation
+import { moderateIncomingPrompt } from "./moderation";
+
 // Mapping from number to last conversation id
 const conversations = {};
 
@@ -21,6 +24,16 @@ const handleMessageGPT = async (message: Message, prompt: string) => {
 		const lastConversationId = conversations[message.from];
 
 		cli.print(`[GPT] Received prompt from ${message.from}: ${prompt}`);
+
+		// Prompt Moderation
+		if (config.promptModerationEnabled) {
+			try {
+				await moderateIncomingPrompt(prompt);
+			} catch (error: any) {
+				message.reply(error.message);
+				return;
+			}
+		}
 
 		const start = Date.now();
 
@@ -40,7 +53,7 @@ const handleMessageGPT = async (message: Message, prompt: string) => {
 			cli.print(`[GPT] New conversation for ${message.from} (ID: ${conv.id})`);
 
 			// Pre prompt
-			if (config.prePrompt != null) {
+			if (config.prePrompt != null && config.prePrompt.trim() != "") {
 				cli.print(`[GPT] Pre prompt: ${config.prePrompt}`);
 				const prePromptResponse = await chatgpt.ask(config.prePrompt, conv.id);
 				cli.print("[GPT] Pre prompt response: " + prePromptResponse);
