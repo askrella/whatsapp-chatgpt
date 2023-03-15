@@ -12,6 +12,7 @@ dotenv.config();
 interface IConfig {
 	// OpenAI
 	openAIAPIKey: string;
+	enabledCommands: string[];
 	maxModelTokens: number;
 	prePrompt: string | undefined;
 
@@ -49,6 +50,7 @@ interface IConfig {
 // Config
 const config: IConfig = {
 	openAIAPIKey: process.env.OPENAI_API_KEY || "", // Default: ""
+	enabledCommands: getEnvEnabledCommands(), // Default: ["gpt", "dalle", reset", "config"]
 	maxModelTokens: getEnvMaxModelTokens(), // Default: 4096
 	prePrompt: process.env.PRE_PROMPT, // Default: undefined
 
@@ -113,6 +115,18 @@ function getEnvBooleanWithDefault(key: string, defaultValue: boolean): boolean {
 	}
 
 	return envValue == "true";
+}
+
+/**
+ * Get the enabled commands from the environment variable
+ */
+function getEnvEnabledCommands(): string[] {
+	const envValue = process.env.ENABLED_COMMANDS;
+	if (envValue == undefined || envValue == "") {
+		return ["gpt", "dalle", "reset", "config"];
+	} else {
+		return JSON.parse(envValue.replace(/'/g, '"'));
+	}
 }
 
 /**

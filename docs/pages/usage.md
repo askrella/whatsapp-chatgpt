@@ -2,6 +2,16 @@
 
 To use the bot, simply send a message with the `!gpt`/`!dalle`/`!config` command followed by your prompt. For example:
 
+### Enbled Commands
+
+You can modifiy the enbled commands that can be used.
+
+You have to modify the `ENABLED_COMMANDS` environment variable. For example:
+
+```
+ENABLED_COMMANDS= ["gpt", "dalle", "reset", "config"]
+```
+
 ### GPT
 
 ```
