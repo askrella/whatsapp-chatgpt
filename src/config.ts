@@ -14,6 +14,7 @@ interface IConfig {
 	openAIAPIKey: string;
 	maxModelTokens: number;
 	prePrompt: string | undefined;
+	chatgptModel: string;
 
 	// Prefix
 	prefixEnabled: boolean;
@@ -47,6 +48,7 @@ const config: IConfig = {
 	openAIAPIKey: process.env.OPENAI_API_KEY || "", // Default: ""
 	maxModelTokens: getEnvMaxModelTokens(), // Default: 4096
 	prePrompt: process.env.PRE_PROMPT, // Default: undefined
+	chatgptModel: process.env.CHATGPT_MODEL || "gpt-3.5-turbo", // Default: "gpt-3.5-turbo"
 
 	// Prefix
 	prefixEnabled: getEnvBooleanWithDefault("PREFIX_ENABLED", true), // Default: true
