@@ -14,6 +14,7 @@ import { TTSMode } from "../types/tts-mode";
 
 // Moderation
 import { moderateIncomingPrompt } from "./moderation";
+import { aiConfig, getConfig } from "./ai-config";
 
 // Mapping from number to last conversation id
 const conversations = {};
@@ -68,7 +69,7 @@ const handleMessageGPT = async (message: Message, prompt: string) => {
 		cli.print(`[GPT] Answer to ${message.from}: ${response}  | OpenAI request took ${end}ms)`);
 
 		// TTS reply (Default: disabled)
-		if (config.ttsEnabled) {
+		if (getConfig("tts", "enabled")) {
 			sendVoiceMessageReply(message, response);
 			return;
 		}

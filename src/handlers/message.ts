@@ -10,7 +10,7 @@ import * as cli from "../cli/ui";
 // ChatGPT & DALLE
 import { handleMessageGPT, handleDeleteConversation } from "../handlers/gpt";
 import { handleMessageDALLE } from "../handlers/dalle";
-import { handleMessageAIConfig } from "../handlers/ai-config";
+import { handleMessageAIConfig, getConfig } from "../handlers/ai-config";
 
 // Speech API & Whisper
 import { TranscriptionMode } from "../types/transcription-mode";
@@ -44,7 +44,7 @@ async function handleIncomingMessage(message: Message) {
 	}
 
 	const selfNotedMessage = message.fromMe && message.hasQuotedMsg === false && message.from === message.to;
-	const whitelistedPhoneNumbers = config.getWhitelistedPhoneNumbers();
+	const whitelistedPhoneNumbers = getConfig("general", "whitelist");
 
 	if (!selfNotedMessage && whitelistedPhoneNumbers.length > 0 && !whitelistedPhoneNumbers.includes(message.from)) {
 		cli.print(`Ignoring message from ${message.from} because it is not whitelisted.`);
@@ -59,7 +59,7 @@ async function handleIncomingMessage(message: Message) {
 		if (!media || !media.mimetype.startsWith("audio/")) return;
 
 		// Check if transcription is enabled (Default: false)
-		if (!config.transcriptionEnabled) {
+		if (!getConfig("transcription", "enabled")) {
 			cli.print("[Transcription] Received voice messsage but voice transcription is disabled.");
 			return;
 		}
@@ -68,10 +68,11 @@ async function handleIncomingMessage(message: Message) {
 		const mediaBuffer = Buffer.from(media.data, "base64");
 
 		// Transcribe locally or with Speech API
-		cli.print(`[Transcription] Transcribing audio with "${config.transcriptionMode}" mode...`);
+		const transcriptionMode = getConfig("transcription", "mode");
+		cli.print(`[Transcription] Transcribing audio with "${transcriptionMode}" mode...`);
 
 		let res;
-		switch (config.transcriptionMode) {
+		switch (transcriptionMode) {
 			case TranscriptionMode.Local:
 				res = await transcribeAudioLocal(mediaBuffer);
 				break;
@@ -85,7 +86,7 @@ async function handleIncomingMessage(message: Message) {
 				res = await transcribeRequest(new Blob([mediaBuffer]));
 				break;
 			default:
-				cli.print(`[Transcription] Unsupported transcription mode: ${config.transcriptionMode}`);
+				cli.print(`[Transcription] Unsupported transcription mode: ${transcriptionMode}`);
 		}
 		const { text: transcribedText, language: transcribedLanguage } = res;
 

@@ -50,8 +50,6 @@ interface IConfig {
 	transcriptionEnabled: boolean;
 	transcriptionMode: TranscriptionMode;
 	transcriptionLanguage: string;
-
-	getWhitelistedPhoneNumbers: () => string[];
 }
 
 // Config
@@ -176,13 +174,6 @@ function getEnvAWSPollyVoiceEngine(): AWSPollyEngine {
 	}
 
 	return envValue as AWSPollyEngine;
-}
-
-config.getWhitelistedPhoneNumbers = ():string[] =>  {
-	if (aiConfig.general.whitelist) {
-		return aiConfig.general.whitelist.split(",");
-	}
-	return config.whitelistedPhoneNumbers;
 }
 
 export default config;
