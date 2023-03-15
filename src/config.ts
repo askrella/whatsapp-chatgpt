@@ -22,6 +22,7 @@ interface IConfig {
 	dallePrefix: string;
 	resetPrefix: string;
 	aiConfigPrefix: string;
+	noPrefixIsGpt: boolean;
 
 	// Prompt Moderation
 	promptModerationEnabled: boolean;
@@ -55,6 +56,7 @@ const config: IConfig = {
 	// Prefix
 	prefixEnabled: getEnvBooleanWithDefault("PREFIX_ENABLED", true), // Default: true
 	prefixSkippedForMe: getEnvBooleanWithDefault("PREFIX_SKIPPED_FOR_ME", true), // Default: true
+	noPrefixIsGpt: getEnvBooleanWithDefault("PREFIX_ENABLED", false), // Default: true
 	gptPrefix: process.env.GPT_PREFIX || "!gpt", // Default: !gpt
 	dallePrefix: process.env.DALLE_PREFIX || "!dalle", // Default: !dalle
 	resetPrefix: process.env.RESET_PREFIX || "!reset", // Default: !reset
