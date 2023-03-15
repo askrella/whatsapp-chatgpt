@@ -4,6 +4,8 @@ import { TranscriptionMode } from "./types/transcription-mode";
 import { TTSMode } from "./types/tts-mode";
 import { AWSPollyEngine } from "./types/aws-polly-engine";
 
+import { aiConfig } from "./handlers/ai-config";
+
 // Environment variables
 import dotenv from "dotenv";
 dotenv.config();
@@ -11,7 +13,7 @@ dotenv.config();
 // Config Interface
 interface IConfig {
 	// Access control
-	whitelistedPhoneNumbers: string[] | undefined;
+	whitelistedPhoneNumbers: string[];
 
 	// OpenAI
 	openAIAPIKey: string;
@@ -48,11 +50,13 @@ interface IConfig {
 	transcriptionEnabled: boolean;
 	transcriptionMode: TranscriptionMode;
 	transcriptionLanguage: string;
+
+	getWhitelistedPhoneNumbers: () => string[];
 }
 
 // Config
-const config: IConfig = {
-	whitelistedPhoneNumbers: process.env.WHITELISTED_PHONE_NUMBERS?.split(",") || undefined,
+export const config: IConfig = {
+	whitelistedPhoneNumbers: process.env.WHITELISTED_PHONE_NUMBERS?.split(",") || [],
 
 	openAIAPIKey: process.env.OPENAI_API_KEY || "", // Default: ""
 	maxModelTokens: getEnvMaxModelTokens(), // Default: 4096
@@ -172,6 +176,13 @@ function getEnvAWSPollyVoiceEngine(): AWSPollyEngine {
 	}
 
 	return envValue as AWSPollyEngine;
+}
+
+config.getWhitelistedPhoneNumbers = ():string[] =>  {
+	if (aiConfig.general.whitelist) {
+		return aiConfig.general.whitelist.split(",");
+	}
+	return config.whitelistedPhoneNumbers;
 }
 
 export default config;

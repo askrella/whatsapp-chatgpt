@@ -21,7 +21,6 @@ import { transcribeOpenAI } from "../providers/openai";
 
 // For deciding to ignore old messages
 import { botReadyTimestamp } from "../index";
-import { aiConfig } from "../handlers/ai-config";
 
 // Handles message
 async function handleIncomingMessage(message: Message) {
@@ -45,9 +44,9 @@ async function handleIncomingMessage(message: Message) {
 	}
 
 	const selfNotedMessage = message.fromMe && message.hasQuotedMsg === false && message.from === message.to;
-	const whitelistedPhoneNumbers = aiConfig.general.whitelist.split(",") || config.whitelistedPhoneNumbers;
+	const whitelistedPhoneNumbers = config.getWhitelistedPhoneNumbers();
 
-	if (!selfNotedMessage && whitelistedPhoneNumbers && !whitelistedPhoneNumbers.includes(message.from)) {
+	if (!selfNotedMessage && whitelistedPhoneNumbers.length > 0 && !whitelistedPhoneNumbers.includes(message.from)) {
 		cli.print(`Ignoring message from ${message.from} because it is not whitelisted.`);
 		return;
 	}
@@ -124,6 +123,13 @@ async function handleIncomingMessage(message: Message) {
 	if (startsWithIgnoreCase(messageString, config.aiConfigPrefix)) {
 		const prompt = messageString.substring(config.aiConfigPrefix.length + 1);
 		await handleMessageAIConfig(message, prompt);
+		return;
+	}
+
+	// GPT (!gpt <prompt>)
+	if (startsWithIgnoreCase(messageString, config.gptPrefix)) {
+		const prompt = messageString.substring(config.gptPrefix.length + 1);
+		await handleMessageGPT(message, prompt);
 		return;
 	}
 
