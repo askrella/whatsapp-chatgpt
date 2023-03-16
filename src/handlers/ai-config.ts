@@ -121,7 +121,7 @@ export function getCommand(module: string, command: string): ICommandDefinition 
 
 export function getConfig(target: string, type: string): any {
 	if (aiConfig.commandsMap[target] && aiConfig.commandsMap[target][type]) {
-		return aiConfig.commandsMap[target].value;
+		return aiConfig.commandsMap[target][type].data;
 	}
 	return aiConfig[target][type];
 }

@@ -4,8 +4,6 @@ import { TranscriptionMode } from "./types/transcription-mode";
 import { TTSMode } from "./types/tts-mode";
 import { AWSPollyEngine } from "./types/aws-polly-engine";
 
-import { aiConfig } from "./handlers/ai-config";
-
 // Environment variables
 import dotenv from "dotenv";
 dotenv.config();
@@ -51,6 +49,7 @@ interface IConfig {
 	transcriptionMode: TranscriptionMode;
 	transcriptionLanguage: string;
 }
+
 
 // Config
 export const config: IConfig = {

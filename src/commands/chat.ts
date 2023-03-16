@@ -1,6 +1,5 @@
 import { ICommandModule, ICommandDefinition, ICommandsMap } from "../types/commands";
 import { Message } from "whatsapp-web.js";
-import { config } from "../config";
 
 export const ChatModule: ICommandModule = {
 	key: "chat",

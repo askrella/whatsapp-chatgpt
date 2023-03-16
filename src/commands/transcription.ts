@@ -22,8 +22,8 @@ const enabled: ICommandDefinition = {
 			message.reply(`Invalid value, please specify true or false`);
 			return;
 		}
-		this.value = valueStr == "true";
-		message.reply(`Updated transcription enabled to ${this.value}`);
+		this.data = valueStr == "true";
+		message.reply(`Updated transcription enabled to ${this.data}`);
 	}
 };
 
@@ -36,7 +36,7 @@ const mode: ICommandDefinition = {
 			message.reply(`Invalid value, available modes are: ${Object.values(TranscriptionMode).join(", ")}`);
 			return;
 		}
-		this.value = valueStr;
-		message.reply(`Updated transcription mode to ${this.value}`);
+		this.data = valueStr;
+		message.reply(`Updated transcription mode to ${this.data}`);
 	}
 };

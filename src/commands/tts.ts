@@ -20,7 +20,7 @@ const enabled: ICommandDefinition = {
 			message.reply(`Invalid value, please specify true or false`);
 			return;
 		}
-		this.value = valueStr == "true";
-		message.reply(`Updated TTS enabled to ${this.value}`);
+		this.data = valueStr == "true";
+		message.reply(`Updated TTS enabled to ${this.data}`);
 	}
 };
