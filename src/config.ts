@@ -50,7 +50,6 @@ interface IConfig {
 	transcriptionLanguage: string;
 }
 
-
 // Config
 export const config: IConfig = {
 	whitelistedPhoneNumbers: process.env.WHITELISTED_PHONE_NUMBERS?.split(",") || [],
