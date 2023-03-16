@@ -4,12 +4,15 @@ WORKDIR /app/
 
 ENV OPENAI_API_KEY ""
 ENV PREFIX_ENABLED ""
+ENV PREFIX_ENABLED ""
 
-COPY . .
+RUN apt-get update
+RUN apt-get install chromium ffmpeg -y
+
+COPY package.json package-lock.json ./
 
 RUN npm install
 RUN npm install vite-node
-RUN apt-get update
-RUN apt-get install chromium -y
+COPY . .
 
 CMD ["npm", "run", "start"]
