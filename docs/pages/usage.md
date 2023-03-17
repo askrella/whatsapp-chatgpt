@@ -24,3 +24,13 @@ To modify the bot's configuration, you can use the `!config` command. For exampl
 e.g.
 !config dalle size 256x256
 ```
+
+### Enbled Commands
+
+You can modify the enabled commands that can be used.
+
+You have to modify the `ENABLED_COMMANDS` environment variable. For example:
+
+```
+ENABLED_COMMANDS= ["gpt", "dalle", "reset", "config"]
+```

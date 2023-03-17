@@ -106,16 +106,18 @@ async function handleIncomingMessage(message: Message) {
 	}
 
 	// Clear conversation context (!clear)
-	if (startsWithIgnoreCase(messageString, config.resetPrefix)) {
+	if (config.enabledCommands.includes("reset")) {
 		await handleDeleteConversation(message);
 		return;
 	}
 
 	// AiConfig (!config <args>)
 	if (startsWithIgnoreCase(messageString, config.aiConfigPrefix)) {
-		const prompt = messageString.substring(config.aiConfigPrefix.length + 1);
-		await handleMessageAIConfig(message, prompt);
-		return;
+		if (config.enabledCommands.includes("config")) {
+			const prompt = messageString.substring(config.aiConfigPrefix.length + 1);
+			await handleMessageAIConfig(message, prompt);
+			return;
+		}
 	}
 
 	// GPT (only <prompt>)
@@ -124,19 +126,23 @@ async function handleIncomingMessage(message: Message) {
 
 	// GPT (!gpt <prompt>)
 	if (startsWithIgnoreCase(messageString, config.gptPrefix)) {
-		const prompt = messageString.substring(config.gptPrefix.length + 1);
-		await handleMessageGPT(message, prompt);
-		return;
+		if (config.enabledCommands.includes("gpt")) {
+			const prompt = messageString.substring(config.gptPrefix.length + 1);
+			await handleMessageGPT(message, prompt);
+			return;
+		}
 	}
 
 	// DALLE (!dalle <prompt>)
 	if (startsWithIgnoreCase(messageString, config.dallePrefix)) {
-		const prompt = messageString.substring(config.dallePrefix.length + 1);
-		await handleMessageDALLE(message, prompt);
-		return;
+		if (config.enabledCommands.includes("dalle")) {
+			const prompt = messageString.substring(config.dallePrefix.length + 1);
+			await handleMessageDALLE(message, prompt);
+			return;
+		}
 	}
 
-	if (!config.prefixEnabled || (config.prefixSkippedForMe && selfNotedMessage)) {
+	if (!config.prefixEnabled || (config.prefixSkippedForMe && selfNotedMessage && config.enabledCommands.includes("gpt"))) {
 		await handleMessageGPT(message, messageString);
 		return;
 	}
