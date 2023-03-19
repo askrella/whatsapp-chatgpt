@@ -1,8 +1,15 @@
 # GPT
 
+## Model
+You can specify the model which should be used with the `OPENAI_MODEL` environment variabl
+
+```bash
+OPENAI_MODEL=gpt-3.5-turbo # or gpt-4
+```
+
 ## Configuration
 
-You can modify the max model tokens for GPT-3 by setting the `MAX_MODEL_TOKENS` environment variable. For example:
+You can modify the max model tokens by setting the `MAX_MODEL_TOKENS` environment variable. For example:
 
 ```bash
 MAX_MODEL_TOKENS=2000

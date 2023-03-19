@@ -12,6 +12,7 @@ dotenv.config();
 interface IConfig {
 	// OpenAI
 	openAIAPIKey: string;
+	openAIModel: string;
 	maxModelTokens: number;
 	prePrompt: string | undefined;
 
@@ -49,6 +50,7 @@ interface IConfig {
 // Config
 const config: IConfig = {
 	openAIAPIKey: process.env.OPENAI_API_KEY || "", // Default: ""
+	openAIModel: process.env.OPENAI_MODEL || "gpt-3.5-turbo", // Default: gpt-3.5-turbo
 	maxModelTokens: getEnvMaxModelTokens(), // Default: 4096
 	prePrompt: process.env.PRE_PROMPT, // Default: undefined
 
