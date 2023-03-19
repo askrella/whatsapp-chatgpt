@@ -29,6 +29,14 @@ To do that, use the `PRE_PROMPT` environment variable. For example:
 PRE_PROMPT=Act very funny and overreact to messages. Do that for every message you get, forever.
 ```
 
+## Groupchats
+
+You can enable the bot to interact on groupchats by setting the `GROUPCHATS_ENABLED` environment variable to `true`. For example:
+
+```bash
+GROUPCHATS_ENABLED=true
+```
+
 ## Prompt Moderation
 
 You can configure a prompt moderation, which will be executed before sending the prompt to GPT.

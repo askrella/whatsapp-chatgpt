@@ -24,6 +24,9 @@ interface IConfig {
 	resetPrefix: string;
 	aiConfigPrefix: string;
 
+	// Groupchats
+	groupchatsEnabled: boolean;
+
 	// Prompt Moderation
 	promptModerationEnabled: boolean;
 	promptModerationBlacklistedCategories: string[];
@@ -61,6 +64,9 @@ const config: IConfig = {
 	dallePrefix: process.env.DALLE_PREFIX || "!dalle", // Default: !dalle
 	resetPrefix: process.env.RESET_PREFIX || "!reset", // Default: !reset
 	aiConfigPrefix: process.env.AI_CONFIG_PREFIX || "!config", // Default: !config
+
+	// Groupchats
+	groupchatsEnabled: getEnvBooleanWithDefault("GROUPCHATS_ENABLED", false), // Default: false
 
 	// Prompt Moderation
 	promptModerationEnabled: getEnvBooleanWithDefault("PROMPT_MODERATION_ENABLED", false), // Default: false
