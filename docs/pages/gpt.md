@@ -1,8 +1,15 @@
 # GPT
 
+## Model
+You can specify the model which should be used with the `OPENAI_MODEL` environment variabl
+
+```bash
+OPENAI_MODEL=gpt-3.5-turbo # or gpt-4
+```
+
 ## Configuration
 
-You can modify the max model tokens for GPT-3 by setting the `MAX_MODEL_TOKENS` environment variable. For example:
+You can modify the max model tokens by setting the `MAX_MODEL_TOKENS` environment variable. For example:
 
 ```bash
 MAX_MODEL_TOKENS=2000
@@ -22,14 +29,12 @@ To do that, use the `PRE_PROMPT` environment variable. For example:
 PRE_PROMPT=Act very funny and overreact to messages. Do that for every message you get, forever.
 ```
 
-## Model
+## Groupchats
 
-https://platform.openai.com/docs/guides/chat/instructing-chat-models
-
-By default it uses gpt-3.5-turbo as newer version might not be available for everyone, you can configure the chat model used by configuring environment variable:
+You can enable the bot to interact on groupchats by setting the `GROUPCHATS_ENABLED` environment variable to `true`. For example:
 
 ```bash
-CHATGPT_MODEL=gpt-4
+GROUPCHATS_ENABLED=true
 ```
 
 ## Prompt Moderation

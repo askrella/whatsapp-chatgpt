@@ -15,6 +15,7 @@ interface IConfig {
 
 	// OpenAI
 	openAIAPIKey: string;
+	openAIModel: string;
 	maxModelTokens: number;
 	prePrompt: string | undefined;
 	chatgptModel: string;
@@ -26,6 +27,9 @@ interface IConfig {
 	dallePrefix: string;
 	resetPrefix: string;
 	aiConfigPrefix: string;
+
+	// Groupchats
+	groupchatsEnabled: boolean;
 
 	// Prompt Moderation
 	promptModerationEnabled: boolean;
@@ -55,6 +59,7 @@ export const config: IConfig = {
 	whitelistedPhoneNumbers: process.env.WHITELISTED_PHONE_NUMBERS?.split(",") || [],
 
 	openAIAPIKey: process.env.OPENAI_API_KEY || "", // Default: ""
+	openAIModel: process.env.OPENAI_GPT_MODEL || "gpt-3.5-turbo", // Default: gpt-3.5-turbo
 	maxModelTokens: getEnvMaxModelTokens(), // Default: 4096
 	prePrompt: process.env.PRE_PROMPT, // Default: undefined
 	chatgptModel: process.env.CHATGPT_MODEL || "gpt-3.5-turbo", // Default: "gpt-3.5-turbo"
@@ -66,6 +71,9 @@ export const config: IConfig = {
 	dallePrefix: process.env.DALLE_PREFIX || "!dalle", // Default: !dalle
 	resetPrefix: process.env.RESET_PREFIX || "!reset", // Default: !reset
 	aiConfigPrefix: process.env.AI_CONFIG_PREFIX || "!config", // Default: !config
+
+	// Groupchats
+	groupchatsEnabled: getEnvBooleanWithDefault("GROUPCHATS_ENABLED", false), // Default: false
 
 	// Prompt Moderation
 	promptModerationEnabled: getEnvBooleanWithDefault("PROMPT_MODERATION_ENABLED", false), // Default: false
