@@ -14,11 +14,10 @@ interface IConfig {
 	whitelistedPhoneNumbers: string[];
 
 	// OpenAI
-	openAIAPIKey: string;
 	openAIModel: string;
+	openAIAPIKeys: string[];
 	maxModelTokens: number;
 	prePrompt: string | undefined;
-	chatgptModel: string;
 
 	// Prefix
 	prefixEnabled: boolean;
@@ -58,11 +57,10 @@ interface IConfig {
 export const config: IConfig = {
 	whitelistedPhoneNumbers: process.env.WHITELISTED_PHONE_NUMBERS?.split(",") || [],
 
-	openAIAPIKey: process.env.OPENAI_API_KEY || "", // Default: ""
+	openAIAPIKeys: (process.env.OPENAI_API_KEYS || process.env.OPENAI_API_KEY || "").split(",").filter((key) => !!key), // Default: []
 	openAIModel: process.env.OPENAI_GPT_MODEL || "gpt-3.5-turbo", // Default: gpt-3.5-turbo
 	maxModelTokens: getEnvMaxModelTokens(), // Default: 4096
 	prePrompt: process.env.PRE_PROMPT, // Default: undefined
-	chatgptModel: process.env.CHATGPT_MODEL || "gpt-3.5-turbo", // Default: "gpt-3.5-turbo"
 
 	// Prefix
 	prefixEnabled: getEnvBooleanWithDefault("PREFIX_ENABLED", true), // Default: true
