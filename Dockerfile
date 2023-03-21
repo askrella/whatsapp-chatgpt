@@ -17,9 +17,11 @@ WORKDIR /app/
 ENV OPENAI_API_KEY ""
 ENV PREFIX_ENABLED ""
 
-COPY . .
+COPY package.json package-lock.json ./
 
 RUN npm install
 RUN npm install vite-node
+
+COPY . .
 
 CMD ["npm", "run", "start"]
