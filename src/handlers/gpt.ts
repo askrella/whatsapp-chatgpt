@@ -25,6 +25,11 @@ const handleMessageGPT = async (message: Message, prompt: string) => {
 
 		cli.print(`[GPT] Received prompt from ${message.from}: ${prompt}`);
 
+		if (!config.allowedContacts.includes(message.from)) {
+			cli.print(`Ignoring message from ${message.from} as it's not in the allowed list`);
+			return;
+		}
+
 		// Prompt Moderation
 		if (config.promptModerationEnabled) {
 			try {

@@ -27,6 +27,10 @@ interface IConfig {
 	// Groupchats
 	groupchatsEnabled: boolean;
 
+	// AllowedListOnly
+	allowedListEnabled: boolean;
+	allowedContacts: string[];
+
 	// Prompt Moderation
 	promptModerationEnabled: boolean;
 	promptModerationBlacklistedCategories: string[];
@@ -67,6 +71,11 @@ const config: IConfig = {
 
 	// Groupchats
 	groupchatsEnabled: getEnvBooleanWithDefault("GROUPCHATS_ENABLED", false), // Default: false
+
+	// AllowedListOnly
+	allowedListEnabled: getEnvBooleanWithDefault("ALLOWEDLIST_ENABLED", false), // Default: false;
+	allowedContacts: getEnvAllowedContacts(), // Default: ["hate", "hate/threatening", "self-harm", "sexual", "sexual/minors", "violence", "violence/graphic"]
+
 
 	// Prompt Moderation
 	promptModerationEnabled: getEnvBooleanWithDefault("PROMPT_MODERATION_ENABLED", false), // Default: false
@@ -121,6 +130,19 @@ function getEnvBooleanWithDefault(key: string, defaultValue: boolean): boolean {
 	}
 
 	return envValue == "true";
+}
+
+/**
+ * Get the allowed list of numbers to chat with ChatGPT
+ * @returns Allowed list of Whatsapp accounts that can interact with ChatGPT
+ */
+function getEnvAllowedContacts(): string[] {
+	const envValue = process.env.ALLOWEDLIST_CONTACTS;
+	if (envValue == undefined || envValue == "") {
+		return ["5214433648942@c.us"];
+	} else {
+		return JSON.parse(envValue.replace(/'/g, '"'));
+	}
 }
 
 /**
