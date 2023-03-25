@@ -139,7 +139,7 @@ function getEnvBooleanWithDefault(key: string, defaultValue: boolean): boolean {
 function getEnvAllowedContacts(): string[] {
 	const envValue = process.env.ALLOWEDLIST_CONTACTS;
 	if (envValue == undefined || envValue == "") {
-		return ["5214433648942@c.us"];
+		return [""];
 	} else {
 		return JSON.parse(envValue.replace(/'/g, '"'));
 	}
