@@ -22,7 +22,6 @@ import { transcribeOpenAI } from "../providers/openai";
 
 // For deciding to ignore old messages
 import { botReadyTimestamp } from "../index";
-import { handleLogHandler } from "../handlers/log";
 
 // Handles message
 async function handleIncomingMessage(message: Message) {
