@@ -1,11 +1,23 @@
 import { OpenAI } from "langchain/llms";
 import { PromptTemplate } from "langchain";
-import { SerpAPI } from "langchain/tools";
+import { SerpAPI, DynamicTool } from "langchain/tools";
 import { initializeAgentExecutor } from "langchain/agents";
 
 export default class BrowserAgentProvider {
 	// Can use other browser tools like RequestGetTool
-	tools = [new SerpAPI()];
+	tools = [
+		new SerpAPI(),
+		new DynamicTool({
+			name: "Others",
+			description:
+				"When the prompt no longer requires searching on the Internet or fetching from a URL, use this tool where the output is anything the agent sees fit to the original prompt.",
+			func: function (prompt) {
+				return Promise.resolve(
+					"No further action, please use your best judgment for the final answer using the prompt below:\n" + prompt
+				);
+			}
+		})
+	];
 	// Always select highest probability word in search
 	model = new OpenAI({ temperature: 0 });
 	prompt = new PromptTemplate({
