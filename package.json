@@ -11,15 +11,16 @@
 	"license": "MIT",
 	"dependencies": {
 		"@clack/prompts": "^0.4.3",
+		"aws-sdk": "^2.1332.0",
 		"chatgpt-official": "^1.1.5",
 		"dotenv": "^16.0.3",
 		"fetch-blob": "^3.2.0",
 		"ffmpeg": "^0.0.4",
+		"langchain": "^0.0.53",
 		"openai": "^3.1.0",
 		"picocolors": "^1.0.0",
 		"qrcode-terminal": "^0.12.0",
-		"whatsapp-web.js": "^1.19.5",
-		"aws-sdk": "^2.1332.0"
+		"whatsapp-web.js": "^1.19.5"
 	},
 	"devDependencies": {
 		"@types/fluent-ffmpeg": "^2.1.21",

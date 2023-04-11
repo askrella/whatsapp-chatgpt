@@ -21,6 +21,7 @@ interface IConfig {
 	prefixSkippedForMe: boolean;
 	gptPrefix: string;
 	dallePrefix: string;
+	langChainPrefix: string;
 	resetPrefix: string;
 	aiConfigPrefix: string;
 
@@ -64,6 +65,7 @@ const config: IConfig = {
 	dallePrefix: process.env.DALLE_PREFIX || "!dalle", // Default: !dalle
 	resetPrefix: process.env.RESET_PREFIX || "!reset", // Default: !reset
 	aiConfigPrefix: process.env.AI_CONFIG_PREFIX || "!config", // Default: !config
+	langChainPrefix: process.env.LANGCHAIN_PREFIX || "!lang", // Default: !lang
 
 	// Groupchats
 	groupchatsEnabled: getEnvBooleanWithDefault("GROUPCHATS_ENABLED", false), // Default: false
