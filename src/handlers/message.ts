@@ -134,7 +134,7 @@ async function handleIncomingMessage(message: Message) {
 	}
 
 
-	// GPT (!search <prompt>)
+	// GPT (!lang <prompt>)
 	if (startsWithIgnoreCase(messageString, config.langChainPrefix)) {
 		const prompt = messageString.substring(config.langChainPrefix.length + 1);
 		await handleMessageLangChain(message, prompt);
