@@ -10,6 +10,7 @@ import * as cli from "../cli/ui";
 // ChatGPT & DALLE
 import { handleMessageGPT, handleDeleteConversation } from "../handlers/gpt";
 import { handleMessageDALLE } from "../handlers/dalle";
+import { handleMessageLangChain } from "../handlers/langchain";
 import { handleMessageAIConfig } from "../handlers/ai-config";
 
 // Speech API & Whisper
@@ -129,6 +130,14 @@ async function handleIncomingMessage(message: Message) {
 	if (startsWithIgnoreCase(messageString, config.gptPrefix)) {
 		const prompt = messageString.substring(config.gptPrefix.length + 1);
 		await handleMessageGPT(message, prompt);
+		return;
+	}
+
+
+	// GPT (!lang <prompt>)
+	if (startsWithIgnoreCase(messageString, config.langChainPrefix)) {
+		const prompt = messageString.substring(config.langChainPrefix.length + 1);
+		await handleMessageLangChain(message, prompt);
 		return;
 	}
 
