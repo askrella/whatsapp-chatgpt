@@ -1,12 +1,13 @@
 import { OpenAI } from "langchain/llms";
 import { PromptTemplate } from "langchain";
-import { SerpAPI, DynamicTool } from "langchain/tools";
+import { SerpAPI, DynamicTool, RequestsGetTool } from "langchain/tools";
 import { initializeAgentExecutor } from "langchain/agents";
 
 export default class BrowserAgentProvider {
-	// Can use other browser tools like RequestGetTool
+	// Can use other browser tools like RequestGetTool if you do not have a [SerpAPI](https://serpapi.com/) API key.
 	tools = [
 		new SerpAPI(),
+		// new RequestsGetTool(),
 		new DynamicTool({
 			name: "Others",
 			description:
