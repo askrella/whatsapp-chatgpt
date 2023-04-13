@@ -4,6 +4,7 @@ import * as cli from "../cli/ui";
 
 const browserAgent = new BrowserAgentProvider();
 
+// TODO add conversation ID to build a chat history
 const handleMessageLangChain = async (message: Message, prompt: string) => {
 	try {
 

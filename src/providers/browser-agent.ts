@@ -10,10 +10,10 @@ export default class BrowserAgentProvider {
 		new DynamicTool({
 			name: "Others",
 			description:
-				"When the prompt no longer requires searching on the Internet or fetching from a URL, use this tool where the output is anything the agent sees fit to the original prompt.",
+				"Use this tool when the output no longer requires searching on the Internet or fetching from a URL",
 			func: function (prompt) {
 				return Promise.resolve(
-					"No further action, please use your best judgment for the final answer using the prompt below:\n" + prompt
+					"No further action, use your best judgment for the final answer using the prompt below:\n" + prompt
 				);
 			}
 		})
