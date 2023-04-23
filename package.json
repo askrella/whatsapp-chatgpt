@@ -16,7 +16,7 @@
 		"dotenv": "^16.0.3",
 		"fetch-blob": "^3.2.0",
 		"ffmpeg": "^0.0.4",
-		"langchain": "^0.0.53",
+		"langchain": "^0.0.62",
 		"openai": "^3.1.0",
 		"picocolors": "^1.0.0",
 		"qrcode-terminal": "^0.12.0",
