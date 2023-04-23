@@ -70,6 +70,8 @@ const handleMessageGPT = async (message: Message, prompt: string) => {
 		// TTS reply (Default: disabled)
 		if (config.ttsEnabled) {
 			sendVoiceMessageReply(message, response);
+			// Default: Text reply
+		        message.reply(response);
 			return;
 		}
 
