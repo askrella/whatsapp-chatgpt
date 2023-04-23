@@ -10,6 +10,9 @@ dotenv.config();
 
 // Config Interface
 interface IConfig {
+	// Access control
+	whitelistedPhoneNumbers: string[];
+
 	// OpenAI
 	openAIAPIKey: string;
 	openAIModel: string;
@@ -52,7 +55,9 @@ interface IConfig {
 }
 
 // Config
-const config: IConfig = {
+export const config: IConfig = {
+	whitelistedPhoneNumbers: process.env.WHITELISTED_PHONE_NUMBERS?.split(",") || [],
+
 	openAIAPIKey: process.env.OPENAI_API_KEY || "", // Default: ""
 	openAIModel: process.env.OPENAI_GPT_MODEL || "gpt-3.5-turbo", // Default: gpt-3.5-turbo
 	maxModelTokens: getEnvMaxModelTokens(), // Default: 4096
