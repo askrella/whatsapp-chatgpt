@@ -89,8 +89,12 @@ const handleMessageAIConfig = async (message: Message, prompt: any) => {
 			return;
 		}
 
-		if (target && type && aiConfig.commandsMap[target] && aiConfig.commandsMap[target][type]) {
-			aiConfig.commandsMap[target][type].execute(message, value);
+		if (target && type && aiConfig.commandsMap[target]) {
+			if (aiConfig.commandsMap[target][type]) {
+				aiConfig.commandsMap[target][type].execute(message, value);
+			} else {
+				message.reply("Invalid command, please use one of the following: " + Object.keys(aiConfig.commandsMap[target]).join(", "));
+			}
 			return;
 		}
 

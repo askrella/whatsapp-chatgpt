@@ -37,7 +37,7 @@ const maxModelTokens: ICommandDefinition = {
 	execute: function (message: Message, valueStr?: string) {
 		const value = parseInt(valueStr || "");
 		if (!value || isNaN(value)) {
-			message.reply(`Invalid value, please give a comma-separated list of phone numbers.`);
+			message.reply(`Invalid value, please give an integer value`);
 			return;
 		}
 		this.data = value;
