@@ -15,8 +15,8 @@ export const StableDiffusionModule: ICommandModule = {
 let model = "runwayml/stable-diffusion-v1-5";
 
 const setModel: ICommandDefinition = {
-	help: "<value> - Set the model to be used",
-	hint: "runwayml/stable-diffusion-v1-5 from huggingface",
+	help: "<value> - Set the model to be used of Stable Diffusion (with huggingface)",
+	hint: "runwayml/stable-diffusion-v1-5",
 	data: model,
 	execute: function (message: Message, valueStr?: string) {
 		if (!valueStr) {

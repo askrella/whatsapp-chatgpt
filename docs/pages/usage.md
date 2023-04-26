@@ -37,6 +37,7 @@ Available commands:
 	!config transcription enabled <value> - Toggle if transcription is enabled
 	!config transcription mode <value> - Set transcription mode
 	!config tts enabled <value> - Toggle if TTS is enabled
+	!config sd setModel <value> - Set the model to be used of Stable Diffusion (with huggingface)
 
 Available values:
 	dalle size: 256x256, 512x512, 1024x1024
@@ -45,4 +46,5 @@ Available values:
 	transcription enabled: true, false
 	transcription mode: local, speech-api, whisper-api, openai
 	tts enabled: true, false
+	sd setModel: runwayml/stable-diffusion-v1-5
 ```

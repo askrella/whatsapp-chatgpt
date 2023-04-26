@@ -83,7 +83,7 @@ const handleMessageAIConfig = async (message: Message, prompt: any) => {
 
 		const target: string = args[0];
 		const type: string = args[1];
-		let value: string | undefined = args.length >= 3 ? args.slice(2).join(" ") : undefined;
+		const value: string | undefined = args.length >= 3 ? args.slice(2).join(" ") : undefined;
 
 		if (!(target in aiConfigTarget) && !(target in aiConfig.commandsMap)) {
 			message.reply("Invalid target, please use one of the following: " + Object.keys(aiConfigTarget).join(", "));
@@ -132,7 +132,7 @@ export function getConfig(target: string, type: string): any {
 	return aiConfig[target][type];
 }
 
-export function executeCommand(target: string, type: string, message: Message, value: string | undefined) {
+export function executeCommand(target: string, type: string, message: Message, value?: string | undefined) {
 	if (aiConfig.commandsMap[target] && aiConfig.commandsMap[target][type]) {
 		if (typeof aiConfig.commandsMap[target][type].execute === "function") {
 			return aiConfig.commandsMap[target][type].execute(message, value);
