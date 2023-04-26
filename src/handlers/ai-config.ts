@@ -10,17 +10,15 @@ import { TTSModule } from "../commands/tts";
 
 import config from "../config";
 
-let aiConfig: IAiConfig;
+let aiConfig: IAiConfig = {
+	dalle: {
+		size: dalleImageSize["512x512"]
+	},
+	// chatgpt: {}
+	commandsMap: {}
+};
 
 const initAiConfig = () => {
-	aiConfig = {
-		dalle: {
-			size: dalleImageSize["512x512"]
-		},
-		// chatgpt: {}
-		commandsMap: {}
-	};
-
 	// Register commands
 	[ChatModule, GeneralModule, GptModule, TranscriptionModule, TTSModule].forEach((module) => {
 		aiConfig.commandsMap[module.key] = module.register();
@@ -91,7 +89,7 @@ const handleMessageAIConfig = async (message: Message, prompt: any) => {
 			return;
 		}
 
-		if (aiConfig.commandsMap[target]) {
+		if (target && type && aiConfig.commandsMap[target]) {
 			if (aiConfig.commandsMap[target][type]) {
 				aiConfig.commandsMap[target][type].execute(message, value);
 			} else {
@@ -100,7 +98,7 @@ const handleMessageAIConfig = async (message: Message, prompt: any) => {
 			return;
 		}
 
-		if (!(type in aiConfigTypes[target])) {
+		if (typeof aiConfigTypes[target] !== "object" || !(type in aiConfigTypes[target])) {
 			message.reply("Invalid type, please use one of the following: " + Object.keys(aiConfigTypes[target]).join(", "));
 			return;
 		}
@@ -125,6 +123,9 @@ export function getCommand(module: string, command: string): ICommandDefinition 
 
 export function getConfig(target: string, type: string): any {
 	if (aiConfig.commandsMap[target] && aiConfig.commandsMap[target][type]) {
+		if (typeof aiConfig.commandsMap[target][type].data === "function") {
+			return aiConfig.commandsMap[target][type].data();
+		}
 		return aiConfig.commandsMap[target][type].data;
 	}
 	return aiConfig[target][type];

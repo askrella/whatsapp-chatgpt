@@ -1,6 +1,7 @@
 # GPT
 
 ## Model
+
 You can specify the model which should be used with the `OPENAI_MODEL` environment variabl
 
 ```bash
@@ -60,3 +61,9 @@ PROMPT_MODERATION_BLACKLISTED_CATEGORIES = ["hate","hate/threatening","self-harm
 You can see all available categories [here](https://beta.openai.com/docs/api-reference/moderations).
 
 Please, keep in mind that disabling the prompt moderation or modifying the blacklisted categories, will not disable the moderation of the GPT API. Because OpenAI uses their own moderation, which is not configurable.
+
+## Rate Limit
+
+https://platform.openai.com/docs/guides/rate-limits
+
+If you are with heavy usage, you might run into the rate limit of Open API. Since the rate limit is on organization level, you could create another account and get a new API key separately. And then setting the keys into environment variables `OPENAI_API_KEYS`. API keys will be used in a random basis.
