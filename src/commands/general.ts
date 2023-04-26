@@ -27,7 +27,7 @@ const settings: ICommandDefinition = {
 		for (let module in aiConfig.commandsMap) {
 			for (let command in aiConfig.commandsMap[module]) {
 				if (aiConfig.commandsMap[module][command].data === undefined) {
-					continue
+					continue;
 				}
 				let val;
 				if (typeof aiConfig.commandsMap[module][command].data === "function") {

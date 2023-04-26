@@ -9,10 +9,10 @@ import { blobFromSync, File } from "fetch-blob/from.js";
 import config from "../config";
 import { getConfig } from "../handlers/ai-config";
 
-export let chatgpt:ChatGPT
+export let chatgpt: ChatGPT;
 
 // OpenAI Client (DALL-E)
-export let openai:OpenAIApi
+export let openai: OpenAIApi;
 
 export function initOpenAI() {
 	chatgpt = new ChatGPT(getConfig("gpt", "apiKey"), {

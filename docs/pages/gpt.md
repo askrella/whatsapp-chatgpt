@@ -1,6 +1,7 @@
 # GPT
 
 ## Model
+
 You can specify the model which should be used with the `OPENAI_MODEL` environment variabl
 
 ```bash

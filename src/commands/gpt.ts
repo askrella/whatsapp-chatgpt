@@ -28,7 +28,7 @@ const apiKey: ICommandDefinition = {
 		config.openAIAPIKeys = valueStr.split(",") as string[];
 		message.reply(`Updated API keys, total keys: ${config.openAIAPIKeys.length}`);
 	}
-}
+};
 
 const maxModelTokens: ICommandDefinition = {
 	help: "<value> - Set max model tokens value",
