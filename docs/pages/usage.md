@@ -1,6 +1,6 @@
 # Usage
 
-To use the bot, simply send a message with the `!gpt`/`!dalle`/`!config` command followed by your prompt. For example:
+To use the bot, simply send a message with the `!gpt`/`!dalle`/`!sd`/`!config` command followed by your prompt. For example:
 
 ### GPT
 
@@ -13,6 +13,14 @@ To use the bot, simply send a message with the `!gpt`/`!dalle`/`!config` command
 ```
 !dalle A frog with a red hat is walking on a bridge.
 ```
+
+### Stable Diffusion
+
+```
+!sd A frog with a red hat is walking on a bridge.
+```
+
+It is using huggingface's stable diffusion model for image rendering, you might change the model with `!config sd setModel <model>` command.
 
 ### AI Config
 
@@ -29,6 +37,7 @@ Available commands:
 	!config transcription enabled <value> - Toggle if transcription is enabled
 	!config transcription mode <value> - Set transcription mode
 	!config tts enabled <value> - Toggle if TTS is enabled
+	!config sd setModel <value> - Set the model to be used of Stable Diffusion (with huggingface)
 
 Available values:
 	dalle size: 256x256, 512x512, 1024x1024
@@ -37,4 +46,5 @@ Available values:
 	transcription enabled: true, false
 	transcription mode: local, speech-api, whisper-api, openai
 	tts enabled: true, false
+	sd setModel: runwayml/stable-diffusion-v1-5
 ```

@@ -53,6 +53,7 @@ const settings: ICommandDefinition = {
 			"prePrompt",
 			"gptPrefix",
 			"dallePrefix",
+			"stableDiffusionPrefix",
 			"resetPrefix",
 			"groupchatsEnabled",
 			"promptModerationEnabled",

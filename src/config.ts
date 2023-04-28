@@ -24,6 +24,7 @@ interface IConfig {
 	prefixSkippedForMe: boolean;
 	gptPrefix: string;
 	dallePrefix: string;
+	stableDiffusionPrefix: string;
 	langChainPrefix: string;
 	resetPrefix: string;
 	aiConfigPrefix: string;
@@ -68,6 +69,7 @@ export const config: IConfig = {
 	prefixSkippedForMe: getEnvBooleanWithDefault("PREFIX_SKIPPED_FOR_ME", true), // Default: true
 	gptPrefix: process.env.GPT_PREFIX || "!gpt", // Default: !gpt
 	dallePrefix: process.env.DALLE_PREFIX || "!dalle", // Default: !dalle
+	stableDiffusionPrefix: process.env.STABLE_DIFFUSION_PREFIX || "!sd", // Default: !sd
 	resetPrefix: process.env.RESET_PREFIX || "!reset", // Default: !reset
 	aiConfigPrefix: process.env.AI_CONFIG_PREFIX || "!config", // Default: !config
 	langChainPrefix: process.env.LANGCHAIN_PREFIX || "!lang", // Default: !lang
