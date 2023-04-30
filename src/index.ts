@@ -8,6 +8,10 @@ import constants from "./constants";
 import * as cli from "./cli/ui";
 import { handleIncomingMessage } from "./handlers/message";
 
+// Config
+import { initAiConfig } from "./handlers/ai-config";
+import { initOpenAI } from "./providers/openai";
+
 // Ready timestamp of the bot
 let botReadyTimestamp: Date | null = null;
 
@@ -57,6 +61,9 @@ const start = async () => {
 
 		// Set bot ready timestamp
 		botReadyTimestamp = new Date();
+
+		initAiConfig();
+		initOpenAI();
 	});
 
 	// WhatsApp message

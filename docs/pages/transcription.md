@@ -72,7 +72,7 @@ If you want use the Speech API mode you need to set the following environment va
 
 ```bash
 TRANSCRIPTION_MODE=speech-api
-````
+```
 
 By default the bot will use our hosted Speech API (for free). You can change the URL by setting the following environment variable:
 
