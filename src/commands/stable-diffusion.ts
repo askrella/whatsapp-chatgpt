@@ -38,12 +38,18 @@ const generate: ICommandDefinition = {
 
 			cli.print(`[Stable Diffusion] Received prompt from ${message.from}: ${valueStr}`);
 
+			const huggingFaceAPIToken = process.env.HUGGINGFACE_API_TOKEN;
+
+			if (!huggingFaceAPIToken) {
+				throw new Error("[Stable Diffusion] Huggingface API token not found, set the HUGGINGFACE_API_TOKEN environment variable");
+			}
+
 			const url = `https://api-inference.huggingface.co/models/${model}`;
 			const options = {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${process.env.HUGGINGFACE_API_TOKEN}`
+					Authorization: `Bearer ${huggingFaceAPIToken}`
 				},
 				body: JSON.stringify({
 					inputs: valueStr
