@@ -52,7 +52,10 @@ const generate: ICommandDefinition = {
 					Authorization: `Bearer ${huggingFaceAPIToken}`
 				},
 				body: JSON.stringify({
-					inputs: valueStr
+					inputs: valueStr,
+					options: {
+						wait_for_model: true
+					}
 				})
 			};
 			const response = await fetch(url, options);
