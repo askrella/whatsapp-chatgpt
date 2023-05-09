@@ -43,9 +43,9 @@ async function handleIncomingMessage(message: Message) {
 			return;
 		}
 	}
-  
+
 	// Ignore groupchats if disabled
-  if ((await message.getChat()).isGroup && !config.groupchatsEnabled) return;
+	if ((await message.getChat()).isGroup && !config.groupchatsEnabled) return;
 
 	const selfNotedMessage = message.fromMe && message.hasQuotedMsg === false && message.from === message.to;
 	const whitelistedPhoneNumbers = getConfig("general", "whitelist");
@@ -137,7 +137,6 @@ async function handleIncomingMessage(message: Message) {
 		await handleMessageGPT(message, prompt);
 		return;
 	}
-
 
 	// GPT (!lang <prompt>)
 	if (startsWithIgnoreCase(messageString, config.langChainPrefix)) {

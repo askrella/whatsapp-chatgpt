@@ -7,7 +7,6 @@ const browserAgent = new BrowserAgentProvider();
 // TODO add conversation ID to build a chat history
 const handleMessageLangChain = async (message: Message, prompt: string) => {
 	try {
-
 		const start = Date.now();
 		const output = await browserAgent.fetch(prompt);
 		const end = Date.now() - start;
