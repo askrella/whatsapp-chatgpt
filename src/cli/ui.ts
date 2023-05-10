@@ -7,6 +7,10 @@ export const print = (text: string) => {
 	console.log(color.green("◇") + "  " + text);
 };
 
+export const printError = (text: string) => {
+	console.log(color.red("◇") + "  " + text);
+};
+
 export const printIntro = () => {
 	intro(color.bgCyan(color.white(" Whatsapp ChatGPT & DALL-E ")));
 	note("A Whatsapp bot that uses OpenAI's ChatGPT and DALL-E to generate text and images from a prompt.");
