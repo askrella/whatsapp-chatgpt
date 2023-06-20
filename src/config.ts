@@ -8,7 +8,7 @@ import { AWSPollyEngine } from "./types/aws-polly-engine";
 import dotenv from "dotenv";
 dotenv.config();
 
-// Config Interface IGNORE_LIST_ENABLED
+// Config Interface 
 interface IConfig {
 	// Access control
 	whitelistedPhoneNumbers: string[];
