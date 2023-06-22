@@ -47,9 +47,11 @@ async function handleIncomingMessage(message: Message) {
 	// Ignore groupchats if disabled
 	if ((await message.getChat()).isGroup && !config.groupchatsEnabled) return;
 
-	if(config.ignoreListEnabled) {
+	const selfNotedMessage = message.fromMe && message.hasQuotedMsg === false && message.from === message.to;
+	
 
-		const selfNotedMessage = message.fromMe && message.hasQuotedMsg === false && message.from === message.to;
+	if(config.whitelistedEnabled) {
+
 		const whitelistedPhoneNumbers = getConfig("general", "whitelist");
 
 		if (!selfNotedMessage && whitelistedPhoneNumbers.length > 0 && !whitelistedPhoneNumbers.includes(message.from)) {

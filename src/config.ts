@@ -8,11 +8,11 @@ import { AWSPollyEngine } from "./types/aws-polly-engine";
 import dotenv from "dotenv";
 dotenv.config();
 
-// Config Interface 
+// Config Interface IGNORE_LIST_ENABLED
 interface IConfig {
 	// Access control
 	whitelistedPhoneNumbers: string[];
-    ignoreListEnabled: boolean;
+    whitelistedEnabled: boolean;
 	// OpenAI
 	openAIModel: string;
 	openAIAPIKeys: string[];
@@ -58,7 +58,7 @@ interface IConfig {
 // Config
 export const config: IConfig = {
 	whitelistedPhoneNumbers: process.env.WHITELISTED_PHONE_NUMBERS?.split(",") || [],
-    ignoreListEnabled: getEnvBooleanWithDefault("IGNORE_LIST_ENABLED", false),
+    whitelistedEnabled: getEnvBooleanWithDefault("WHITELISTED_ENABLED", false),
 
 
 	openAIAPIKeys: (process.env.OPENAI_API_KEYS || process.env.OPENAI_API_KEY || "").split(",").filter((key) => !!key), // Default: []
