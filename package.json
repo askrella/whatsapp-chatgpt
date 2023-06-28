@@ -10,7 +10,7 @@
 	},
 	"license": "MIT",
 	"dependencies": {
-		"@clack/prompts": "^0.4.3",
+		"@clack/prompts": "^0.6.3",
 		"chatgpt-official": "^1.1.5",
 		"dotenv": "^16.0.3",
 		"fetch-blob": "^3.2.0",
