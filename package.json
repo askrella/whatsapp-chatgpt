@@ -11,7 +11,7 @@
 	"license": "MIT",
 	"dependencies": {
 		"@clack/prompts": "^0.4.3",
-		"chatgpt-official": "^1.1.5",
+		"chatgpt-official": "^1.1.9",
 		"dotenv": "^16.0.3",
 		"fetch-blob": "^3.2.0",
 		"ffmpeg": "^0.0.4",
