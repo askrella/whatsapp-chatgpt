@@ -50,13 +50,12 @@ async function handleIncomingMessage(message: Message) {
 	const selfNotedMessage = message.fromMe && message.hasQuotedMsg === false && message.from === message.to;
 	
 
-	if(config.whitelistedEnabled) {
-
+	if (config.whitelistedEnabled) {
 		const whitelistedPhoneNumbers = getConfig("general", "whitelist");
-
+	
 		if (!selfNotedMessage && whitelistedPhoneNumbers.length > 0 && !whitelistedPhoneNumbers.includes(message.from)) {
-		cli.print(`Ignoring message from ${message.from} because it is not whitelisted.`);
-		return;
+			cli.print(`Ignoring message from ${message.from} because it is not whitelisted.`);
+			return;
 		}
 	}
 	// Transcribe audio
