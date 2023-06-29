@@ -14,12 +14,18 @@ case $os in
     if command -v apt-get &> /dev/null; then
       echo "Installing packages using apt-get..."
       apt-get update
-      apt-get install -y git docker.io docker-compose
+      echo "Installing latest version of docker..."
+      curl -fsSL https://get.docker.com -o get-docker.sh
+      sh get-docker.sh
+      apt install docker-compose
       echo "Packages installed successfully."
     elif command -v yum &> /dev/null; then
       echo "Installing packages using yum..."
       yum update
-      yum install -y git docker docker-compose
+      echo "Installing latest version of docker..."
+      curl -fsSL https://get.docker.com -o get-docker.sh
+      sh get-docker.sh
+      yum install -y git docker-compose
       echo "Packages installed successfully."
     else
       echo "Unsupported package manager."
