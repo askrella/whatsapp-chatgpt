@@ -7,6 +7,10 @@ import config from "../config";
 // CLI
 import * as cli from "../cli/ui";
 
+// Custom
+import { checkAction } from "../handlers/check-action";
+
+
 // ChatGPT & DALLE
 import { handleMessageGPT, handleDeleteConversation } from "../handlers/gpt";
 import { handleMessageDALLE } from "../handlers/dalle";
@@ -113,12 +117,19 @@ async function handleIncomingMessage(message: Message) {
 		cli.print(`[Transcription] Transcription response: ${transcribedText} (language: ${transcribedLanguage})`);
 
 		// Reply with transcription
-		const reply = `You said: ${transcribedText}${transcribedLanguage ? " (language: " + transcribedLanguage + ")" : ""}`;
-		message.reply(reply);
+		// const reply = `You said: ${transcribedText}${transcribedLanguage ? " (language: " + transcribedLanguage + ")" : ""}`;
+		const actionType = await checkAction(message, transcribedText)
+		console.log('ACTION TYPE', actionType)
+		switch (actionType) {
+			case 'image':
+				await handleMessageDALLE(message, transcribedText);
+				return;
+			case 'gpt':
+			default:
+				await handleMessageGPT(message, transcribedText);
+				return;
+		}
 
-		// Handle message GPT
-		await handleMessageGPT(message, transcribedText);
-		return;
 	}
 
 	// Clear conversation context (!clear)
