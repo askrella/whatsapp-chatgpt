@@ -8,8 +8,9 @@ import { getConfig } from "../handlers/ai-config";
 import * as cli from "../cli/ui";
 import { Message } from "whatsapp-web.js";
 import { checkAction } from "../handlers/check-action";
-import { handleMessageGPT, handleDeleteConversation } from "../handlers/gpt";
+import { handleMessageGPT } from "../handlers/gpt";
 import { handleMessageDALLE } from "../handlers/dalle";
+import { smartAgent } from '../providers/smart-agent'
 
 type Media = {
     data: string;
@@ -73,7 +74,7 @@ export async function handleAudio (media: Media, message: Message): Promise<void
 				return;
 			case 'gpt':
 			default:
-				await handleMessageGPT(message, transcribedText);
+				await handleMessageGPT(message, transcribedText, 'smart-agent');
 				return;
 		}
 }

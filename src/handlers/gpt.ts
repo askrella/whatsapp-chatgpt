@@ -16,10 +16,13 @@ import { TTSMode } from "../types/tts-mode";
 import { moderateIncomingPrompt } from "./moderation";
 import { aiConfig, getConfig } from "./ai-config";
 
+// Custom
+import { smartAgent } from "../providers/smart-agent";
+
 // Mapping from number to last conversation id
 const conversations = {};
 
-const handleMessageGPT = async (message: Message, prompt: string) => {
+const handleMessageGPT = async (message: Message, prompt: string, provider?: string) => {
 	try {
 		// Get last conversation
 		const lastConversationId = conversations[message.from];
@@ -40,9 +43,14 @@ const handleMessageGPT = async (message: Message, prompt: string) => {
 
 		// Check if we have a conversation with the user
 		let response: string;
+		const isSmartAgent = provider && provider === 'smart-agent'
 		if (lastConversationId) {
 			// Handle message with previous conversation
-			response = await chatgpt.ask(prompt, lastConversationId);
+			if (isSmartAgent) {
+				response = await smartAgent(prompt)
+			} else {
+				response = await chatgpt.ask(prompt, lastConversationId);
+			}
 		} else {
 			// Create new conversation
 			const convId = randomUUID();
@@ -61,7 +69,11 @@ const handleMessageGPT = async (message: Message, prompt: string) => {
 			}
 
 			// Handle message with new conversation
-			response = await chatgpt.ask(prompt, conv.id);
+			if (isSmartAgent) {
+				response = await smartAgent(prompt)
+			} else {
+				response = await chatgpt.ask(prompt, conv.id);
+			}
 		}
 
 		const end = Date.now() - start;

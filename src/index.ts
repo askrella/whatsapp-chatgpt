@@ -9,6 +9,7 @@ import * as cli from "./cli/ui";
 import { handleIncomingMessage } from "./handlers/message";
 
 // Config
+import { initSmartAgent } from './providers/smart-agent';
 import { initAiConfig } from "./handlers/ai-config";
 import { initOpenAI } from "./providers/openai";
 
@@ -62,6 +63,7 @@ const start = async () => {
 		// Set bot ready timestamp
 		botReadyTimestamp = new Date();
 
+		initSmartAgent();
 		initAiConfig();
 		initOpenAI();
 	});

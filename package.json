@@ -12,7 +12,8 @@
 	"dependencies": {
 		"@clack/prompts": "^0.6.3",
 		"chatgpt-official": "^1.1.9",
-		"dotenv": "^16.0.3",
+		"cheerio": "^1.0.0-rc.12",
+		"dotenv": "^16.3.1",
 		"fetch-blob": "^3.2.0",
 		"ffmpeg": "^0.0.4",
 		"langchain": "^0.0.91",
