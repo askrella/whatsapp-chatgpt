@@ -48,13 +48,16 @@ async function handleIncomingMessage(message: Message) {
 	if ((await message.getChat()).isGroup && !config.groupchatsEnabled) return;
 
 	const selfNotedMessage = message.fromMe && message.hasQuotedMsg === false && message.from === message.to;
-	const whitelistedPhoneNumbers = getConfig("general", "whitelist");
+	
 
-	if (!selfNotedMessage && whitelistedPhoneNumbers.length > 0 && !whitelistedPhoneNumbers.includes(message.from)) {
-		cli.print(`Ignoring message from ${message.from} because it is not whitelisted.`);
-		return;
+	if (config.whitelistedEnabled) {
+		const whitelistedPhoneNumbers = getConfig("general", "whitelist");
+	
+		if (!selfNotedMessage && whitelistedPhoneNumbers.length > 0 && !whitelistedPhoneNumbers.includes(message.from)) {
+			cli.print(`Ignoring message from ${message.from} because it is not whitelisted.`);
+			return;
+		}
 	}
-
 	// Transcribe audio
 	if (message.hasMedia) {
 		const media = await message.downloadMedia();
