@@ -7,10 +7,10 @@ import { transcribeOpenAI } from "../providers/openai";
 import { getConfig } from "../handlers/ai-config";
 import * as cli from "../cli/ui";
 import { Message } from "whatsapp-web.js";
-import { checkAction } from "../handlers/check-action";
 import { handleMessageGPT } from "../handlers/gpt";
-import { handleMessageDALLE } from "../handlers/dalle";
-import { smartAgent } from '../providers/smart-agent'
+// import { checkAction } from "../handlers/check-action";
+// import { handleMessageDALLE } from "../handlers/dalle";
+import { qaChain } from '../providers/qa-chain'
 
 type Media = {
     data: string;
@@ -63,18 +63,18 @@ export async function handleAudio (media: Media, message: Message): Promise<void
 
 		// Log transcription
 		cli.print(`[Transcription] Transcription response: ${transcribedText} (language: ${transcribedLanguage})`);
-
-		// Reply with transcription
-		// const reply = `You said: ${transcribedText}${transcribedLanguage ? " (language: " + transcribedLanguage + ")" : ""}`;
-		const actionType = await checkAction(message, transcribedText)
-		console.log('ACTION TYPE', actionType)
-		switch (actionType) {
-			case 'image':
-				await handleMessageDALLE(message, transcribedText);
-				return;
-			case 'gpt':
-			default:
-				await handleMessageGPT(message, transcribedText, 'smart-agent');
-				return;
-		}
+		message.reply(`"${transcribedText}"`)
+		handleMessageGPT(message, transcribedText, 'qaChain')
+		/* For judging and directing to multiple handlers */
+		// const actionType = await checkAction(message, transcribedText)
+		// console.log('ACTION TYPE', actionType)
+		// switch (actionType) {
+		// 	case 'image':
+		// 		await handleMessageDALLE(message, transcribedText);
+		// 		return;
+		// 	case 'gpt':
+		// 	default:
+		// 		await handleMessageGPT(message, transcribedText, 'qaChain');
+		// 		return;
+		// }
 }

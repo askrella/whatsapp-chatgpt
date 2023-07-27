@@ -9,7 +9,7 @@ import * as cli from "./cli/ui";
 import { handleIncomingMessage } from "./handlers/message";
 
 // Config
-import { initSmartAgent } from './providers/smart-agent';
+import { initQAChain } from "./providers/qa-chain";
 import { initAiConfig } from "./handlers/ai-config";
 import { initOpenAI } from "./providers/openai";
 
@@ -18,6 +18,7 @@ let botReadyTimestamp: Date | null = null;
 
 // Entrypoint
 const start = async () => {
+	initQAChain();
 	cli.printIntro();
 
 	// WhatsApp Client
@@ -63,7 +64,6 @@ const start = async () => {
 		// Set bot ready timestamp
 		botReadyTimestamp = new Date();
 
-		initSmartAgent();
 		initAiConfig();
 		initOpenAI();
 	});

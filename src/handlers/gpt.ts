@@ -17,11 +17,22 @@ import { moderateIncomingPrompt } from "./moderation";
 import { aiConfig, getConfig } from "./ai-config";
 
 // Custom
-import { smartAgent } from "../providers/smart-agent";
+import { qaChain } from "../providers/qa-chain";
+import { reactiveAgent } from "../providers/reactive-agent";
 
 // Mapping from number to last conversation id
 const conversations = {};
 
+function chooseExecutor(provider, prompt, lastConversationId) {
+	switch (provider) {
+		case 'qa-chain':
+			return qaChain(prompt)
+		case 'reactive-agent':
+			return reactiveAgent(prompt)
+		default:
+			return chatgpt.ask(prompt, lastConversationId)
+	}
+}
 const handleMessageGPT = async (message: Message, prompt: string, provider?: string) => {
 	try {
 		// Get last conversation
@@ -43,14 +54,9 @@ const handleMessageGPT = async (message: Message, prompt: string, provider?: str
 
 		// Check if we have a conversation with the user
 		let response: string;
-		const isSmartAgent = provider && provider === 'smart-agent'
 		if (lastConversationId) {
 			// Handle message with previous conversation
-			if (isSmartAgent) {
-				response = await smartAgent(prompt)
-			} else {
-				response = await chatgpt.ask(prompt, lastConversationId);
-			}
+			response = await chooseExecutor('qa-chain', prompt, lastConversationId)
 		} else {
 			// Create new conversation
 			const convId = randomUUID();
@@ -67,13 +73,7 @@ const handleMessageGPT = async (message: Message, prompt: string, provider?: str
 				const prePromptResponse = await chatgpt.ask(config.prePrompt, conv.id);
 				cli.print("[GPT] Pre prompt response: " + prePromptResponse);
 			}
-
-			// Handle message with new conversation
-			if (isSmartAgent) {
-				response = await smartAgent(prompt)
-			} else {
-				response = await chatgpt.ask(prompt, conv.id);
-			}
+			response = await chooseExecutor('qa-chain', prompt, conv.id)
 		}
 
 		const end = Date.now() - start;
