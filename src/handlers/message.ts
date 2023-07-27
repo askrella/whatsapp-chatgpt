@@ -21,6 +21,11 @@ import { handleMessageLangChain } from "../handlers/langchain";
 // For deciding to ignore old messages
 import { botReadyTimestamp } from "../index";
 
+const reactToMessage = (message, reaction) => setTimeout(() => {
+	message.react(reaction)
+}, 2000);
+
+
 // Handles message
 async function handleIncomingMessage(message: Message) {
 	let messageString = message.body;
@@ -56,6 +61,7 @@ async function handleIncomingMessage(message: Message) {
 			return;
 		}
 	}
+	reactToMessage(message, '🤔')
 	// Transcribe audio
 	if (message.hasMedia) {
 		const media = await message.downloadMedia();
