@@ -18,7 +18,7 @@ import { aiConfig, getConfig } from "./ai-config";
 
 // Custom
 import { qaChain } from "../providers/qa-chain";
-import { reactiveAgent } from "../providers/reactive-agent";
+// import { reactiveAgent } from "../providers/reactive-agent";
 
 // Mapping from number to last conversation id
 const conversations = {};
@@ -27,8 +27,8 @@ function chooseExecutor(provider, prompt, lastConversationId) {
 	switch (provider) {
 		case 'qa-chain':
 			return qaChain(prompt)
-		case 'reactive-agent':
-			return reactiveAgent(prompt)
+		// case 'reactive-agent':
+		// 	return reactiveAgent(prompt)
 		default:
 			return chatgpt.ask(prompt, lastConversationId)
 	}
