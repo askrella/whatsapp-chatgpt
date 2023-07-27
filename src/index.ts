@@ -1,6 +1,5 @@
 import qrcode from "qrcode-terminal";
 import { Client, Message, Events, LocalAuth } from "whatsapp-web.js";
-
 // Constants
 import constants from "./constants";
 
