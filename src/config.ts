@@ -12,7 +12,7 @@ dotenv.config();
 interface IConfig {
 	// Access control
 	whitelistedPhoneNumbers: string[];
-    whitelistedEnabled: boolean;
+	whitelistedEnabled: boolean;
 	// OpenAI
 	openAIModel: string;
 	openAIAPIKeys: string[];
@@ -58,8 +58,7 @@ interface IConfig {
 // Config
 export const config: IConfig = {
 	whitelistedPhoneNumbers: process.env.WHITELISTED_PHONE_NUMBERS?.split(",") || [],
-    whitelistedEnabled: getEnvBooleanWithDefault("WHITELISTED_ENABLED", false),
-
+	whitelistedEnabled: getEnvBooleanWithDefault("WHITELISTED_ENABLED", false),
 
 	openAIAPIKeys: (process.env.OPENAI_API_KEYS || process.env.OPENAI_API_KEY || "").split(",").filter((key) => !!key), // Default: []
 	openAIModel: process.env.OPENAI_GPT_MODEL || "gpt-3.5-turbo", // Default: gpt-3.5-turbo

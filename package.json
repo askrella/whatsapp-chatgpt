@@ -6,7 +6,7 @@
 	"author": "Askrella Software Agency UG (haftungsbeschränkt)",
 	"scripts": {
 		"start": "npx vite-node src/index.ts",
-		"prettier": "prettier --write ."
+		"prettier": "prettier --write ./src"
 	},
 	"license": "MIT",
 	"dependencies": {
@@ -25,6 +25,7 @@
 		"node": ">=18.0.0"
 	},
 	"devDependencies": {
-		"@types/qrcode": "^1.5.2"
+		"@types/qrcode": "^1.5.2",
+		"prettier": "^3.0.3"
 	}
 }

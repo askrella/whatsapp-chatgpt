@@ -40,8 +40,6 @@ const handleMessageGPT = async (message: Message, prompt: string) => {
 
 		const start = Date.now();
 
-		
-
 		// Check if we have a conversation with the user
 		let response: ChatMessage;
 		if (lastConversationId) {
@@ -50,7 +48,7 @@ const handleMessageGPT = async (message: Message, prompt: string) => {
 				conversationId: lastConversationId
 			});
 		} else {
-			let promptBuilder = ""
+			let promptBuilder = "";
 
 			// Pre prompt
 			if (config.prePrompt != null && config.prePrompt.trim() != "") {
@@ -64,7 +62,7 @@ const handleMessageGPT = async (message: Message, prompt: string) => {
 			// Handle message with new conversation
 			response = await chatgpt.sendMessage(promptBuilder, {
 				conversationId: conversationId
-			})
+			});
 
 			// Set conversation id
 			conversations[message.from] = response.conversationId;

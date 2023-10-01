@@ -2,7 +2,7 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 import { randomUUID } from "crypto";
-import { ChatGPTAPI } from 'chatgpt'
+import { ChatGPTAPI } from "chatgpt";
 import { Configuration, OpenAIApi } from "openai";
 
 import ffmpeg from "fluent-ffmpeg";
@@ -22,7 +22,7 @@ export function initOpenAI() {
 			model: config.openAIModel,
 			temperature: 0.7,
 			top_p: 0.9,
-			max_tokens: getConfig("gpt", "maxModelTokens"),
+			max_tokens: getConfig("gpt", "maxModelTokens")
 		}
 	});
 
