@@ -1,4 +1,4 @@
-import { OpenAI } from "langchain/llms";
+import { OpenAI } from "langchain/llms/openai";
 import { SerpAPI } from "langchain/tools";
 import { initializeAgentExecutor } from "langchain/agents";
 

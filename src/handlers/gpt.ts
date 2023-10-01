@@ -7,6 +7,8 @@ import { chatgpt } from "../providers/openai";
 import * as cli from "../cli/ui";
 import config from "../config";
 
+import { ChatMessage } from "chatgpt";
+
 // TTS
 import { ttsRequest as speechTTSRequest } from "../providers/speech";
 import { ttsRequest as awsTTSRequest } from "../providers/aws";
@@ -38,46 +40,50 @@ const handleMessageGPT = async (message: Message, prompt: string) => {
 
 		const start = Date.now();
 
+		
+
 		// Check if we have a conversation with the user
-		let response: string;
+		let response: ChatMessage;
 		if (lastConversationId) {
 			// Handle message with previous conversation
-			response = await chatgpt.ask(prompt, lastConversationId);
+			response = await chatgpt.sendMessage(prompt, {
+				conversationId: lastConversationId
+			});
 		} else {
-			// Create new conversation
-			const convId = randomUUID();
-			const conv = chatgpt.addConversation(convId);
-
-			// Set conversation
-			conversations[message.from] = conv.id;
-
-			cli.print(`[GPT] New conversation for ${message.from} (ID: ${conv.id})`);
+			let promptBuilder = ""
 
 			// Pre prompt
 			if (config.prePrompt != null && config.prePrompt.trim() != "") {
-				cli.print(`[GPT] Pre prompt: ${config.prePrompt}`);
-				const prePromptResponse = await chatgpt.ask(config.prePrompt, conv.id);
-				cli.print("[GPT] Pre prompt response: " + prePromptResponse);
+				promptBuilder += config.prePrompt + "\n\n";
+				promptBuilder += prompt + "\n\n";
 			}
 
+			// Generate converstation id
+			const conversationId = randomUUID();
+
 			// Handle message with new conversation
-			response = await chatgpt.ask(prompt, conv.id);
+			response = await chatgpt.sendMessage(promptBuilder, {
+				conversationId: conversationId
+			})
+
+			// Set conversation id
+			conversations[message.from] = response.conversationId;
+			cli.print(`[GPT] New conversation for ${message.from} (ID: ${response.conversationId})`);
 		}
 
 		const end = Date.now() - start;
 
-		cli.print(`[GPT] Answer to ${message.from}: ${response}  | OpenAI request took ${end}ms)`);
+		cli.print(`[GPT] Answer to ${message.from}: ${response.text}  | OpenAI request took ${end}ms)`);
 
 		// TTS reply (Default: disabled)
 		if (getConfig("tts", "enabled")) {
-			sendVoiceMessageReply(message, response);
-			// Default: Text reply
-			message.reply(response);
+			sendVoiceMessageReply(message, response.text);
+			message.reply(response.text);
 			return;
 		}
 
 		// Default: Text reply
-		message.reply(response);
+		message.reply(response.text);
 	} catch (error: any) {
 		console.error("An error occured", error);
 		message.reply("An error occured, please contact the administrator. (" + error.message + ")");

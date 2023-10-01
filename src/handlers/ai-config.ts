@@ -24,7 +24,6 @@ const initAiConfig = () => {
 	[ChatModule, GeneralModule, GptModule, TranscriptionModule, TTSModule, StableDiffusionModule].forEach((module) => {
 		aiConfig.commandsMap[module.key] = module.register();
 	});
-	console.log("[AI-Config] Initialized AI config");
 };
 
 const handleMessageAIConfig = async (message: Message, prompt: any) => {

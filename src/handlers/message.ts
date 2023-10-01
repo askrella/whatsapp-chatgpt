@@ -49,7 +49,6 @@ async function handleIncomingMessage(message: Message) {
 
 	const selfNotedMessage = message.fromMe && message.hasQuotedMsg === false && message.from === message.to;
 	
-
 	if (config.whitelistedEnabled) {
 		const whitelistedPhoneNumbers = getConfig("general", "whitelist");
 	

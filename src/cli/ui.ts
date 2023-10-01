@@ -1,7 +1,4 @@
-import { intro, spinner, note, outro, text } from "@clack/prompts";
 import color from "picocolors";
-
-const s = spinner();
 
 export const print = (text: string) => {
 	console.log(color.green("◇") + "  " + text);
@@ -12,32 +9,34 @@ export const printError = (text: string) => {
 };
 
 export const printIntro = () => {
-	intro(color.bgCyan(color.white(" Whatsapp ChatGPT & DALL-E ")));
-	note("A Whatsapp bot that uses OpenAI's ChatGPT and DALL-E to generate text and images from a prompt.");
-	s.start("Starting");
+	console.log("")
+	console.log(color.bgCyan(color.white(" Whatsapp ChatGPT & DALL-E ")));
+	console.log("|-------------------------------------------------------------------------------------------------|");
+	console.log("| A Whatsapp bot that uses OpenAI's ChatGPT and DALL-E to generate text and images from a prompt. |");
+	console.log("|-------------------------------------------------------------------------------------------------|");
+	console.log("")
 };
 
 export const printQRCode = (qr: string) => {
-	s.stop("Client is ready!");
-	note(qr, "Scan the QR code below to login to Whatsapp Web.");
-	s.start("Waiting for QR code to be scanned");
+	console.log(qr);
+	console.log("Scan the QR code above to login to Whatsapp Web...")
 };
 
 export const printLoading = () => {
-	s.stop("Authenticated!");
-	s.start("Logging in");
+	console.log("Loading...");
 };
 
 export const printAuthenticated = () => {
-	s.stop("Session started!");
-	s.start("Opening session");
+	console.log("Authenticated, session started!");
 };
 
 export const printAuthenticationFailure = () => {
-	s.stop("Authentication failed!");
+	console.log("Authentication failed!");
 };
 
 export const printOutro = () => {
-	s.stop("Loaded!");
-	outro("Whatsapp ChatGPT & DALLE is ready to use.");
+	console.log("")
+	console.log("The bot is ready to use.");
+	console.log("To get started, send a message to the bot with the prompt you want to use.");
+	console.log("Use the prefix '!gpt' if configured that way.")
 };

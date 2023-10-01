@@ -10,25 +10,21 @@
 	},
 	"license": "MIT",
 	"dependencies": {
-		"@clack/prompts": "^0.6.3",
-		"chatgpt-official": "^1.1.9",
-		"dotenv": "^16.0.3",
-		"fetch-blob": "^3.2.0",
+		"aws-sdk": "^2.1467.0",
+		"chatgpt": "^5.2.5",
+		"dotenv": "^16.3.1",
+		"fetch-blob": "^4.0.0",
 		"ffmpeg": "^0.0.4",
-		"langchain": "^0.0.91",
+		"langchain": "^0.0.156",
 		"openai": "^3.3.0",
 		"picocolors": "^1.0.0",
-		"qrcode-terminal": "^0.12.0",
-		"whatsapp-web.js": "^1.21.0",
-		"vite-node": "^0.31.1",
-		"aws-sdk": "^2.1332.0"
-	},
-	"devDependencies": {
-		"@types/fluent-ffmpeg": "^2.1.21",
-		"@types/qrcode-terminal": "^0.12.0",
-		"prettier": "^2.8.8"
+		"qrcode": "^1.5.3",
+		"whatsapp-web.js": "https://github.com/Julzk/whatsapp-web.js/tarball/jkr_hotfix_7"
 	},
 	"engines": {
 		"node": ">=18.0.0"
+	},
+	"devDependencies": {
+		"@types/qrcode": "^1.5.2"
 	}
 }
