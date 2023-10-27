@@ -45,7 +45,7 @@ const handleMessageGPT = async (message: Message, prompt: string) => {
 		if (lastConversationId) {
 			// Handle message with previous conversation
 			response = await chatgpt.sendMessage(prompt, {
-				conversationId: lastConversationId
+				parentMessageId: lastConversationId
 			});
 		} else {
 			let promptBuilder = "";
@@ -56,18 +56,14 @@ const handleMessageGPT = async (message: Message, prompt: string) => {
 				promptBuilder += prompt + "\n\n";
 			}
 
-			// Generate converstation id
-			const conversationId = randomUUID();
-
 			// Handle message with new conversation
-			response = await chatgpt.sendMessage(promptBuilder, {
-				conversationId: conversationId
-			});
+			response = await chatgpt.sendMessage(promptBuilder);
 
-			// Set conversation id
-			conversations[message.from] = response.conversationId;
-			cli.print(`[GPT] New conversation for ${message.from} (ID: ${response.conversationId})`);
+			cli.print(`[GPT] New conversation for ${message.from} (ID: ${response.id})`);
 		}
+		
+		// Set conversation id
+		conversations[message.from] = response.id;
 
 		const end = Date.now() - start;
 
