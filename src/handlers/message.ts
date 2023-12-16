@@ -135,9 +135,9 @@ async function handleIncomingMessage(message: Message) {
 
 	// GPT (!gpt <prompt>)
 	if (startsWithIgnoreCase(messageString, config.gptPrefix)) {
-        if (config.alwaysResetEnabled) {
-          await handleDeleteConversation(message, false);
-        }
+        	if (config.alwaysResetEnabled) {
+         		await handleDeleteConversation(message, false);
+        	}
 		const prompt = messageString.substring(config.gptPrefix.length + 1);
 		await handleMessageGPT(message, prompt);
 		return;
