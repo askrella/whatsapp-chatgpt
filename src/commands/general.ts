@@ -55,7 +55,7 @@ const settings: ICommandDefinition = {
 			"dallePrefix",
 			"stableDiffusionPrefix",
 			"resetPrefix",
-      "alwaysResetEnabled",
+          "alwaysResetEnabled",
 			"groupchatsEnabled",
 			"promptModerationEnabled",
 			"promptModerationBlacklistedCategories",
