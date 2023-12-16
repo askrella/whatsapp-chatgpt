@@ -89,9 +89,9 @@ const handleDeleteConversation = async (message: Message, sendReply: boolean) =>
 	delete conversations[message.from];
 
 	// Reply
-      if (sendReply) {
-        message.reply("Conversation context was resetted!");
-      }
+        if (sendReply) {
+         	message.reply("Conversation context was resetted!");
+        }
 };
 
 async function sendVoiceMessageReply(message: Message, gptTextResponse: string) {
