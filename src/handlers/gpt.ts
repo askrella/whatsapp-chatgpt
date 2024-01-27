@@ -12,6 +12,8 @@ import { ChatMessage } from "chatgpt";
 // TTS
 import { ttsRequest as speechTTSRequest } from "../providers/speech";
 import { ttsRequest as awsTTSRequest } from "../providers/aws";
+import { ttsRun as piperTTS } from "../providers/piper-tts";
+
 import { TTSMode } from "../types/tts-mode";
 
 // Moderation
@@ -97,6 +99,9 @@ async function sendVoiceMessageReply(message: Message, gptTextResponse: string) 
 	var ttsRequest = async function (): Promise<Buffer | null> {
 		return await speechTTSRequest(gptTextResponse);
 	};
+	var ttsRun = async function (tempFilePath): Promise<void> {
+		piperTTS(gptTextResponse, tempFilePath);
+	};
 
 	switch (config.ttsMode) {
 		case TTSMode.SpeechAPI:
@@ -112,7 +117,9 @@ async function sendVoiceMessageReply(message: Message, gptTextResponse: string) 
 				return await awsTTSRequest(gptTextResponse);
 			};
 			break;
-
+		case TTSMode.PiperTTS:
+			logTAG = "[PiperTTS]";
+			break;
 		default:
 			logTAG = "[SpeechAPI]";
 			ttsRequest = async function (): Promise<Buffer | null> {
@@ -123,25 +130,31 @@ async function sendVoiceMessageReply(message: Message, gptTextResponse: string) 
 
 	// Get audio buffer
 	cli.print(`${logTAG} Generating audio from GPT response "${gptTextResponse}"...`);
-	const audioBuffer = await ttsRequest();
-
-	// Check if audio buffer is valid
-	if (audioBuffer == null || audioBuffer.length == 0) {
-		message.reply(`${logTAG} couldn't generate audio, please contact the administrator.`);
-		return;
-	}
-
-	cli.print(`${logTAG} Audio generated!`);
-
+	let messageMedia;
 	// Get temp folder and file path
 	const tempFolder = os.tmpdir();
 	const tempFilePath = path.join(tempFolder, randomUUID() + ".opus");
 
-	// Save buffer to temp file
-	fs.writeFileSync(tempFilePath, audioBuffer);
+	if (config.ttsMode === TTSMode.PiperTTS) {
+		await ttsRun(tempFilePath);
+		messageMedia = await MessageMedia.fromFilePath(tempFilePath);
+	} else {
+		const audioBuffer = await ttsRequest();
 
-	// Send audio
-	const messageMedia = new MessageMedia("audio/ogg; codecs=opus", audioBuffer.toString("base64"));
+		// Check if audio buffer is valid
+		if (audioBuffer == null || audioBuffer.length == 0) {
+			message.reply(`${logTAG} couldn't generate audio, please contact the administrator.`);
+			return;
+		}
+
+		cli.print(`${logTAG} Audio generated!`);
+
+		// Save buffer to temp file
+		fs.writeFileSync(tempFilePath, audioBuffer);
+
+		// Send audio
+		messageMedia = new MessageMedia("audio/ogg; codecs=opus", audioBuffer.toString("base64"));
+	}
 	message.reply(messageMedia);
 
 	// Delete temp file
