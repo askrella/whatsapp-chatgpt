@@ -1,4 +1,4 @@
-FROM node:bullseye-slim
+FROM node:22.1-bullseye-slim
 
 RUN apt update
 # components for whatsapp-web.js (support no-gui systems)
