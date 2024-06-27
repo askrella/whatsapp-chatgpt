@@ -17,6 +17,7 @@ let botReadyTimestamp: Date | null = null;
 
 // Entrypoint
 const start = async () => {
+	const wwebVersion = "2.2412.54";
 	cli.printIntro();
 
 	// WhatsApp Client
@@ -26,7 +27,11 @@ const start = async () => {
 		},
 		authStrategy: new LocalAuth({
 			dataPath: constants.sessionPath
-		})
+		}),
+		webVersionCache: {
+			type: "remote",
+			remotePath: `https://raw.githubusercontent.com/wppconnect-team/wa-version/main/html/${wwebVersion}.html`
+		}
 	});
 
 	// WhatsApp auth
