@@ -50,6 +50,8 @@ interface IConfig {
 	whisperApiKey: string;
 	ttsEnabled: boolean;
 	ttsMode: TTSMode;
+	piperTTSModel: string;
+	piperTTSCommand: string;
 	transcriptionEnabled: boolean;
 	transcriptionMode: TranscriptionMode;
 	transcriptionLanguage: string;
@@ -98,7 +100,8 @@ export const config: IConfig = {
 	// Text-to-Speech
 	ttsEnabled: getEnvBooleanWithDefault("TTS_ENABLED", false), // Default: false
 	ttsMode: getEnvTTSMode(), // Default: speech-api
-
+	piperTTSModel: getEnvPiperTTSModel(), // Default: ""
+	piperTTSCommand: getEnvPiperTTSCommand(), // Default: piper-tts
 	// Transcription
 	transcriptionEnabled: getEnvBooleanWithDefault("TRANSCRIPTION_ENABLED", false), // Default: false
 	transcriptionMode: getEnvTranscriptionMode(), // Default: local
@@ -183,6 +186,34 @@ function getEnvAWSPollyVoiceEngine(): AWSPollyEngine {
 	}
 
 	return envValue as AWSPollyEngine;
+}
+
+/**
+ * Get the Piper TTS model path from the environment variable
+ * @returns The path to the Piper TTS model
+ */
+function getEnvPiperTTSModel(): string {
+	const envValue = process.env.PIPER_TTS_MODEL;
+	if (envValue == undefined || envValue == "") {
+		// Provide a default path or return an empty string if no default is desired
+		return "/path/to/default/piper/model.onnx";
+	}
+
+	return envValue;
+}
+
+/**
+ * Get the Piper TTS command from the environment variable
+ * @returns The command for Piper TTS
+ */
+function getEnvPiperTTSCommand(): string {
+	const envValue = process.env.PIPER_TTS_COMMAND;
+	if (envValue == undefined || envValue == "") {
+		// Provide a default command or return an empty string if no default is desired
+		return "piper-tts";
+	}
+
+	return envValue;
 }
 
 export default config;
