@@ -17,7 +17,7 @@
 		"ffmpeg": "^0.0.4",
 		"langchain": "^0.0.156",
 		"openai": "^3.3.0",
-		"picocolors": "^1.0.0",
+		"picocolors": "^1.0.1",
 		"qrcode": "^1.5.3",
 		"whatsapp-web.js": "https://github.com/Julzk/whatsapp-web.js/tarball/jkr_hotfix_7"
 	},
