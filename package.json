@@ -12,7 +12,7 @@
 	"dependencies": {
 		"aws-sdk": "^2.1649.0",
 		"chatgpt": "^5.2.5",
-		"dotenv": "^16.3.1",
+		"dotenv": "^16.4.5",
 		"fetch-blob": "^4.0.0",
 		"ffmpeg": "^0.0.4",
 		"langchain": "^0.0.156",
