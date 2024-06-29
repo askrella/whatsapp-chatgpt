@@ -112,8 +112,10 @@ async function handleIncomingMessage(message: Message) {
 		cli.print(`[Transcription] Transcription response: ${transcribedText} (language: ${transcribedLanguage})`);
 
 		// Reply with transcription
-		const reply = `You said: ${transcribedText}${transcribedLanguage ? " (language: " + transcribedLanguage + ")" : ""}`;
-		message.reply(reply);
+		if (config.ttsTranscriptionResponse) {
+			const reply = `You said: ${transcribedText}${transcribedLanguage ? " (language: " + transcribedLanguage + ")" : ""}`;
+			message.reply(reply);
+		}
 
 		// Handle message GPT
 		await handleMessageGPT(message, transcribedText);
