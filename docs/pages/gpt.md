@@ -42,7 +42,7 @@ GROUPCHATS_ENABLED=true
 
 You can configure a prompt moderation, which will be executed before sending the prompt to GPT.
 This way, you can filter out prompts before sending them to GPT.
-This is archived by using the [OpenAI Moderation API](https://beta.openai.com/docs/api-reference/moderations).
+This is achieved by using the [OpenAI Moderation API](https://beta.openai.com/docs/api-reference/moderations).
 
 To enable it, use the `PROMPT_MODERATION_ENABLED` environment variable. For example:
 
