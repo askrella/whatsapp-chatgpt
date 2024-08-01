@@ -10,7 +10,7 @@ import { openai } from "../providers/openai";
  */
 const moderateIncomingPrompt = async (prompt: string) => {
 	cli.print("[MODERATION] Checking user prompt...");
-	const moderationResponse = await openai.createModeration({
+	const moderationResponse = await openai.moderations.create({
 		input: prompt
 	});
 

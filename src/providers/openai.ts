@@ -3,7 +3,7 @@ import os from "os";
 import path from "path";
 import { randomUUID } from "crypto";
 import { ChatGPTAPI } from "chatgpt";
-import { Configuration, OpenAIApi } from "openai";
+import OpenAI from "openai";
 
 import ffmpeg from "fluent-ffmpeg";
 import { blobFromSync, File } from "fetch-blob/from.js";
@@ -13,7 +13,7 @@ import { getConfig } from "../handlers/ai-config";
 export let chatgpt: ChatGPTAPI;
 
 // OpenAI Client (DALL-E)
-export let openai: OpenAIApi;
+export let openai: OpenAI;
 
 export function initOpenAI() {
 	chatgpt = new ChatGPTAPI({
@@ -26,10 +26,10 @@ export function initOpenAI() {
 		}
 	});
 
-	openai = new OpenAIApi(
-		new Configuration({
+	openai = new OpenAI(
+		{
 			apiKey: getConfig("gpt", "apiKey")
-		})
+		}
 	);
 }
 
