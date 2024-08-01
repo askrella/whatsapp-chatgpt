@@ -50,6 +50,7 @@ interface IConfig {
 	whisperApiKey: string;
 	ttsEnabled: boolean;
 	ttsMode: TTSMode;
+	ttsTranscriptionResponse: boolean;
 	transcriptionEnabled: boolean;
 	transcriptionMode: TranscriptionMode;
 	transcriptionLanguage: string;
@@ -98,6 +99,7 @@ export const config: IConfig = {
 	// Text-to-Speech
 	ttsEnabled: getEnvBooleanWithDefault("TTS_ENABLED", false), // Default: false
 	ttsMode: getEnvTTSMode(), // Default: speech-api
+	ttsTranscriptionResponse: getEnvBooleanWithDefault("TTS_TRANSCRIPTION_RESPONSE_ENABLED", true), // Default: true
 
 	// Transcription
 	transcriptionEnabled: getEnvBooleanWithDefault("TRANSCRIPTION_ENABLED", false), // Default: false

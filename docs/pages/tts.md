@@ -8,6 +8,14 @@ You can enable it by setting the following environment variable:
 TTS_ENABLED=true
 ```
 
+By default, when TTS is enabled, the bot will answer two messages: the text response and the audio response.
+
+You can disable the text response by changing the following environment variable:
+
+```bash
+TTS_TRANSCRIPTION_RESPONSE_ENABLED=true
+```
+
 ## Supported Providers
 
 -   [Speech API](#speech-api)
