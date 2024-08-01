@@ -19,7 +19,7 @@
 		"openai": "^4.52.1",
 		"picocolors": "^1.0.0",
 		"qrcode": "^1.5.3",
-		"whatsapp-web.js": "https://github.com/Julzk/whatsapp-web.js/tarball/jkr_hotfix_7"
+		"whatsapp-web.js": "^1.25.0"
 	},
 	"engines": {
 		"node": ">=18.0.0"
