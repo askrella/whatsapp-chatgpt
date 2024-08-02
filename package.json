@@ -16,7 +16,7 @@
 		"fetch-blob": "^4.0.0",
 		"ffmpeg": "^0.0.4",
 		"langchain": "^0.0.156",
-		"openai": "^4.52.1",
+		"openai": "^4.52.7",
 		"picocolors": "^1.0.0",
 		"qrcode": "^1.5.3",
 		"whatsapp-web.js": "^1.25.0"
