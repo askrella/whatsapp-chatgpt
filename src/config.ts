@@ -29,6 +29,9 @@ interface IConfig {
 	resetPrefix: string;
 	aiConfigPrefix: string;
 
+        // Always reset context enabled
+        alwaysResetEnabled: boolean;
+
 	// Groupchats
 	groupchatsEnabled: boolean;
 
@@ -75,6 +78,9 @@ export const config: IConfig = {
 	resetPrefix: process.env.RESET_PREFIX || "!reset", // Default: !reset
 	aiConfigPrefix: process.env.AI_CONFIG_PREFIX || "!config", // Default: !config
 	langChainPrefix: process.env.LANGCHAIN_PREFIX || "!lang", // Default: !lang
+
+        // Always reset context
+        alwaysResetEnabled: getEnvBooleanWithDefault("ALWAYS_RESET", false),  // Default: false
 
 	// Groupchats
 	groupchatsEnabled: getEnvBooleanWithDefault("GROUPCHATS_ENABLED", false), // Default: false
