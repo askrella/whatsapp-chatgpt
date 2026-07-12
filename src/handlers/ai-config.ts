@@ -26,7 +26,7 @@ const initAiConfig = () => {
 	});
 };
 
-const handleMessageAIConfig = async (message: Message, prompt: any) => {
+const handleMessageAIConfig = async (message: Message, prompt: string) => {
 	try {
 		console.log("[AI-Config] Received prompt from " + message.from + ": " + prompt);
 
@@ -91,7 +91,7 @@ const handleMessageAIConfig = async (message: Message, prompt: any) => {
 
 		if (target && type && aiConfig.commandsMap[target]) {
 			if (aiConfig.commandsMap[target][type]) {
-				aiConfig.commandsMap[target][type].execute(message, value);
+				await aiConfig.commandsMap[target][type].execute(message, value);
 			} else {
 				message.reply("Invalid command, please use one of the following: " + Object.keys(aiConfig.commandsMap[target]).join(", "));
 			}
@@ -112,8 +112,8 @@ const handleMessageAIConfig = async (message: Message, prompt: any) => {
 
 		message.reply("Successfully set " + target + " " + type + " to " + value);
 	} catch (error: any) {
-		console.error("An error occured", error);
-		message.reply("An error occured, please contact the administrator. (" + error.message + ")");
+		console.error("An error occurred", error);
+		message.reply("An error occurred, please contact the administrator. (" + error.message + ")");
 	}
 };
 

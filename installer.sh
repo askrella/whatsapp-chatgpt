@@ -1,55 +1,48 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# Check if user has root/sudo access
+set -euo pipefail
+
 if [[ $(id -u) -ne 0 ]]; then
-  echo "This script must be run as root or with sudo."
-  exit 1
+	echo "This script must be run as root or with sudo."
+	exit 1
 fi
 
-# Check user's operating system
-os=$(uname -s)
-case $os in
-  Linux)
-    # Install required packages using package manager
-    if command -v apt-get &> /dev/null; then
-      echo "Installing packages using apt-get..."
-      apt-get update
-      echo "Installing latest version of docker..."
-      curl -fsSL https://get.docker.com -o get-docker.sh
-      sh get-docker.sh
-      apt install docker-compose
-      echo "Packages installed successfully."
-    elif command -v yum &> /dev/null; then
-      echo "Installing packages using yum..."
-      yum update
-      echo "Installing latest version of docker..."
-      curl -fsSL https://get.docker.com -o get-docker.sh
-      sh get-docker.sh
-      yum install -y git docker-compose
-      echo "Packages installed successfully."
-    else
-      echo "Unsupported package manager."
-      exit 1
-    fi
-    ;;
-  *)
-    echo "Unsupported operating system."
-    exit 1
-    ;;
-esac
+if [[ $(uname -s) != "Linux" ]]; then
+	echo "This installer currently supports Linux only."
+	exit 1
+fi
 
-# Clone Git repo and run Docker Compose
-echo "Cloning Git repo..."
+if command -v apt-get >/dev/null; then
+	apt-get update
+	apt-get install -y ca-certificates curl git
+elif command -v dnf >/dev/null; then
+	dnf install -y ca-certificates curl git
+elif command -v yum >/dev/null; then
+	yum install -y ca-certificates curl git
+else
+	echo "Unsupported package manager."
+	exit 1
+fi
+
+if ! command -v docker >/dev/null || ! docker compose version >/dev/null 2>&1; then
+	install_script=$(mktemp)
+	curl --fail --silent --show-error --location https://get.docker.com --output "$install_script"
+	sh "$install_script"
+	rm -f "$install_script"
+fi
+
+if ! docker compose version >/dev/null 2>&1; then
+	echo "Docker Compose v2 is required but could not be installed."
+	exit 1
+fi
+
 git clone https://github.com/askrella/whatsapp-chatgpt.git
-cd repo
+cd whatsapp-chatgpt
 
-# Prompt user for API key
-read -p "Enter your OpenAI API key: " api_key
+read -r -s -p "Enter your OpenAI API key: " api_key
+printf "\n"
+printf "OPENAI_API_KEY=%s\n" "$api_key" >.env
+chmod 600 .env
 
-# Replace API key variable in Docker Compose file
-sed -i "s/OPENAI_API_KEY:.*/OPENAI_API_KEY: \"$api_key\"/g" docker-compose.yml
-
-# Start Docker Compose
-echo "Starting Docker containers..."
-docker-compose up -d
-echo "Docker containers started successfully."
+docker compose up --detach
+echo "WhatsApp ChatGPT started. Run 'docker compose logs --follow' to scan the QR code."

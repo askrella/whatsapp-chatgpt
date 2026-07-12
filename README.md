@@ -8,6 +8,8 @@ This project is unmaintained, looking for maintainers!
 
 This WhatsApp bot uses OpenAI's GPT and DALL-E 2 to respond to user inputs.
 
+AI features use [Vercel AI SDK](https://ai-sdk.dev/) with the OpenAI provider.
+
 You can talk to the bot in voice messages, the bot will transcribe and respond. :robot:
 
 <p align="center">
@@ -16,16 +18,28 @@ You can talk to the bot in voice messages, the bot will transcribe and respond. 
 
 ## Requirements
 
--   Node.js (18 or newer)
--   A recent version of npm
--   An [OpenAI API key](https://beta.openai.com/signup)
--   A WhatsApp account
+- Node.js (22 or newer)
+- A recent version of npm
+- FFmpeg (required for OpenAI voice transcription)
+- An [OpenAI API key](https://beta.openai.com/signup)
+- A WhatsApp account
 
 ## Documentation
 
 In the documentation you can find more information about how to install, configure and use this bot.
 
 <span style="font-size: 1.4rem;">➡️ https://askrella.github.io/whatsapp-chatgpt</span>
+
+## Development
+
+```bash
+npm install
+npm test
+npm run check
+npm start
+```
+
+`npm start` builds the TypeScript project before launching it. Use `npm run dev` while developing.
 
 ## Disclaimer
 
@@ -43,6 +57,6 @@ NOTE: We can't guarantee that you won't be blocked using this method, although i
 
 ## Used libraries
 
--   https://github.com/transitive-bullshit/chatgpt-api
--   https://github.com/pedroslopez/whatsapp-web.js
--   https://github.com/askrella/speech-rest-api
+- https://github.com/vercel/ai
+- https://github.com/pedroslopez/whatsapp-web.js
+- https://github.com/askrella/speech-rest-api

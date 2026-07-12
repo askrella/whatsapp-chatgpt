@@ -16,10 +16,10 @@ You can talk to the bot in voice messages, the bot will transcribe and respond. 
 
 ## Requirements
 
--   Node.js (18 or newer)
--   A recent version of npm
--   An [OpenAI API key](https://beta.openai.com/signup)
--   A WhatsApp account
+- Node.js (22 or newer)
+- A recent version of npm
+- An [OpenAI API key](https://beta.openai.com/signup)
+- A WhatsApp account
 
 ## Documentation
 
@@ -43,6 +43,6 @@ NOTE: We can't guarantee that you won't be blocked using this method, although i
 
 ## Used libraries
 
--   https://github.com/transitive-bullshit/chatgpt-api
--   https://github.com/pedroslopez/whatsapp-web.js
--   https://github.com/askrella/speech-rest-api
+- https://github.com/transitive-bullshit/chatgpt-api
+- https://github.com/pedroslopez/whatsapp-web.js
+- https://github.com/askrella/speech-rest-api

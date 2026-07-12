@@ -25,8 +25,10 @@ async function transcribeWhisperApi(audioBlob: Blob): Promise<{ text: string; la
 	};
 
 	const response = await fetch(url, options);
-	const transcription = await response.json();
-	return transcription;
+	if (!response.ok) {
+		throw new Error(`Whisper API transcription failed (${response.status}): ${await response.text()}`);
+	}
+	return (await response.json()) as { text: string; language: string };
 }
 
 export { transcribeWhisperApi };

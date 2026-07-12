@@ -5,7 +5,7 @@ import * as cli from "../cli/ui";
 const browserAgent = new BrowserAgentProvider();
 
 // TODO add conversation ID to build a chat history
-const handleMessageLangChain = async (message: Message, prompt: string) => {
+const handleMessageWebSearch = async (message: Message, prompt: string) => {
 	try {
 		const start = Date.now();
 		const output = await browserAgent.fetch(prompt);
@@ -16,9 +16,9 @@ const handleMessageLangChain = async (message: Message, prompt: string) => {
 		// Default: Text reply
 		message.reply(output);
 	} catch (error: any) {
-		console.error("An error occured", error);
-		message.reply("An error occured, please contact the administrator. (" + error.message + ")");
+		console.error("An error occurred", error);
+		message.reply("An error occurred, please contact the administrator. (" + error.message + ")");
 	}
 };
 
-export { handleMessageLangChain };
+export { handleMessageWebSearch };

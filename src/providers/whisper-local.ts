@@ -1,7 +1,7 @@
 import fs from "fs";
 import os from "os";
 import path from "path";
-import { execSync } from "child_process";
+import { execFileSync } from "child_process";
 import { randomUUID } from "crypto";
 
 async function transcribeAudioLocal(audioBuffer: Buffer): Promise<{ text: string; language: string }> {
@@ -11,10 +11,12 @@ async function transcribeAudioLocal(audioBuffer: Buffer): Promise<{ text: string
 	fs.writeFileSync(audioPath, audioBuffer);
 
 	// Transcribe audio
-	const output = execSync(`whisper ${audioPath}`, { encoding: "utf-8" });
-
-	// Delete tmp file
-	fs.unlinkSync(audioPath);
+	let output: string;
+	try {
+		output = execFileSync("whisper", [audioPath], { encoding: "utf-8" });
+	} finally {
+		fs.rmSync(audioPath, { force: true });
+	}
 
 	// Delete whisper created tmp files
 	const extensions = [".wav.srt", ".wav.txt", ".wav.vtt"];
@@ -31,25 +33,25 @@ async function transcribeAudioLocal(audioBuffer: Buffer): Promise<{ text: string
 	};
 }
 
-function parseDetectedLanguage(text) {
+function parseDetectedLanguage(text: string): string {
 	const languageLine = text.split("\n")[1]; // Extract the second line of text
-	const languageMatch = languageLine.match(/Detected language:\s(.+)/); // Extract the detected language
+	const languageMatch = languageLine?.match(/Detected language:\s(.+)/); // Extract the detected language
 
 	if (languageMatch) {
 		return languageMatch[1].trim();
 	}
 
-	return null; // Return null if match is not found
+	return ""; // Return an empty string if match is not found
 }
 
-function parseTextAfterTimeFrame(text) {
+function parseTextAfterTimeFrame(text: string): string {
 	const textMatch = text.match(/\[(\d{2}:\d{2}\.\d{3})\s-->\s(\d{2}:\d{2}\.\d{3})\]\s(.+)/); // Extract the text
 
 	if (textMatch) {
 		return textMatch[3].trim();
 	}
 
-	return null; // Return null if match is not found
+	return ""; // Return an empty string if match is not found
 }
 
-export { transcribeAudioLocal };
+export { parseDetectedLanguage, parseTextAfterTimeFrame, transcribeAudioLocal };
