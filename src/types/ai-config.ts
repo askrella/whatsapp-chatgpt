@@ -6,17 +6,18 @@ export enum aiConfigTarget {
 	// chatgpt = "chatgpt"
 }
 
-export const aiConfigTypes = {
+export const aiConfigTypes: Record<string, Record<string, string>> = {
 	dalle: dalleConfigType
 };
 
-export const aiConfigValues = {
+export const aiConfigValues: Record<string, Record<string, Record<string, string>>> = {
 	dalle: {
 		size: dalleImageSize
 	}
 };
 
 export interface IAiConfig {
+	[key: string]: any;
 	dalle: {
 		size: dalleImageSize;
 	};

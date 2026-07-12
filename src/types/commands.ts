@@ -1,7 +1,7 @@
 import { Message } from "whatsapp-web.js";
 
 export interface ICommandExecution {
-	(message: Message, value?: string): void;
+	(message: Message, value?: string): void | Promise<void>;
 }
 
 export interface ICommandDefinition {

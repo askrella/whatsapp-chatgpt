@@ -23,7 +23,7 @@ async function ttsRequest(text: string): Promise<Buffer | null> {
 		const audioBuffer = await response.arrayBuffer();
 		return Buffer.from(audioBuffer);
 	} catch (error) {
-		console.error("An error occured (TTS request)", error);
+		console.error("An error occurred (TTS request)", error);
 		return null;
 	}
 }
@@ -46,8 +46,10 @@ async function transcribeRequest(audioBlob: Blob): Promise<{ text: string; langu
 	};
 
 	const response = await fetch(url, options);
-	const transcription = await response.json();
-	return transcription;
+	if (!response.ok) {
+		throw new Error(`Speech API transcription failed (${response.status}): ${await response.text()}`);
+	}
+	return (await response.json()) as { text: string; language: string };
 }
 
 export { ttsRequest, transcribeRequest };

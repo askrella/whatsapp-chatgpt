@@ -1,1 +1,5 @@
-node_modules/*
+.env
+.git
+dist
+node_modules
+session

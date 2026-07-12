@@ -1,7 +1,9 @@
 # Docker
 
-Make sure to edit the `docker-compose.yml` file and set your own variables there.
+Copy `.env-example` to `.env` and configure at least `OPENAI_API_KEY`, then run:
 
 ```sh
-sudo docker-compose up
+docker compose up
 ```
+
+The Compose volume persists your linked WhatsApp session between container restarts.

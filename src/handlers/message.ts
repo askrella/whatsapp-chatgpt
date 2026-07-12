@@ -1,5 +1,5 @@
 import { Message } from "whatsapp-web.js";
-import { startsWithIgnoreCase } from "../utils";
+import { extractCommandPrompt } from "../utils";
 
 // Config & Constants
 import config from "../config";
@@ -11,17 +11,17 @@ import * as cli from "../cli/ui";
 import { handleMessageGPT, handleDeleteConversation } from "../handlers/gpt";
 import { handleMessageDALLE } from "../handlers/dalle";
 import { handleMessageAIConfig, getConfig, executeCommand } from "../handlers/ai-config";
-import { handleMessageLangChain } from "../handlers/langchain";
+import { handleMessageWebSearch } from "../handlers/web-search";
 
 // Speech API & Whisper
 import { TranscriptionMode } from "../types/transcription-mode";
 import { transcribeRequest } from "../providers/speech";
 import { transcribeAudioLocal } from "../providers/whisper-local";
 import { transcribeWhisperApi } from "../providers/whisper-api";
-import { transcribeOpenAI } from "../providers/openai";
+import { transcribeAudioWithAI } from "../providers/ai";
 
 // For deciding to ignore old messages
-import { botReadyTimestamp } from "../index";
+import { getBotReadyTimestamp } from "../runtime-state";
 
 // Handles message
 async function handleIncomingMessage(message: Message) {
@@ -30,6 +30,7 @@ async function handleIncomingMessage(message: Message) {
 	// Prevent handling old messages
 	if (message.timestamp != null) {
 		const messageTimestamp = new Date(message.timestamp * 1000);
+		const botReadyTimestamp = getBotReadyTimestamp();
 
 		// If startTimestamp is null, the bot is not ready yet
 		if (botReadyTimestamp == null) {
@@ -66,7 +67,7 @@ async function handleIncomingMessage(message: Message) {
 
 		// Check if transcription is enabled (Default: false)
 		if (!getConfig("transcription", "enabled")) {
-			cli.print("[Transcription] Received voice messsage but voice transcription is disabled.");
+			cli.print("[Transcription] Received voice message but voice transcription is disabled.");
 			return;
 		}
 
@@ -83,16 +84,17 @@ async function handleIncomingMessage(message: Message) {
 				res = await transcribeAudioLocal(mediaBuffer);
 				break;
 			case TranscriptionMode.OpenAI:
-				res = await transcribeOpenAI(mediaBuffer);
+				res = await transcribeAudioWithAI(mediaBuffer);
 				break;
 			case TranscriptionMode.WhisperAPI:
-				res = await transcribeWhisperApi(new Blob([mediaBuffer]));
+				res = await transcribeWhisperApi(new Blob([new Uint8Array(mediaBuffer)]));
 				break;
 			case TranscriptionMode.SpeechAPI:
-				res = await transcribeRequest(new Blob([mediaBuffer]));
+				res = await transcribeRequest(new Blob([new Uint8Array(mediaBuffer)]));
 				break;
 			default:
 				cli.print(`[Transcription] Unsupported transcription mode: ${transcriptionMode}`);
+				return;
 		}
 		const { text: transcribedText, language: transcribedLanguage } = res;
 
@@ -123,42 +125,47 @@ async function handleIncomingMessage(message: Message) {
 	}
 
 	// Clear conversation context (!clear)
-	if (startsWithIgnoreCase(messageString, config.resetPrefix)) {
+	if (extractCommandPrompt(messageString, config.resetPrefix) !== null) {
 		await handleDeleteConversation(message);
 		return;
 	}
 
 	// AiConfig (!config <args>)
-	if (startsWithIgnoreCase(messageString, config.aiConfigPrefix)) {
-		const prompt = messageString.substring(config.aiConfigPrefix.length + 1);
+	const aiConfigPrompt = extractCommandPrompt(messageString, config.aiConfigPrefix);
+	if (aiConfigPrompt !== null) {
+		const prompt = aiConfigPrompt;
 		await handleMessageAIConfig(message, prompt);
 		return;
 	}
 
 	// GPT (!gpt <prompt>)
-	if (startsWithIgnoreCase(messageString, config.gptPrefix)) {
-		const prompt = messageString.substring(config.gptPrefix.length + 1);
+	const gptPrompt = extractCommandPrompt(messageString, config.gptPrefix);
+	if (gptPrompt !== null) {
+		const prompt = gptPrompt;
 		await handleMessageGPT(message, prompt);
 		return;
 	}
 
 	// GPT (!lang <prompt>)
-	if (startsWithIgnoreCase(messageString, config.langChainPrefix)) {
-		const prompt = messageString.substring(config.langChainPrefix.length + 1);
-		await handleMessageLangChain(message, prompt);
+	const langChainPrompt = extractCommandPrompt(messageString, config.langChainPrefix);
+	if (langChainPrompt !== null) {
+		const prompt = langChainPrompt;
+		await handleMessageWebSearch(message, prompt);
 		return;
 	}
 
 	// DALLE (!dalle <prompt>)
-	if (startsWithIgnoreCase(messageString, config.dallePrefix)) {
-		const prompt = messageString.substring(config.dallePrefix.length + 1);
+	const dallePrompt = extractCommandPrompt(messageString, config.dallePrefix);
+	if (dallePrompt !== null) {
+		const prompt = dallePrompt;
 		await handleMessageDALLE(message, prompt);
 		return;
 	}
 
 	// Stable Diffusion (!sd <prompt>)
-	if (startsWithIgnoreCase(messageString, config.stableDiffusionPrefix)) {
-		const prompt = messageString.substring(config.stableDiffusionPrefix.length + 1);
+	const stableDiffusionPrompt = extractCommandPrompt(messageString, config.stableDiffusionPrefix);
+	if (stableDiffusionPrompt !== null) {
+		const prompt = stableDiffusionPrompt;
 		await executeCommand("sd", "generate", message, prompt);
 		return;
 	}
@@ -170,4 +177,17 @@ async function handleIncomingMessage(message: Message) {
 	}
 }
 
-export { handleIncomingMessage };
+async function handleIncomingMessageSafely(message: Message): Promise<void> {
+	try {
+		await handleIncomingMessage(message);
+	} catch (error) {
+		cli.printError(`Failed to handle message from ${message.from}: ${error instanceof Error ? error.message : String(error)}`);
+		try {
+			await message.reply("I couldn't process that message. Please try again.");
+		} catch (replyError) {
+			cli.printError(`Failed to send error reply: ${replyError instanceof Error ? replyError.message : String(replyError)}`);
+		}
+	}
+}
+
+export { handleIncomingMessage, handleIncomingMessageSafely };

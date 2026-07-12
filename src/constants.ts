@@ -8,7 +8,7 @@ interface IConstants {
 
 const constants: IConstants = {
 	statusBroadcast: "status@broadcast",
-	sessionPath: "./"
+	sessionPath: process.env.SESSION_PATH || "."
 };
 
 export default constants;

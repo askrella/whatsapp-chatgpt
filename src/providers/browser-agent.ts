@@ -1,20 +1,33 @@
-import { OpenAI } from "langchain/llms/openai";
-import { SerpAPI } from "langchain/tools";
-import { initializeAgentExecutor } from "langchain/agents";
+import config from "../config";
+import { runAIWebSearch } from "./ai";
 
 export default class BrowserAgentProvider {
-	// Can use other browser tools like RequestGetTool if you do not have a [SerpAPI](https://serpapi.com/) API key.
-	tools = [
-		new SerpAPI()
-		// new RequestsGetTool(),
-	];
-	// Always select highest probability word in search
-	model = new OpenAI({ temperature: 0 });
+	async fetch(query: string): Promise<string> {
+		if (!config.serpApiKey) {
+			throw new Error("SERPAPI_API_KEY is required for web search");
+		}
+		return runAIWebSearch(query, (searchQuery) => this.search(searchQuery));
+	}
 
-	fetch = async (query) => {
-		const executor = await initializeAgentExecutor(this.tools, this.model, "zero-shot-react-description", true);
-		const result = await executor.call({ input: query });
+	private async search(query: string): Promise<unknown> {
+		const url = new URL("https://serpapi.com/search.json");
+		url.searchParams.set("engine", "google");
+		url.searchParams.set("q", query);
+		url.searchParams.set("api_key", config.serpApiKey);
 
-		return result.output; // Return the final text instead of result.output
-	};
+		const searchResponse = await fetch(url);
+		if (!searchResponse.ok) {
+			throw new Error(`SerpAPI request failed (${searchResponse.status}): ${await searchResponse.text()}`);
+		}
+
+		const searchResults = (await searchResponse.json()) as {
+			answer_box?: unknown;
+			organic_results?: unknown[];
+		};
+		const relevantResults = {
+			answerBox: searchResults.answer_box,
+			organicResults: searchResults.organic_results?.slice(0, 5)
+		};
+		return relevantResults;
+	}
 }

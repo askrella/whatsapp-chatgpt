@@ -7,10 +7,10 @@ You can enable it by setting `TRANSCRIPTION_ENABLED=true` in your `.env` file.
 
 There are multiple modes available:
 
--   `local`
--   `openai`
--   `speech-api`
--   `whisper-api`
+- `local`
+- `openai`
+- `speech-api`
+- `whisper-api`
 
 # Transcription Modes
 
@@ -22,11 +22,11 @@ With local mode the voice messages will be transcribed on your machine. Best for
 
 You need to install Python:
 
--   https://www.python.org/downloads/
+- https://www.python.org/downloads/
 
 Check out the whisper installation guide here:
 
--   https://github.com/openai/whisper#setup
+- https://github.com/openai/whisper#setup
 
 Use the following environment variable to enable the local mode:
 
@@ -56,7 +56,7 @@ TRANSCRIPTION_LANGUAGE=English
 
 Remarks:
 
--   Please note that this endpoint has a file size limit of 25 MB, so it is recommended to avoid transcribing long audio files.
+- Please note that this endpoint has a file size limit of 25 MB, so it is recommended to avoid transcribing long audio files.
 
 ## Speech-API
 
@@ -66,7 +66,7 @@ The Speech API doesn't store the voice messages permanently. It's open source an
 
 You can find the source code here:
 
--   https://github.com/askrella/speech-rest-api
+- https://github.com/askrella/speech-rest-api
 
 If you want use the Speech API mode you need to set the following environment variable:
 
@@ -92,7 +92,7 @@ TRANSCRIPTION_MODE=whisper-api
 
 To use the API, you must first sign up and obtain an API key from:
 
--   https://whisperapi.com/
+- https://whisperapi.com/
 
 The transcribed language is usually detected automatically, but if you want to ensure accurate language detection, you can set the environment variable `TRANSCRIPTION_LANGUAGE` to the desired language (for example, "en" for English).
 

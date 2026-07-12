@@ -48,7 +48,7 @@ const settings: ICommandDefinition = {
 		}
 
 		// Whitelisted fields from config
-		[
+		const visibleFields = [
 			"openAIModel",
 			"prePrompt",
 			"gptPrefix",
@@ -59,7 +59,8 @@ const settings: ICommandDefinition = {
 			"promptModerationEnabled",
 			"promptModerationBlacklistedCategories",
 			"ttsMode"
-		].forEach((field) => {
+		] satisfies (keyof typeof config)[];
+		visibleFields.forEach((field) => {
 			response += `\n${field}: ${config[field]}`;
 		});
 		message.reply(response);

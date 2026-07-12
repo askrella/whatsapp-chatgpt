@@ -1,11 +1,13 @@
 # GPT
 
+Text, image, and transcription requests use [Vercel AI SDK](https://ai-sdk.dev/) with its OpenAI provider.
+
 ## Model
 
-You can specify the model which should be used with the `OPENAI_MODEL` environment variabl
+You can specify the model with the `OPENAI_GPT_MODEL` environment variable. The default is `gpt-4o-mini`.
 
 ```bash
-OPENAI_MODEL=gpt-3.5-turbo # or gpt-4
+OPENAI_GPT_MODEL=gpt-4o-mini
 ```
 
 ## Configuration
@@ -66,4 +68,4 @@ Please, keep in mind that disabling the prompt moderation or modifying the black
 
 https://platform.openai.com/docs/guides/rate-limits
 
-If you are with heavy usage, you might run into the rate limit of Open API. Since the rate limit is on organization level, you could create another account and get a new API key separately. And then setting the keys into environment variables `OPENAI_API_KEYS`. API keys will be used in a random basis.
+For key rotation, provide a comma-separated pool in `OPENAI_API_KEYS`. One key is selected whenever the OpenAI client is initialized.

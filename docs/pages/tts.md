@@ -18,8 +18,8 @@ TTS_TRANSCRIPTION_RESPONSE_ENABLED=true
 
 ## Supported Providers
 
--   [Speech API](#speech-api)
--   [AWS Polly](#aws-polly)
+- [Speech API](#speech-api)
+- [AWS Polly](#aws-polly)
 
 ## Speech API
 
@@ -27,7 +27,7 @@ This feature will use the Speech API to convert the GPT response to voice. It's 
 
 You can find the source code here:
 
--   https://github.com/askrella/speech-rest-api
+- https://github.com/askrella/speech-rest-api
 
 By default the bot will use our hosted Speech API (for free). You can change the URL by setting the following environment variables:
 
@@ -42,7 +42,7 @@ You can use Amazon Web Services Polly to convert the GPT response to voice.
 
 You can find the official documentation here:
 
--   https://docs.aws.amazon.com/polly/latest/dg/what-is.html
+- https://docs.aws.amazon.com/polly/latest/dg/what-is.html
 
 You can enable this service by setting the following environment variables:
 
@@ -60,14 +60,14 @@ The provided AWS credentials must have the `polly:SynthesizeSpeech` permission.
 
 You can find the list of available regions here:
 
--   https://docs.aws.amazon.com/general/latest/gr/rande.html#polly_region
+- https://docs.aws.amazon.com/general/latest/gr/rande.html#polly_region
 
 You can find the list of available voices here:
 
--   https://docs.aws.amazon.com/polly/latest/dg/voicelist.html
+- https://docs.aws.amazon.com/polly/latest/dg/voicelist.html
 
 And the list of available engines here:
 
--   https://docs.aws.amazon.com/polly/latest/dg/engines.html
+- https://docs.aws.amazon.com/polly/latest/dg/engines.html
 
 Keep in mind that the AWS Polly service is not free. You will be charged for the usage, so make sure to check the pricing before enabling it.
